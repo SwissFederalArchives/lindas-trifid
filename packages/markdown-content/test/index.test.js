@@ -23,7 +23,7 @@ const createTrifidInstance = async (config) => {
   })
 }
 
-describe('@zazuko/trifid-markdown-content', () => {
+describe('lindas-trifid-markdown-content', () => {
   describe('bad configuration', () => {
     it('should not throw if there is no configuration', async () => {
       const trifidInstance = await createTrifidInstance()

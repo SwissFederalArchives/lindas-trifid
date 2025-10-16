@@ -23,7 +23,7 @@ const removePrefixesFromBody = (body) => {
   return body.replace(/<rdf:RDF.*>/g, '<rdf:RDF>')
 }
 
-describe('@zazuko/trifid-plugin-ckan', () => {
+describe('lindas-trifid-plugin-ckan', () => {
   let trifidListener
   const parser = new xml.Parser({
     explicitArray: false,

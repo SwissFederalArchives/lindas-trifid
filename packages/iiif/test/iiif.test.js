@@ -28,7 +28,7 @@ const getListenerURL = (server) => {
   return addresses[0]
 }
 
-describe('@zazuko/trifid-plugin-iiif', () => {
+describe('lindas-trifid-plugin-iiif', () => {
   describe('Trifid plugin', () => {
     it('should throw an error if no endpoint parameter is provided', async () => {
       try {

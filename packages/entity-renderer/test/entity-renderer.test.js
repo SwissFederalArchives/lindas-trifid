@@ -8,7 +8,7 @@ import { createTrifidInstance } from '../examples/instance.js'
 
 const trifidConfigUrl = './examples/config/trifid.yaml'
 
-describe('@zazuko/trifid-entity-renderer', () => {
+describe('lindas-trifid-entity-renderer', () => {
   let trifidListener
 
   describe('basic tests', () => {
