@@ -1,6 +1,6 @@
 {
   "name": "lindas-trifid-plugin-ckan",
-  "version": "4.2.3",
+  "version": "5.0.0",
   "description": "Endpoint for opendata.swiss CKAN harvester",
   "main": "src/index.js",
   "types": "dist/src/index.d.ts",
@@ -51,8 +51,8 @@
     "chai": "^6.2.0",
     "chai-subset": "^1.6.0",
     "rimraf": "^6.0.1",
-    "lindas-trifid-core": "^5.1.2",
-    "lindas-trifid-handler-fetch": "^3.3.4",
+    "lindas-trifid-core": "^6.0.0",
+    "lindas-trifid-handler-fetch": "^4.0.0",
     "typescript": "^5.9.3",
     "xml2js": "^0.6.2",
     "xml2js-xpath": "^0.13.0"
