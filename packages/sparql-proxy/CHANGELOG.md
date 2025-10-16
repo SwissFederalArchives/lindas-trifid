@@ -1,5 +1,11 @@
 # @zazuko/trifid-plugin-sparql-proxy
 
+## 3.0.1
+
+### Patch Changes
+
+- a7a4c67: Republish packages that failed due to npm rate limiting
+
 ## 3.0.0
 
 ### Major Changes
