@@ -1,5 +1,11 @@
 # trifid-plugin-yasgui
 
+## 4.0.1
+
+### Patch Changes
+
+- a7a4c67: Republish packages that failed due to npm rate limiting
+
 ## 4.0.0
 
 ### Major Changes
