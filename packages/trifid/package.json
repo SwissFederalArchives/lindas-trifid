@@ -1,7 +1,7 @@
 {
   "name": "lindas-trifid",
   "description": "Trifid - Lightweight Linked Data Server and Proxy",
-  "version": "5.1.4",
+  "version": "6.0.0",
   "license": "Apache-2.0",
   "homepage": "https://github.com/SwissFederalArchives/lindas-trifid",
   "type": "module",
@@ -32,14 +32,14 @@
   ],
   "dependencies": {
     "commander": "^14.0.0",
-    "lindas-trifid-core": "^5.3.1",
-    "lindas-trifid-handler-fetch": "^3.5.1",
-    "lindas-trifid-plugin-graph-explorer": "^2.1.0",
-    "lindas-trifid-plugin-i18n": "^3.0.2",
-    "lindas-trifid-plugin-spex": "^3.0.0",
-    "lindas-trifid-plugin-yasgui": "^3.4.4",
-    "lindas-trifid-entity-renderer": "^1.6.1",
-    "lindas-trifid-plugin-sparql-proxy": "^2.9.1"
+    "lindas-trifid-core": "^6.0.0",
+    "lindas-trifid-handler-fetch": "^4.0.0",
+    "lindas-trifid-plugin-graph-explorer": "^3.0.0",
+    "lindas-trifid-plugin-i18n": "^4.0.0",
+    "lindas-trifid-plugin-spex": "^4.0.0",
+    "lindas-trifid-plugin-yasgui": "^4.0.0",
+    "lindas-trifid-entity-renderer": "^2.0.0",
+    "lindas-trifid-plugin-sparql-proxy": "^3.0.0"
   },
   "publishConfig": {
     "access": "public",

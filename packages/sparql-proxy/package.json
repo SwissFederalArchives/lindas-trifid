@@ -1,6 +1,6 @@
 {
   "name": "lindas-trifid-plugin-sparql-proxy",
-  "version": "2.9.1",
+  "version": "3.0.0",
   "description": "Trifid plugin for sparql-proxy",
   "type": "module",
   "main": "index.js",
@@ -40,7 +40,7 @@
     "@opentelemetry/api": "^1.9.0",
     "@vocabulary/sd": "^1.0.5",
     "@zazuko/env-node": "^3.0.0",
-    "lindas-trifid-core": "^5.3.0"
+    "lindas-trifid-core": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.7.0",
