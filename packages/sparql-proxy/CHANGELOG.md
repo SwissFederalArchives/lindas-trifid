@@ -1,5 +1,11 @@
 # @zazuko/trifid-plugin-sparql-proxy
 
+## 3.0.2
+
+### Patch Changes
+
+- 6a5ae64: Retry npm publish after rate limit reset
+
 ## 3.0.1
 
 ### Patch Changes
