@@ -1,14 +1,14 @@
 {
-  "name": "trifid",
+  "name": "lindas-trifid",
   "description": "Trifid - Lightweight Linked Data Server and Proxy",
   "version": "5.1.4",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/zazuko/trifid",
+  "homepage": "https://github.com/SwissFederalArchives/lindas-trifid",
   "type": "module",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zazuko/trifid.git",
+    "url": "https://github.com/SwissFederalArchives/lindas-trifid.git",
     "directory": "packages/trifid"
   },
   "bugs": {
@@ -20,26 +20,26 @@
     "start": "npm run start:tbbt"
   },
   "bin": {
-    "trifid": "./server.js"
+    "lindas-trifid": "./server.js"
   },
   "author": {
-    "name": "Zazuko GmbH",
-    "url": "https://zazuko.com/"
+    "name": "Swiss Federal Archives / Lindas",
+    "url": "https://www.bar.admin.ch/"
   },
   "keywords": [
     "trifid",
     "linked-data"
   ],
   "dependencies": {
-    "@zazuko/trifid-plugin-sparql-proxy": "^2.9.1",
-    "@zazuko/trifid-entity-renderer": "^1.6.1",
     "commander": "^14.0.0",
-    "trifid-core": "^5.3.1",
-    "trifid-handler-fetch": "^3.5.1",
-    "trifid-plugin-graph-explorer": "^2.1.0",
-    "trifid-plugin-i18n": "^3.0.2",
-    "trifid-plugin-spex": "^3.0.0",
-    "trifid-plugin-yasgui": "^3.4.4"
+    "lindas-trifid-core": "^5.3.1",
+    "lindas-trifid-handler-fetch": "^3.5.1",
+    "lindas-trifid-plugin-graph-explorer": "^2.1.0",
+    "lindas-trifid-plugin-i18n": "^3.0.2",
+    "lindas-trifid-plugin-spex": "^3.0.0",
+    "lindas-trifid-plugin-yasgui": "^3.4.4",
+    "lindas-trifid-entity-renderer": "^1.6.1",
+    "lindas-trifid-plugin-sparql-proxy": "^2.9.1"
   },
   "publishConfig": {
     "access": "public",

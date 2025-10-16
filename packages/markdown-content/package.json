@@ -1,5 +1,5 @@
 {
-  "name": "@zazuko/trifid-markdown-content",
+  "name": "lindas-trifid-markdown-content",
   "version": "2.0.5",
   "description": "Trifid plugin to handle Markdown files",
   "main": "src/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zazuko/trifid.git",
+    "url": "https://github.com/SwissFederalArchives/lindas-trifid.git",
     "directory": "packages/markdown-content"
   },
   "bugs": {
@@ -21,8 +21,8 @@
   },
   "license": "Apache-2.0",
   "author": {
-    "name": "Zazuko GmbH",
-    "url": "https://zazuko.com/"
+    "name": "Swiss Federal Archives / Lindas",
+    "url": "https://www.bar.admin.ch/"
   },
   "keywords": [
     "trifid",
@@ -50,7 +50,7 @@
     "@types/node": "^24.7.0",
     "c8": "^10.1.3",
     "rimraf": "^6.0.1",
-    "trifid-core": "^5.1.0"
+    "lindas-trifid-core": "^5.1.0"
   },
   "publishConfig": {
     "access": "public",

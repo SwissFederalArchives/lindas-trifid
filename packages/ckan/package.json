@@ -1,5 +1,5 @@
 {
-  "name": "@zazuko/trifid-plugin-ckan",
+  "name": "lindas-trifid-plugin-ckan",
   "version": "4.2.3",
   "description": "Endpoint for opendata.swiss CKAN harvester",
   "main": "src/index.js",
@@ -20,17 +20,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/zazuko/trifid.git",
+    "url": "https://github.com/SwissFederalArchives/lindas-trifid.git",
     "directory": "packages/ckan"
   },
   "bugs": {
     "url": "https://github.com/zazuko/trifid/issues"
   },
-  "homepage": "https://github.com/zazuko/trifid#readme",
+  "homepage": "https://github.com/SwissFederalArchives/lindas-trifid",
   "license": "Apache-2.0",
   "author": {
-    "name": "Zazuko GmbH",
-    "url": "https://zazuko.com/"
+    "name": "Swiss Federal Archives / Lindas",
+    "url": "https://www.bar.admin.ch/"
   },
   "keywords": [
     "trifid",
@@ -51,8 +51,8 @@
     "chai": "^6.2.0",
     "chai-subset": "^1.6.0",
     "rimraf": "^6.0.1",
-    "trifid-core": "^5.1.2",
-    "trifid-handler-fetch": "^3.3.4",
+    "lindas-trifid-core": "^5.1.2",
+    "lindas-trifid-handler-fetch": "^3.3.4",
     "typescript": "^5.9.3",
     "xml2js": "^0.6.2",
     "xml2js-xpath": "^0.13.0"

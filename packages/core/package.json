@@ -1,13 +1,13 @@
 {
-  "name": "trifid-core",
+  "name": "lindas-trifid-core",
   "description": "Trifid Core",
   "type": "module",
   "version": "5.3.1",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/zazuko/trifid",
+  "homepage": "https://github.com/SwissFederalArchives/lindas-trifid",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zazuko/trifid.git",
+    "url": "https://github.com/SwissFederalArchives/lindas-trifid.git",
     "directory": "packages/core"
   },
   "bugs": {
@@ -39,11 +39,11 @@
   "main": "index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "trifid-core": "./server.js"
+    "lindas-trifid-core": "./server.js"
   },
   "author": {
-    "name": "Zazuko GmbH",
-    "url": "https://zazuko.com/"
+    "name": "Swiss Federal Archives / Lindas",
+    "url": "https://www.bar.admin.ch/"
   },
   "keywords": [
     "trifid",

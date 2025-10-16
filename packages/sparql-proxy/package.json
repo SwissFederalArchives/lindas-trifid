@@ -1,11 +1,11 @@
 {
-  "name": "@zazuko/trifid-plugin-sparql-proxy",
+  "name": "lindas-trifid-plugin-sparql-proxy",
   "version": "2.9.1",
   "description": "Trifid plugin for sparql-proxy",
   "type": "module",
   "main": "index.js",
   "types": "dist/index.d.ts",
-  "homepage": "https://github.com/zazuko/trifid",
+  "homepage": "https://github.com/SwissFederalArchives/lindas-trifid",
   "scripts": {
     "test": "c8 --all --reporter lcovonly --reporter text node --test **/*.test.js",
     "clean": "rimraf dist/",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zazuko/trifid.git",
+    "url": "https://github.com/SwissFederalArchives/lindas-trifid.git",
     "directory": "packages/sparql-proxy"
   },
   "bugs": {
@@ -28,8 +28,8 @@
     "index.js"
   ],
   "author": {
-    "name": "Zazuko GmbH",
-    "url": "https://zazuko.com/"
+    "name": "Swiss Federal Archives / Lindas",
+    "url": "https://www.bar.admin.ch/"
   },
   "keywords": [
     "trifid",
@@ -40,7 +40,7 @@
     "@opentelemetry/api": "^1.9.0",
     "@vocabulary/sd": "^1.0.5",
     "@zazuko/env-node": "^3.0.0",
-    "trifid-core": "^5.3.0"
+    "lindas-trifid-core": "^5.3.0"
   },
   "devDependencies": {
     "@types/node": "^24.7.0",
