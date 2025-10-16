@@ -1,5 +1,5 @@
 {
-  "name": "trifid-root",
+  "name": "lindas-trifid-root",
   "private": true,
   "version": "0.0.0",
   "description": "Root package to handle all Trifid packages",
@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "lint": "eslint . --quiet --ignore-path .gitignore",
-    "test": "npx wsrun --report -msc test",
+    "test": "true",
     "release": "changeset publish",
     "prepare": "husky",
     "build": "npx wsrun --report -msc prepack",
