@@ -3,7 +3,7 @@
 import { strictEqual } from 'node:assert'
 import { describe, it, beforeEach, afterEach } from 'node:test'
 
-import trifidCore from 'trifid-core'
+import trifidCore from 'lindas-trifid-core'
 
 import trifidPluginFactory from '../index.js'
 
@@ -28,7 +28,7 @@ const getListenerURL = (server) => {
   return addresses[0]
 }
 
-describe('trifid-plugin-spex', () => {
+describe('lindas-trifid-plugin-spex', () => {
   let trifidListener
 
   beforeEach(async () => {

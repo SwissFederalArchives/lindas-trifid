@@ -3,11 +3,11 @@
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import trifidCore from 'trifid-core'
-import handlerFetch from 'trifid-handler-fetch'
+import trifidCore from 'lindas-trifid-core'
+import handlerFetch from 'lindas-trifid-handler-fetch'
 import ckanTrifidPlugin from '../../src/index.js'
 
-export { getListenerURL } from 'trifid-core'
+export { getListenerURL } from 'lindas-trifid-core'
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
 

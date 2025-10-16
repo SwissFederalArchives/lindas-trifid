@@ -7,7 +7,7 @@ import { Worker } from 'node:worker_threads'
 
 import { metrics } from '@opentelemetry/api'
 import rdf from '@zazuko/env-node'
-import { sparqlGetRewriteConfiguration } from 'trifid-core'
+import { sparqlGetRewriteConfiguration } from 'lindas-trifid-core'
 import ReplaceStream from './lib/ReplaceStream.js'
 import { authBasicHeader, objectLength, isValidUrl } from './lib/utils.js'
 

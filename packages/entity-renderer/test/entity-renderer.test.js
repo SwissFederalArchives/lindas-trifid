@@ -2,7 +2,7 @@
 
 import { strictEqual } from 'node:assert'
 import { describe, it, beforeEach, afterEach } from 'node:test'
-import { getListenerURL } from 'trifid-core'
+import { getListenerURL } from 'lindas-trifid-core'
 
 import { createTrifidInstance } from '../examples/instance.js'
 

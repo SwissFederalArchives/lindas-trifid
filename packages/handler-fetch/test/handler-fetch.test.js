@@ -5,7 +5,7 @@ import { describe, it, before } from 'node:test'
 import oxigraph from 'oxigraph'
 import { performOxigraphQuery } from '../lib/query.js'
 
-describe('trifid-handler-fetch', () => {
+describe('lindas-trifid-handler-fetch', () => {
   let store
 
   before(async () => {

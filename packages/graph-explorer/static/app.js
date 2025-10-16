@@ -66,5 +66,5 @@ const props = {
 
 ReactDOM.render(
   React.createElement(GraphExplorer.Workspace, props),
-  document.getElementById('trifid-plugin-graph-explorer'),
+  document.getElementById('lindas-trifid-plugin-graph-explorer'),
 )

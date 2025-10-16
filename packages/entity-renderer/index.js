@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { metrics } from '@opentelemetry/api'
 import { parsers } from '@rdfjs/formats-common'
 import rdf from '@zazuko/env'
-import { sparqlSerializeQuadStream, sparqlSupportedTypes, sparqlGetRewriteConfiguration } from 'trifid-core'
+import { sparqlSerializeQuadStream, sparqlSupportedTypes, sparqlGetRewriteConfiguration } from 'lindas-trifid-core'
 
 import { defaultConfiguration } from './lib/config.js'
 import { getAcceptHeader } from './lib/headers.js'

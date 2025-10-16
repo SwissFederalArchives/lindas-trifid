@@ -1,5 +1,5 @@
 import mimeparse from 'mimeparse'
-import { sparqlSupportedTypes } from 'trifid-core'
+import { sparqlSupportedTypes } from 'lindas-trifid-core'
 
 /**
  * Get the accept header from the request

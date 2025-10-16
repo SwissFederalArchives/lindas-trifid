@@ -74,7 +74,7 @@ const trifid = async (config, additionalPlugins = {}) => {
   const logLevel = fullConfig?.server?.logLevel || defaultLogLevel
   const logFormat = fullConfig?.server?.logFormat || defaultLogFormat
   const loggerConfig = {
-    name: 'trifid-core',
+    name: 'lindas-trifid-core',
     level: logLevel,
   }
   if (logFormat === 'pretty') {

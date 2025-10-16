@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, it } from 'node:test'
 
-import trifidCore, { getListenerURL, assertRejection } from 'trifid-core'
+import trifidCore, { getListenerURL, assertRejection } from 'lindas-trifid-core'
 
 import handlerFetchTrifidPlugin from '../index.js'
 
@@ -27,7 +27,7 @@ const createTrifidInstance = async (config) => {
   })
 }
 
-describe('trifid-handler-fetch', () => {
+describe('lindas-trifid-handler-fetch', () => {
   describe('bad configuration', () => {
     it('should throw if there is no configuration', async () => {
       return assertRejection(createTrifidInstance())

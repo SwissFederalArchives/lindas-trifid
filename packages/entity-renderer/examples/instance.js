@@ -1,5 +1,5 @@
 import { join } from 'path'
-import trifid from 'trifid-core'
+import trifid from 'lindas-trifid-core'
 import entityRendererTrifidPlugin from '../index.js'
 
 const port = 3000
