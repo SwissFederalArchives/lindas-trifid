@@ -1,5 +1,11 @@
 # @zazuko/trifid-plugin-sparql-proxy
 
+## 3.0.3
+
+### Patch Changes
+
+- c619292: Retry npm publish with fixed authentication
+
 ## 3.0.2
 
 ### Patch Changes

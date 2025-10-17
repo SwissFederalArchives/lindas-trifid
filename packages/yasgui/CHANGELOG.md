@@ -1,5 +1,11 @@
 # trifid-plugin-yasgui
 
+## 4.0.3
+
+### Patch Changes
+
+- c619292: Retry npm publish with fixed authentication
+
 ## 4.0.2
 
 ### Patch Changes
