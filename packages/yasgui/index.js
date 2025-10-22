@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path'
+import crypto from 'node:crypto'
 
 import { resolve } from 'import-meta-resolve'
 import fastifyStatic from '@fastify/static'
@@ -68,6 +69,9 @@ const trifidFactory = async (trifid) => {
        * @param {import('fastify').FastifyReply} reply Reply.
        */
       const handler = async (request, reply) => {
+        // Generate nonce for CSP
+        const nonce = crypto.randomBytes(16).toString('base64')
+        
         let requestPort = ''
         if (request.port) {
           requestPort = `:${request.port}`
@@ -99,10 +103,17 @@ const trifidFactory = async (trifid) => {
             urlShortener,
             mapKind: mapKindOption,
             defaultQuery: JSON.stringify(defaultQueryOption),
+            nonce,
           },
           { title: 'YASGUI' },
         )
 
+        // Set CSP header with actual nonce value
+        reply.header(
+          'Content-Security-Policy',
+          `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; report-uri /api/csp-violations`
+        )
+        
         reply.type('text/html').send(content)
         return reply
       }
