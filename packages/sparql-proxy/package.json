@@ -1,6 +1,6 @@
 {
   "name": "lindas-trifid-plugin-sparql-proxy",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Trifid plugin for sparql-proxy",
   "type": "module",
   "main": "index.js",
@@ -48,7 +48,6 @@
     "typescript": "^5.9.3"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }
