@@ -346,6 +346,11 @@ const factory = async (trifid) => {
             Accept: acceptHeader,
           }
 
+          // Disable compression when rewrite is enabled to prevent ReplaceStream from corrupting binary data
+          if (rewriteResponse && options.rewriteResults) {
+            headers['Accept-Encoding'] = 'identity'
+          }
+
           const start = performance.now()
           let response = await fetch(endpoint.endpointUrl, {
             method: 'POST',
