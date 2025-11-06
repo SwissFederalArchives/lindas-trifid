@@ -1,5 +1,19 @@
 # trifid
 
+## 6.0.1
+
+### Patch Changes
+
+- Add backwards-compatible `trifid` binary alias to prevent breaking changes
+
+  After the package rename from `@zazuko/trifid` to `lindas-trifid` in v6.0.0, the binary was renamed from `trifid` to `lindas-trifid`. This caused deployment failures for systems still referencing the old binary name.
+
+  This patch adds a `trifid` binary alias that points to the same `server.js` entry point, ensuring backwards compatibility with existing deployments and Dockerfiles.
+
+  Both binary names now work:
+  - `lindas-trifid` (recommended new name)
+  - `trifid` (backwards-compatible alias)
+
 ## 6.0.0
 
 ### Major Changes

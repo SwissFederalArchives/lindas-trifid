@@ -1,7 +1,7 @@
 {
   "name": "lindas-trifid",
   "description": "Trifid - Lightweight Linked Data Server and Proxy",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "license": "Apache-2.0",
   "homepage": "https://github.com/SwissFederalArchives/lindas-trifid",
   "type": "module",
@@ -20,7 +20,8 @@
     "start": "npm run start:tbbt"
   },
   "bin": {
-    "lindas-trifid": "./server.js"
+    "lindas-trifid": "./server.js",
+    "trifid": "./server.js"
   },
   "author": {
     "name": "Swiss Federal Archives / Lindas",
