@@ -1,5 +1,11 @@
 # @zazuko/trifid-plugin-sparql-proxy
 
+## 3.0.3
+
+### Patch Changes
+
+- 1e78d95: Fix SPARQL proxy returning corrupted data when rewrite is enabled. The endpoint now properly handles responses by disabling compression when rewrite functionality is active, preventing ReplaceStream from corrupting binary compressed data.
+
 ## 3.0.2
 
 ### Patch Changes
