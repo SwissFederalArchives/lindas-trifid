@@ -2,9 +2,9 @@ export const defaultConfiguration = {
   resourceNoSlash: true,
   resourceExistsQuery: 'ASK { <{{iri}}> ?p ?o }',
   resourceGraphQuery: 'DESCRIBE <{{iri}}>',
-  containerExistsQuery: 'ASK { ?s a ?o. FILTER REGEX(STR(?s), "^{{iri}}") }',
+  containerExistsQuery: 'ASK { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
   containerGraphQuery:
-    'CONSTRUCT { ?s a ?o. } WHERE { ?s a ?o. FILTER REGEX(STR(?s), "^{{iri}}") }',
+    'CONSTRUCT { ?s a ?o. } WHERE { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
   redirectQuery: `
     PREFIX http2011: <http://www.w3.org/2011/http#>
     PREFIX http2006: <http://www.w3.org/2006/http#>

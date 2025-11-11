@@ -29,6 +29,41 @@ const replaceIriInQuery = (query, iri) => {
   return query.split('{{iri}}').join(iri)
 }
 
+/**
+ * Validate redirect URL to prevent open redirect vulnerabilities
+ * @param {string} url - The URL to validate
+ * @returns {boolean} - True if the URL is safe to redirect to
+ */
+const isValidRedirectUrl = (url) => {
+  try {
+    const parsed = new URL(url)
+    // Only allow same-origin or whitelisted Swiss government domains
+    const allowedHosts = [
+      'lindas.admin.ch',
+      'ld.admin.ch',
+      'test.lindas.admin.ch',
+      'int.lindas.admin.ch',
+      'schema.ld.admin.ch',
+      'culture.ld.admin.ch',
+      'energy.ld.admin.ch',
+      'education.ld.admin.ch',
+      'agriculture.ld.admin.ch',
+      'environment.ld.admin.ch',
+      'finance.ld.admin.ch',
+      'register.ld.admin.ch',
+      'politics.ld.admin.ch',
+      'health.ld.admin.ch',
+      'communication.ld.admin.ch',
+      'transport.ld.admin.ch',
+      'population.ld.admin.ch',
+      'ld.zh.ch'
+    ]
+    return allowedHosts.some(host => parsed.hostname === host || parsed.hostname.endsWith('.' + host))
+  } catch {
+    return false
+  }
+}
+
 const fixContentTypeHeader = (contentType) => {
   return contentType.split(';')[0].trim().toLocaleLowerCase()
 }
@@ -191,6 +226,12 @@ const factory = async (trifid) => {
               const entityRedirect = redirect[0]
               const { responseCode, location } = entityRedirect
               if (responseCode && location && responseCode.value && location.value) {
+                // Validate redirect URL to prevent open redirect attacks
+                if (!isValidRedirectUrl(location.value)) {
+                  logger.warn(`Blocked unsafe redirect to ${location.value}`)
+                  reply.callNotFound()
+                  return reply
+                }
                 logger.debug(`Redirecting <${iri}> to <${location.value}> (HTTP ${responseCode.value})`)
                 redirectedCounter.add(1, { response_code: responseCode.value, endpoint_name: endpointName, kind: 'sparql' })
                 reply.status(parseInt(responseCode.value, 10)).redirect(location.value)
@@ -242,10 +283,16 @@ const factory = async (trifid) => {
               .map(({ object }) => urls.push(object.value))
             if (!disabledSchemaUrlRedirect && urls.length > 0) {
               const redirectUrl = urls[0]
-              logger.debug(`Redirecting to ${redirectUrl}`)
-              redirectedCounter.add(1, { response_code: 302, endpoint_name: endpointName, kind: 'schema_url' })
-              reply.redirect(redirectUrl)
-              return reply
+              // Validate redirect URL to prevent open redirect attacks
+              if (!isValidRedirectUrl(redirectUrl)) {
+                logger.warn(`Blocked unsafe schema:URL redirect to ${redirectUrl}`)
+                // Continue with normal rendering instead of blocking
+              } else {
+                logger.debug(`Redirecting to ${redirectUrl}`)
+                redirectedCounter.add(1, { response_code: 302, endpoint_name: endpointName, kind: 'schema_url' })
+                reply.redirect(redirectUrl)
+                return reply
+              }
             }
           }
 
