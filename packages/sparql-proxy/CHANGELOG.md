@@ -1,5 +1,14 @@
 # @zazuko/trifid-plugin-sparql-proxy
 
+## 3.0.5
+
+### Patch Changes
+
+- d19d268: Fix critical ReDoS vulnerability in ReplaceStream
+
+  - Escape regex special characters in ReplaceStream to prevent catastrophic backtracking attacks
+  - Prevents CPU exhaustion and service unavailability from malicious regex patterns
+
 ## 3.0.3
 
 ### Patch Changes
