@@ -344,11 +344,8 @@ const factory = async (trifid) => {
             ...endpoint.headers,
             'Content-Type': 'application/x-www-form-urlencoded',
             Accept: acceptHeader,
-          }
-
-          // Disable compression when rewrite is enabled to prevent ReplaceStream from corrupting binary data
-          if (rewriteResponse && options.rewriteResults) {
-            headers['Accept-Encoding'] = 'identity'
+            // Always disable compression - downstream processing (xquery plugin) can't handle it correctly
+            'Accept-Encoding': 'identity',
           }
 
           const start = performance.now()
