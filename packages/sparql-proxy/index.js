@@ -344,8 +344,6 @@ const factory = async (trifid) => {
             ...endpoint.headers,
             'Content-Type': 'application/x-www-form-urlencoded',
             Accept: acceptHeader,
-            // Always disable compression - downstream processing (xquery plugin) can't handle it correctly
-            'Accept-Encoding': 'identity',
           }
 
           const start = performance.now()
