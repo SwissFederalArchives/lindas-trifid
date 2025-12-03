@@ -1,5 +1,11 @@
 # trifid-plugin-spex
 
+## 4.0.1
+
+### Patch Changes
+
+- 51fb076: Republish all lindas-trifid packages to npm with LINDAS namespace
+
 ## 4.0.0
 
 ### Major Changes
