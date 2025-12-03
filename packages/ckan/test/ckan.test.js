@@ -14,6 +14,16 @@ import { createTrifidInstance, getListenerURL } from './support/utils.js'
 chai.use(chaiSubset)
 
 /**
+ * Normalize line endings to Unix format.
+ *
+ * @param {string} str The string to normalize.
+ * @returns {string} The string with normalized line endings.
+ */
+const normalizeLineEndings = (str) => {
+  return str.replace(/\r\n/g, '\n')
+}
+
+/**
  * Remove prefixes from the body.
  *
  * @param {string} body The body to remove prefixes from.
@@ -53,7 +63,7 @@ describe('lindas-trifid-plugin-ckan', () => {
       const expectedResult = await readFile(new URL('./support/empty-result.xml', import.meta.url), 'utf8')
 
       strictEqual(res.status, 200)
-      strictEqual(removePrefixesFromBody(body), expectedResult)
+      strictEqual(normalizeLineEndings(removePrefixesFromBody(body)), normalizeLineEndings(expectedResult))
     })
 
     describe('example organization', () => {
@@ -72,7 +82,7 @@ describe('lindas-trifid-plugin-ckan', () => {
         const expectedResult = await readFile(new URL('./support/basic-result.xml', import.meta.url), 'utf8')
 
         strictEqual(res.status, 200)
-        strictEqual(removePrefixesFromBody(xmlText), expectedResult)
+        strictEqual(normalizeLineEndings(removePrefixesFromBody(xmlText)), normalizeLineEndings(expectedResult))
       })
 
       it('should take publisher at face value', async () => {
