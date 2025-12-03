@@ -1,5 +1,11 @@
 # @zazuko/trifid-markdown-content
 
+## 3.0.1
+
+### Patch Changes
+
+- 51fb076: Republish all lindas-trifid packages to npm with LINDAS namespace
+
 ## 3.0.0
 
 ### Major Changes
