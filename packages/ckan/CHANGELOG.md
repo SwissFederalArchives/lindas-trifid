@@ -1,5 +1,11 @@
 # @zazuko/trifid-plugin-ckan
 
+## 5.0.1
+
+### Patch Changes
+
+- c34d5af: Fix js-yaml vulnerability by upgrading xmlbuilder2 to v4
+
 ## 5.0.0
 
 ### Major Changes
