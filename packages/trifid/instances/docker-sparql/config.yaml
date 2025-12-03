@@ -9,21 +9,21 @@ globals:
 
 plugins:
   static-assets:
-    module: trifid-core/plugins/static.js
+    module: lindas-trifid-core/plugins/static.js
     order: 0
     paths: /static-assets
     config:
       directory: file:static
 
   welcome:
-    module: trifid-core/plugins/view.js
+    module: lindas-trifid-core/plugins/view.js
     paths: /
     methods: GET
     config:
       path: file:welcome.hbs
 
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: lindas-trifid-entity-renderer
     config:
       followRedirects: true
       labelLoader:
@@ -32,25 +32,25 @@ plugins:
         timeout: 4000
 
   yasgui:
-    module: trifid-plugin-yasgui
+    module: lindas-trifid-plugin-yasgui
     paths:
       - /sparql
       - /sparql/
 
   graph-explorer:
-    module: trifid-plugin-graph-explorer
+    module: lindas-trifid-plugin-graph-explorer
     paths:
       - /graph-explorer
       - /graph-explorer/
 
   spex:
-    module: trifid-plugin-spex
+    module: lindas-trifid-plugin-spex
     paths:
       - /spex
       - /spex/
 
   sparql-proxy:
-    module: "@zazuko/trifid-plugin-sparql-proxy"
+    module: lindas-trifid-plugin-sparql-proxy
     paths: /query
     config:
       allowRewriteToggle: true
