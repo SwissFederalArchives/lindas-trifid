@@ -36,9 +36,9 @@
     "mimeparse": "^0.1.4",
     "p-queue": "^9.0.0",
     "lindas-trifid-core": "^6.0.0",
-    "@lindas/env": "^1.0.0",
-    "@lindas/prefixes": "^1.0.0",
-    "@lindas/rdf-entity-webcomponent": "^1.0.0"
+    "@lindas/env": "^3.0.1",
+    "@lindas/prefixes": "^2.4.0",
+    "@lindas/rdf-entity-webcomponent": "^0.7.7"
   },
   "devDependencies": {
     "@rdfjs/types": "^2.0.1",

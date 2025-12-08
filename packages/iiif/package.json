@@ -30,7 +30,7 @@
     "jsonld": "^8.3.3",
     "sparql-http-client": "^3.0.1",
     "through2": "^4.0.2",
-    "@lindas/env": "^1.0.0"
+    "@lindas/env": "^3.0.1"
   },
   "devDependencies": {
     "@types/jsonld": "^1.5.15",
