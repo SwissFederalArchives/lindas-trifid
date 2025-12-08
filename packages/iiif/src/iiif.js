@@ -1,4 +1,4 @@
-import rdf from '@zazuko/env'
+import rdf from '@lindas/env'
 import through2 from 'through2'
 import ns from './ns.js'
 import queries from './queries.js'
@@ -39,7 +39,7 @@ const createApi = (client, clientOptions) => {
   }
 
   const augmentDataset = async (dataset) => {
-    const ptr = rdf.clownface({ dataset })
+    const ptr = rdf.@lindas/clownface({ dataset })
 
     // Find all important nodes
     const nodes = ptr.has(ns.rdf.type, [

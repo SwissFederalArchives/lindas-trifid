@@ -1,7 +1,7 @@
 // @ts-check
 
-import rdf from '@zazuko/env'
-import prefixes, { shrink } from '@zazuko/prefixes'
+import rdf from '@lindas/env'
+import prefixes, { shrink } from '@lindas/prefixes'
 import { create as createXml } from 'xmlbuilder2'
 import { isBlankNode, isLiteral, isNamedNode } from 'is-graph-pointer'
 
@@ -12,7 +12,7 @@ import { isBlankNode, isLiteral, isNamedNode } from 'is-graph-pointer'
  * @returns {string} XML representation of the dataset.
  */
 const toXML = (dataset) => {
-  const pointer = rdf.clownface({ dataset: rdf.dataset(dataset) })
+  const pointer = rdf.@lindas/clownface({ dataset: rdf.dataset(dataset) })
   const datasetsPointer = pointer.node(rdf.ns.dcat.Dataset).in(rdf.ns.rdf.type)
 
   const pf = Object.entries(prefixes)
@@ -174,7 +174,7 @@ const toXML = (dataset) => {
 /**
  * Serialize a term.
  *
- * @param {import('clownface').MultiPointer | Array<import('clownface').GraphPointer>} pointer Pointer to serialize.
+ * @param {import('@lindas/clownface').MultiPointer | Array<import('@lindas/clownface').GraphPointer>} pointer Pointer to serialize.
  * @param {object} [options]
  * @param {import('@rdfjs/types').NamedNode[]} [options.properties]
  */
@@ -187,7 +187,7 @@ const serializeTerm = (pointer, { properties = [] } = {}) => {
 /**
  * Serialize a literal.
  *
- * @param {import('clownface').MultiPointer} pointer Pointer to serialize.
+ * @param {import('@lindas/clownface').MultiPointer} pointer Pointer to serialize.
  * @return {Record<string, unknown>} Serialized literal.
  */
 const serializeLiteral = (pointer) => {
@@ -213,7 +213,7 @@ const serializeLiteral = (pointer) => {
 /**
  * Serialize a named node.
  *
- * @param {import('clownface').MultiPointer} pointer Pointer to serialize.
+ * @param {import('@lindas/clownface').MultiPointer} pointer Pointer to serialize.
  * @param {import('@rdfjs/types').NamedNode[]} [properties]
  * @return {Record<string, unknown>} Serialized named node.
  */
@@ -242,7 +242,7 @@ const serializeNamedNode = (pointer, properties = []) => {
 /**
  * Serialize a blank node.
  *
- * @param {import('clownface').MultiPointer} pointer Pointer to serialize.
+ * @param {import('@lindas/clownface').MultiPointer} pointer Pointer to serialize.
  * @param {Array<import('@rdfjs/types').NamedNode>} [allowedTypesArr] Allowed types for the blank node.
  * @return {Record<string, unknown>} Serialized blank node.
  */
@@ -272,7 +272,7 @@ function serializeProperties (pointer) {
 /**
  * Convert encoding format to distribution format.
  *
- * @param {import('clownface').MultiPointer} encodingPointer Pointer to encoding format.
+ * @param {import('@lindas/clownface').MultiPointer} encodingPointer Pointer to encoding format.
  * @return {string} Distribution format.
  */
 const distributionFormatFromEncoding = (encodingPointer) => {

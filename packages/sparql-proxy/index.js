@@ -6,7 +6,7 @@ import { performance } from 'node:perf_hooks'
 import { Worker } from 'node:worker_threads'
 
 import { metrics } from '@opentelemetry/api'
-import rdf from '@zazuko/env-node'
+import rdf from '@lindas/env-node'
 import { sparqlGetRewriteConfiguration } from 'lindas-trifid-core'
 import ReplaceStream from './lib/ReplaceStream.js'
 import { authBasicHeader, objectLength, isValidUrl } from './lib/utils.js'
@@ -29,7 +29,7 @@ const defaultConfiguration = {
   queryLogLevel: 'debug', // Log level for queries
   serviceDescriptionWorkerUrl: new URL('./lib/serviceDescriptionWorker.js', import.meta.url),
   serviceDescriptionTimeout: 5000, // max time to wait for the service description
-  serviceDescriptionFormat: undefined, // override the accept header for the service description request. by default, will use content negotiation using formats `@zazuko/env-node` can parse
+  serviceDescriptionFormat: undefined, // override the accept header for the service description request. by default, will use content negotiation using formats `@lindas/env-node` can parse
 }
 
 const oneMonthMilliseconds = 60 * 60 * 24 * 30 * 1000
@@ -149,7 +149,7 @@ const factory = async (trifid) => {
   })
 
   const serviceDescription = new Promise((resolve) => {
-    const minimalSD = rdf.clownface().blankNode().addOut(rdf.ns.rdf.type, rdf.ns.sd.Service)
+    const minimalSD = rdf.@lindas/clownface().blankNode().addOut(rdf.ns.rdf.type, rdf.ns.sd.Service)
 
     worker.once('message', async (message) => {
       const { type, data } = message
@@ -246,7 +246,7 @@ const factory = async (trifid) => {
         // Handle Service Description request
         if (Object.keys(request.query).length === 0 && request.method === 'GET') {
           const dataset = rdf.dataset(await serviceDescription)
-          rdf.clownface({ dataset })
+          rdf.@lindas/clownface({ dataset })
             .has(rdf.ns.rdf.type, rdf.ns.sd.Service)
             .addOut(rdf.ns.sd.endpoint, rdf.namedNode(fullUrl))
 

@@ -1,8 +1,8 @@
 import { render as renderWebComponent } from '@lit-labs/ssr'
-import { DEFAULT_LABEL_PROPERTIES } from '@zazuko/rdf-entity-webcomponent/src/builder/entityBuilder.js'
-import { getLabel } from '@zazuko/rdf-entity-webcomponent/src/builder/labels.js'
-import { ns } from '@zazuko/rdf-entity-webcomponent/src/namespaces.js'
-import rdf from '@zazuko/env'
+import { DEFAULT_LABEL_PROPERTIES } from '@lindas/rdf-entity-webcomponent/src/builder/entityBuilder.js'
+import { getLabel } from '@lindas/rdf-entity-webcomponent/src/builder/labels.js'
+import { ns } from '@lindas/rdf-entity-webcomponent/src/namespaces.js'
+import rdf from '@lindas/env'
 import { LabelLoader } from './labels/labelLoader.js'
 import { TrifidResourceDescription } from './web-component/TrifidResourceDescription.js'
 
@@ -103,11 +103,11 @@ const createEntityRenderer = ({ options = {}, logger, query }) => {
     // logger?.debug(
     //   `Effective renderer config: ${JSON.stringify(rendererConfig, null, 2)}`)
     const foundQuad = [...dataset].find((quad) => quad.subject.equals(term))
-    const cf = rdf.clownface({ dataset, term: foundQuad ? term : undefined })
+    const cf = rdf.@lindas/clownface({ dataset, term: foundQuad ? term : undefined })
 
     rendererConfig.metadata = {}
 
-    const externalLabels = rdf.clownface({ dataset: rdf.dataset() })
+    const externalLabels = rdf.@lindas/clownface({ dataset: rdf.dataset() })
     // If a labelLoader is configured, try to fetch the labels
     if (options.labelLoader) {
       const labelLoader = new LabelLoader({

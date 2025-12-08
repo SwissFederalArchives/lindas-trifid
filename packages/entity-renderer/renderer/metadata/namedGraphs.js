@@ -1,5 +1,5 @@
-import rdf from '@zazuko/env'
-import { shrink } from '@zazuko/prefixes'
+import rdf from '@lindas/env'
+import { shrink } from '@lindas/prefixes'
 
 const namedCounts = (dataset) => {
   const namedGraphs = rdf.termMap()

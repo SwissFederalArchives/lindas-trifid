@@ -1,5 +1,5 @@
 import { html } from 'lit'
-import { EntityList } from '@zazuko/rdf-entity-webcomponent'
+import { EntityList } from '@lindas/rdf-entity-webcomponent'
 import { Debug } from './Debug.js'
 
 function TrifidResourceDescription ({ dataset, term }, options) {

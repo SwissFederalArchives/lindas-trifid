@@ -1,9 +1,9 @@
 import { parentPort } from 'node:worker_threads'
-import rdf from '@zazuko/env-node'
+import rdf from '@lindas/env-node'
 import sd from '@vocabulary/sd'
 import fsd from './fetchServiceDescription.js'
 
-const serviceDescriptionVocab = rdf.clownface({
+const serviceDescriptionVocab = rdf.@lindas/clownface({
   dataset: rdf.dataset(sd({ factory: rdf })),
 })
 
@@ -37,11 +37,11 @@ parentPort.once('message', async (message) => {
       })
       clearTimeout(timeout)
 
-      let service = rdf.clownface({ dataset })
+      let service = rdf.@lindas/clownface({ dataset })
         .has(rdf.ns.sd.endpoint, rdf.namedNode(endpointUrl))
 
       const traverser = rdf.traverser(cbd)
-      service = rdf.clownface({
+      service = rdf.@lindas/clownface({
         term: service.term,
         dataset: traverser.match(service),
       })

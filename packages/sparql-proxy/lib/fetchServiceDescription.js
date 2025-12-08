@@ -1,4 +1,4 @@
-import rdf from '@zazuko/env-node'
+import rdf from '@lindas/env-node'
 
 const fetchServiceDescription = async (endpointUrl, { headers, format }) => {
   const response = await rdf.fetch(endpointUrl, {

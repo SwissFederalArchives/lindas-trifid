@@ -1,7 +1,7 @@
 // @ts-check
 
 import { sparql } from '@tpluscode/rdf-string'
-import rdf from '@zazuko/env'
+import rdf from '@lindas/env'
 
 /**
  * Query to retrieve all datasets for a given organization.

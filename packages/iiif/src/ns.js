@@ -1,4 +1,4 @@
-import rdf from '@zazuko/env'
+import rdf from '@lindas/env'
 
 const ns = {
   iiifImage: rdf.namespace('http://iiif.io/api/image/3#'),
