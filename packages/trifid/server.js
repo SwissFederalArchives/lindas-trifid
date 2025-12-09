@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { Command } from 'commander'
-import trifid from 'lindas-trifid-core'
+import trifid from '@lindas/trifid-core'
 
 const program = new Command()
 

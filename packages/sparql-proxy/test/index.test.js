@@ -1,6 +1,6 @@
 import { describe, it, beforeEach, afterEach } from 'node:test'
 import { equal, deepEqual, match, ok } from 'node:assert'
-import trifidCore, { getListenerURL } from 'lindas-trifid-core'
+import trifidCore, { getListenerURL } from '@lindas/trifid-core'
 import rdf from '@lindas/env-node'
 import sparqlProxy from '../index.js'
 
@@ -75,7 +75,7 @@ describe('sparql-proxy', () => {
         const dataset = await response.dataset()
 
         // then
-        const service = rdf.@lindas/clownface({ dataset }).has(rdf.ns.sd.endpoint)
+        const service = rdf.clownface({ dataset }).has(rdf.ns.sd.endpoint)
         ok(service.out(property).values.length > 0)
       })
     }
@@ -90,7 +90,7 @@ describe('sparql-proxy', () => {
         const dataset = await response.dataset()
 
         // then
-        const service = rdf.@lindas/clownface({ dataset }).has(rdf.ns.sd.endpoint)
+        const service = rdf.clownface({ dataset }).has(rdf.ns.sd.endpoint)
         deepEqual(service.out(rdf.ns.sd.endpoint).term, rdf.namedNode(`${url}/${path}`))
       }
     })
@@ -106,7 +106,7 @@ describe('sparql-proxy', () => {
       const dataset = await response.dataset()
 
       // then
-      const service = rdf.@lindas/clownface({ dataset }).has(rdf.ns.sd.endpoint)
+      const service = rdf.clownface({ dataset }).has(rdf.ns.sd.endpoint)
       deepEqual(service.out(rdf.ns.sd.endpoint).term, rdf.namedNode(`${url}/query`))
     })
 
@@ -121,7 +121,7 @@ describe('sparql-proxy', () => {
       const dataset = await response.dataset()
 
       // then
-      const service = rdf.@lindas/clownface({ dataset }).has(rdf.ns.sd.endpoint)
+      const service = rdf.clownface({ dataset }).has(rdf.ns.sd.endpoint)
       deepEqual(service.out(rdf.ns.sd.endpoint).term, rdf.namedNode(`${url}/query`))
     })
 
@@ -135,7 +135,7 @@ describe('sparql-proxy', () => {
         const dataset = await response.dataset()
 
         // then
-        const service = rdf.@lindas/clownface({ dataset }).has(rdf.ns.sd.endpoint)
+        const service = rdf.clownface({ dataset }).has(rdf.ns.sd.endpoint)
         equal(service.out(property).terms.length, 0)
       })
     }
@@ -149,7 +149,7 @@ describe('sparql-proxy', () => {
       const dataset = await response.dataset()
 
       // then
-      const service = rdf.@lindas/clownface({ dataset }).has(rdf.ns.sd.endpoint)
+      const service = rdf.clownface({ dataset }).has(rdf.ns.sd.endpoint)
       const actual = service
         .out(rdf.ns.sd.defaultDataset)
         .out(rdf.ns.sd.namedGraph)

@@ -7,7 +7,7 @@ import { Worker } from 'node:worker_threads'
 
 import { metrics } from '@opentelemetry/api'
 import rdf from '@lindas/env-node'
-import { sparqlGetRewriteConfiguration } from 'lindas-trifid-core'
+import { sparqlGetRewriteConfiguration } from '@lindas/trifid-core'
 import ReplaceStream from './lib/ReplaceStream.js'
 import { authBasicHeader, objectLength, isValidUrl } from './lib/utils.js'
 
@@ -149,7 +149,7 @@ const factory = async (trifid) => {
   })
 
   const serviceDescription = new Promise((resolve) => {
-    const minimalSD = rdf.@lindas/clownface().blankNode().addOut(rdf.ns.rdf.type, rdf.ns.sd.Service)
+    const minimalSD = rdf.clownface().blankNode().addOut(rdf.ns.rdf.type, rdf.ns.sd.Service)
 
     worker.once('message', async (message) => {
       const { type, data } = message
@@ -246,7 +246,7 @@ const factory = async (trifid) => {
         // Handle Service Description request
         if (Object.keys(request.query).length === 0 && request.method === 'GET') {
           const dataset = rdf.dataset(await serviceDescription)
-          rdf.@lindas/clownface({ dataset })
+          rdf.clownface({ dataset })
             .has(rdf.ns.rdf.type, rdf.ns.sd.Service)
             .addOut(rdf.ns.sd.endpoint, rdf.namedNode(fullUrl))
 

@@ -1,5 +1,5 @@
 {
-  "name": "lindas-trifid-core",
+  "name": "@lindas/trifid-core",
   "description": "Trifid Core",
   "type": "module",
   "version": "6.0.0",
@@ -39,7 +39,7 @@
   "main": "index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "lindas-trifid-core": "./server.js"
+    "trifid-core": "./server.js"
   },
   "author": {
     "name": "Swiss Federal Archives / Lindas",

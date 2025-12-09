@@ -39,7 +39,7 @@ const createApi = (client, clientOptions) => {
   }
 
   const augmentDataset = async (dataset) => {
-    const ptr = rdf.@lindas/clownface({ dataset })
+    const ptr = rdf.clownface({ dataset })
 
     // Find all important nodes
     const nodes = ptr.has(ns.rdf.type, [

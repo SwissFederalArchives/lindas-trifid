@@ -103,11 +103,11 @@ const createEntityRenderer = ({ options = {}, logger, query }) => {
     // logger?.debug(
     //   `Effective renderer config: ${JSON.stringify(rendererConfig, null, 2)}`)
     const foundQuad = [...dataset].find((quad) => quad.subject.equals(term))
-    const cf = rdf.@lindas/clownface({ dataset, term: foundQuad ? term : undefined })
+    const cf = rdf.clownface({ dataset, term: foundQuad ? term : undefined })
 
     rendererConfig.metadata = {}
 
-    const externalLabels = rdf.@lindas/clownface({ dataset: rdf.dataset() })
+    const externalLabels = rdf.clownface({ dataset: rdf.dataset() })
     // If a labelLoader is configured, try to fetch the labels
     if (options.labelLoader) {
       const labelLoader = new LabelLoader({

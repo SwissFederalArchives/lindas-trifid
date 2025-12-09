@@ -12,7 +12,7 @@ import { isBlankNode, isLiteral, isNamedNode } from 'is-graph-pointer'
  * @returns {string} XML representation of the dataset.
  */
 const toXML = (dataset) => {
-  const pointer = rdf.@lindas/clownface({ dataset: rdf.dataset(dataset) })
+  const pointer = rdf.clownface({ dataset: rdf.dataset(dataset) })
   const datasetsPointer = pointer.node(rdf.ns.dcat.Dataset).in(rdf.ns.rdf.type)
 
   const pf = Object.entries(prefixes)

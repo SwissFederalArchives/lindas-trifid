@@ -3,7 +3,7 @@ import rdf from '@lindas/env-node'
 import sd from '@vocabulary/sd'
 import fsd from './fetchServiceDescription.js'
 
-const serviceDescriptionVocab = rdf.@lindas/clownface({
+const serviceDescriptionVocab = rdf.clownface({
   dataset: rdf.dataset(sd({ factory: rdf })),
 })
 
@@ -37,11 +37,11 @@ parentPort.once('message', async (message) => {
       })
       clearTimeout(timeout)
 
-      let service = rdf.@lindas/clownface({ dataset })
+      let service = rdf.clownface({ dataset })
         .has(rdf.ns.sd.endpoint, rdf.namedNode(endpointUrl))
 
       const traverser = rdf.traverser(cbd)
-      service = rdf.@lindas/clownface({
+      service = rdf.clownface({
         term: service.term,
         dataset: traverser.match(service),
       })
