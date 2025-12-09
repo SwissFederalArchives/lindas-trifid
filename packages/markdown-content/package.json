@@ -1,5 +1,5 @@
 {
-  "name": "lindas-trifid-markdown-content",
+  "name": "@lindas/trifid-plugin-markdown-content",
   "version": "3.0.0",
   "description": "Trifid plugin to handle Markdown files",
   "main": "src/index.js",
