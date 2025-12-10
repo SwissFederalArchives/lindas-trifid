@@ -1,5 +1,11 @@
 # trifid-handler-fetch
 
+## 4.0.1
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+
 ## 4.0.0
 
 ### Major Changes
