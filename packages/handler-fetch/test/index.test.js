@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, it } from 'node:test'
 
-import trifidCore, { getListenerURL, assertRejection } from 'lindas-trifid-core'
+import trifidCore, { getListenerURL, assertRejection } from '@lindas/trifid-core'
 
 import handlerFetchTrifidPlugin from '../index.js'
 

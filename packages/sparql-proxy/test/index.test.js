@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, afterEach } from 'node:test'
 import { equal, deepEqual, match, ok } from 'node:assert'
-import trifidCore, { getListenerURL } from 'lindas-trifid-core'
-import rdf from '@zazuko/env-node'
+import trifidCore, { getListenerURL } from '@lindas/trifid-core'
+import rdf from '@lindas/env-node'
 import sparqlProxy from '../index.js'
 
 describe('sparql-proxy', () => {

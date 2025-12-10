@@ -29,7 +29,10 @@
 
   <script nonce="{{ nonce }}">
     const config = {
-      "api": {}
+      "api": {},
+      "yasr": {
+        "maxPersistentResponseSize": 10000000  // 10MB - increased from default 100KB for LINDAS data
+      }
     }
   </script>
 

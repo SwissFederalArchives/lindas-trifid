@@ -5,7 +5,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, it, afterEach } from 'node:test'
 
-import trifidCore from 'lindas-trifid-core'
+import trifidCore from '@lindas/trifid-core'
 
 import trifidPluginFactory from '../index.js'
 

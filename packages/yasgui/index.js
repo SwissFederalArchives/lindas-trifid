@@ -27,7 +27,7 @@ const trifidFactory = async (trifid) => {
   }
 
   // Serve static files for YASGUI
-  const yasguiPath = resolve('@zazuko/yasgui/build/', import.meta.url)
+  const yasguiPath = resolve('@lindas/yasgui/build/', import.meta.url)
   server.register(fastifyStatic, {
     root: yasguiPath.replace(/^file:\/\//, ''),
     prefix: '/yasgui-dist/',
