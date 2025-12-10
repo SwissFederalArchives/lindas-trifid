@@ -1,5 +1,11 @@
 # @zazuko/trifid-plugin-iiif
 
+## 2.0.1
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+
 ## 2.0.0
 
 ### Major Changes
