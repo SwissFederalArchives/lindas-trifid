@@ -71,7 +71,7 @@ const trifidFactory = async (trifid) => {
       const handler = async (request, reply) => {
         // Generate nonce for CSP
         const nonce = crypto.randomBytes(16).toString('base64')
-        
+
         let requestPort = ''
         if (request.port) {
           requestPort = `:${request.port}`
@@ -111,9 +111,9 @@ const trifidFactory = async (trifid) => {
         // Set CSP header with actual nonce value
         reply.header(
           'Content-Security-Policy',
-          `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; report-uri /api/csp-violations`
+          `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; connect-src 'self' https:; report-uri /api/csp-violations`,
         )
-        
+
         reply.type('text/html').send(content)
         return reply
       }

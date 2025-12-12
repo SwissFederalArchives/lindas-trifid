@@ -2,7 +2,7 @@
   "name": "@lindas/trifid-plugin-yasgui",
   "description": "Trifid YASGUI plugin",
   "type": "module",
-  "version": "4.0.2",
+  "version": "4.0.4",
   "license": "Apache-2.0",
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -43,7 +43,7 @@
   "dependencies": {
     "@fastify/static": "^8.2.0",
     "import-meta-resolve": "^4.2.0",
-    "@lindas/yasgui": "^4.6.1"
+    "@lindas/yasgui": "^4.6.3"
   },
   "devDependencies": {
     "@openlayers-elements/maps": "^0.4.0",
@@ -56,7 +56,6 @@
     "typescript": "^5.9.3"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }
