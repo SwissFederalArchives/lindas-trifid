@@ -1,5 +1,13 @@
 # @zazuko/trifid-renderer-entity
 
+## 2.0.2
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+- Updated dependencies [48d1042]
+  - @lindas/trifid-core@6.0.1
+
 ## 2.0.1
 
 ### Patch Changes
