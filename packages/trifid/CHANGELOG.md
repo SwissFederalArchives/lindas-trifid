@@ -1,5 +1,20 @@
 # trifid
 
+## 6.0.3
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+- Updated dependencies [48d1042]
+  - @lindas/trifid-core@6.0.1
+  - @lindas/trifid-entity-renderer@2.0.2
+  - @lindas/trifid-plugin-graph-explorer@3.0.1
+  - @lindas/trifid-handler-fetch@4.0.1
+  - @lindas/trifid-plugin-i18n@4.0.1
+  - @lindas/trifid-plugin-sparql-proxy@3.0.6
+  - @lindas/trifid-plugin-spex@4.0.1
+  - @lindas/trifid-plugin-yasgui@4.0.5
+
 ## 6.0.1
 
 ### Patch Changes
@@ -11,6 +26,7 @@
   This patch adds a `trifid` binary alias that points to the same `server.js` entry point, ensuring backwards compatibility with existing deployments and Dockerfiles.
 
   Both binary names now work:
+
   - `lindas-trifid` (recommended new name)
   - `trifid` (backwards-compatible alias)
 

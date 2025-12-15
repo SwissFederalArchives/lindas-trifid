@@ -1,5 +1,11 @@
 # @zazuko/trifid-plugin-ckan
 
+## 5.0.2
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+
 ## 5.0.1
 
 ### Patch Changes
