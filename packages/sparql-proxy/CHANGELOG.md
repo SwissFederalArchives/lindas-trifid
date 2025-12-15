@@ -1,5 +1,13 @@
 # @zazuko/trifid-plugin-sparql-proxy
 
+## 3.0.6
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+- Updated dependencies [48d1042]
+  - @lindas/trifid-core@6.0.1
+
 ## 3.0.5
 
 ### Patch Changes
