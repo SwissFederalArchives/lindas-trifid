@@ -30,6 +30,10 @@ export const createAPI = (config) => {
     endpointUrl: config.endpointUrl,
     user: config.user,
     password: config.password,
+    headers: {
+      // Disable compression to avoid brotli decompression issues with node-fetch
+      'Accept-Encoding': 'identity',
+    },
   })
 
   /**
