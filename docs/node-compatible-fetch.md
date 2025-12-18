@@ -52,10 +52,12 @@ Node.js 18+ includes native `fetch` that:
 
 ### The Wrapper Solution
 
-The `nodeCompatibleFetch` utility:
+The `nodeCompatibleFetch` utility uses a **Proxy-based approach** that:
 1. Uses native `fetch` for the HTTP request (proper brotli handling)
-2. Converts the response body from Web ReadableStream to Node.js Readable stream
-3. Maintains the same interface expected by `sparql-http-client`
+2. Wraps the Response in a Proxy that overrides only the `body` getter
+3. Converts body from Web ReadableStream to Node.js Readable lazily
+4. Maintains **full Response interface compatibility** (all methods/properties work)
+5. **TypeScript sees it as returning `Promise<Response>`** - no type hacks needed
 
 ```javascript
 import { Readable } from 'node:stream'
@@ -64,24 +66,30 @@ export async function nodeCompatibleFetch(url, options) {
   const response = await fetch(url, options)
   let nodeBody = null
 
-  return {
-    ok: response.ok,
-    status: response.status,
-    statusText: response.statusText,
-    headers: response.headers,
-    get body() {
-      // Lazily convert Web ReadableStream to Node.js Readable
-      if (nodeBody === null && response.body) {
-        nodeBody = Readable.fromWeb(response.body)
+  // Use Proxy to wrap Response and override only the body getter
+  return new Proxy(response, {
+    get(target, prop, receiver) {
+      if (prop === 'body') {
+        if (nodeBody === null && target.body !== null) {
+          nodeBody = Readable.fromWeb(target.body)
+        }
+        return nodeBody
       }
-      return nodeBody
+      const value = Reflect.get(target, prop, receiver)
+      return typeof value === 'function' ? value.bind(target) : value
     },
-    json: () => response.json(),
-    text: () => response.text(),
-    arrayBuffer: () => response.arrayBuffer(),
-  }
+  })
 }
 ```
+
+### Why Proxy is the Right Solution
+
+| Approach | Problem |
+|----------|---------|
+| Custom object | Missing Response properties, TypeScript errors |
+| `@ts-ignore` | Hides real type issues, not maintainable |
+| Full Response implementation | Complex, `clone()` is hard to implement |
+| **Proxy wrapper** | Full compatibility, correct types, minimal code |
 
 ## Usage
 
