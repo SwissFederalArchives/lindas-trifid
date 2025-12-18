@@ -1,5 +1,13 @@
 # trifid-core
 
+## 6.1.1
+
+### Patch Changes
+
+- Refactor `nodeCompatibleFetch` to use Proxy-based wrapper for full Response interface compatibility.
+  The previous implementation returned a custom object which caused TypeScript errors.
+  The Proxy approach maintains all Response methods/properties while only overriding the body getter.
+
 ## 6.1.0
 
 ### Minor Changes
