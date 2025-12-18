@@ -1,6 +1,7 @@
 // @ts-check
 
 import ParsingClient from 'sparql-http-client/ParsingClient.js'
+import { nodeCompatibleFetch } from '@lindas/trifid-core'
 import { toXML } from './xml.js'
 import { datasetsQuery } from './query.js'
 
@@ -30,6 +31,9 @@ export const createAPI = (config) => {
     endpointUrl: config.endpointUrl,
     user: config.user,
     password: config.password,
+    // Use native fetch wrapper for proper brotli/gzip decompression support
+    // (node-fetch has brotli bugs that cause "Decompression failed" errors)
+    fetch: nodeCompatibleFetch,
   })
 
   /**

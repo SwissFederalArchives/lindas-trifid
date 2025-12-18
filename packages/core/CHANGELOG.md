@@ -1,5 +1,28 @@
 # trifid-core
 
+## 6.1.0
+
+### Minor Changes
+
+- Add `nodeCompatibleFetch` utility for SPARQL client compatibility with brotli compression.
+
+  This wrapper uses native Node.js fetch (which properly handles brotli/gzip/deflate) and converts
+  Web ReadableStream responses to Node.js Readable streams for compatibility with sparql-http-client.
+
+  node-fetch v3.x has known brotli decompression bugs that cause "Decompression failed" errors
+  when receiving brotli-compressed responses from SPARQL endpoints. Using native fetch resolves this.
+
+  Usage:
+  ```javascript
+  import { nodeCompatibleFetch } from '@lindas/trifid-core'
+  import ParsingClient from 'sparql-http-client/ParsingClient.js'
+
+  const client = new ParsingClient({
+    endpointUrl: 'https://example.org/sparql',
+    fetch: nodeCompatibleFetch,
+  })
+  ```
+
 ## 6.0.1
 
 ### Patch Changes

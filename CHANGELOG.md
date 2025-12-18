@@ -7,6 +7,17 @@
 
 ## December 2025
 
+### 2025-12-18
+
+**Add native fetch wrapper for brotli compression support in SPARQL clients**
+- **@lindas/trifid-core v6.1.0:** Added `nodeCompatibleFetch` utility that wraps native Node.js fetch
+  and converts Web ReadableStream responses to Node.js Readable streams for sparql-http-client compatibility
+- **@lindas/trifid-plugin-ckan v5.0.3:** Fixed brotli decompression errors by using the new native fetch wrapper
+- Root cause: node-fetch v3.x (used by sparql-http-client via nodeify-fetch) advertises brotli support
+  but has decompression bugs causing "Decompression failed" errors when receiving brotli-compressed responses
+- Solution: Native Node.js fetch (18+) properly handles brotli/gzip/deflate; the wrapper maintains
+  stream compatibility by converting Web streams to Node streams
+
 ### 2025-12-15
 
 **`2cb3aa3b` - Bump package versions for npm release**

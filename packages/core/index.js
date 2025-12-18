@@ -37,6 +37,11 @@ export {
   getListenerURL,
 } from './lib/test.js'
 
+// Export fetch utilities for SPARQL client compatibility
+export {
+  nodeCompatibleFetch,
+} from './lib/fetch.js'
+
 /**
  * Create a new Trifid instance.
  *

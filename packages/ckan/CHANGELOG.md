@@ -1,4 +1,21 @@
-# @zazuko/trifid-plugin-ckan
+# @lindas/trifid-plugin-ckan
+
+## 5.0.3
+
+### Patch Changes
+
+- Fix brotli decompression errors when SPARQL proxy returns compressed responses.
+
+  The sparql-http-client library uses node-fetch which advertises brotli support via
+  Accept-Encoding header but cannot actually decompress brotli responses properly.
+  When sparql-proxy returns brotli-compressed data, the RDF parser receives compressed
+  bytes and crashes with "Decompression failed" error, resulting in 502 Bad Gateway.
+
+  This fix uses the new `nodeCompatibleFetch` utility from @lindas/trifid-core which
+  uses native Node.js fetch (with proper brotli support) while maintaining stream
+  compatibility with sparql-http-client.
+
+- Updated dependency: @lindas/trifid-core ^6.1.0 (moved from devDependencies to dependencies)
 
 ## 5.0.2
 
