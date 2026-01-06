@@ -109,9 +109,10 @@ const trifidFactory = async (trifid) => {
         )
 
         // Set CSP header with actual nonce value
+        // Note: The hash 'sha256-E5MA2ApGY4yQQRADvta32Fe4yZYwPsNSXdRn3n0IGI4=' is for an inline script created by YASGUI
         reply.header(
           'Content-Security-Policy',
-          `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://openlayers.org; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.swisstopo.admin.ch https://*.geo.admin.ch; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; connect-src 'self' https:; report-uri /api/csp-violations`,
+          `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'sha256-E5MA2ApGY4yQQRADvta32Fe4yZYwPsNSXdRn3n0IGI4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://openlayers.org; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.swisstopo.admin.ch https://*.geo.admin.ch; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; connect-src 'self' https: http://prefix.cc; report-uri /api/csp-violations`,
         )
 
         reply.type('text/html').send(content)

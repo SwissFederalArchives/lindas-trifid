@@ -1,5 +1,13 @@
 # trifid-plugin-yasgui
 
+## 4.0.7
+
+### Patch Changes
+
+- Additional CSP fixes for YASGUI functionality:
+  - Added `http://prefix.cc` to `connect-src` to allow YASGUI prefix fetching
+  - Added hash `sha256-E5MA2ApGY4yQQRADvta32Fe4yZYwPsNSXdRn3n0IGI4=` to `script-src` for dynamically created inline scripts
+
 ## 4.0.6
 
 ### Patch Changes
