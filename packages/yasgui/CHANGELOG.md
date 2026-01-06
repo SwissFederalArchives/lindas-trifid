@@ -1,5 +1,14 @@
 # trifid-plugin-yasgui
 
+## 4.0.9
+
+### Patch Changes
+
+- Fix OpenLayers map attribution positioning:
+  - Attribution now appears at bottom-right corner of the map
+  - Removed bullet point styling from attribution list
+  - Added semi-transparent background for better readability
+
 ## 4.0.8
 
 ### Patch Changes
