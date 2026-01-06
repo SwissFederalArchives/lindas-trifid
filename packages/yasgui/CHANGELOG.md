@@ -1,5 +1,13 @@
 # trifid-plugin-yasgui
 
+## 4.0.8
+
+### Patch Changes
+
+- Fix CSP `img-src` directive to include bare domains in addition to wildcards:
+  - Added `https://tile.openstreetmap.org` (wildcard `*.tile.openstreetmap.org` does not match bare domain)
+  - Added `https://swisstopo.admin.ch` and `https://geo.admin.ch` for Swiss map tiles
+
 ## 4.0.7
 
 ### Patch Changes
