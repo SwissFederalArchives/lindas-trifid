@@ -1,5 +1,13 @@
 # trifid-plugin-yasgui
 
+## 4.0.10
+
+### Patch Changes
+
+- Fix point feature visibility when selected on map:
+  - Added Circle image style for point features so they remain visible when clicked
+  - Previously, clicking on point markers would cause them to disappear because the style only had fill/stroke (for polygons) but no image style (for points)
+
 ## 4.0.9
 
 ### Patch Changes

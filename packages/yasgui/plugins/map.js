@@ -97,7 +97,7 @@ class YasguiMap {
 
   async draw () {
     await import('./deps.js')
-    const { Style, Stroke, Fill } = await import('./style.js')
+    const { Style, Stroke, Fill, Circle } = await import('./style.js')
 
     const results = this.getResults()
     const el = document.createElement('ol-map')
@@ -138,6 +138,16 @@ class YasguiMap {
         color: '#ff441c',
         width: 5,
       }),
+      image: new Circle({
+        radius: 10,
+        fill: new Fill({
+          color: 'rgba(255, 68, 28, 0.8)',
+        }),
+        stroke: new Stroke({
+          color: '#ff441c',
+          width: 3,
+        }),
+      }),
     })
     const featureStyle = new Style({
       fill: new Fill({
@@ -146,6 +156,16 @@ class YasguiMap {
       stroke: new Stroke({
         color: '#ff441c',
         width: 5,
+      }),
+      image: new Circle({
+        radius: 8,
+        fill: new Fill({
+          color: 'rgba(255, 68, 28, 0.6)',
+        }),
+        stroke: new Stroke({
+          color: '#ff441c',
+          width: 2,
+        }),
       }),
     })
 
