@@ -1,5 +1,13 @@
 # trifid-plugin-yasgui
 
+## 4.0.6
+
+### Patch Changes
+
+- Update Content Security Policy (CSP) to allow OpenLayers map to work properly:
+  - Added `https://openlayers.org` to `style-src` directive to allow loading OpenLayers CSS
+  - Added `https://*.tile.openstreetmap.org`, `https://*.swisstopo.admin.ch`, and `https://*.geo.admin.ch` to `img-src` directive to allow loading map tiles
+
 ## 4.0.5
 
 ### Patch Changes

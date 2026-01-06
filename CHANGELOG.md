@@ -5,6 +5,20 @@
 
 ---
 
+## January 2026
+
+### 2026-01-06
+
+**Fix OpenLayers map display in YASGUI plugin (CSP update)**
+- **@lindas/trifid-plugin-yasgui v4.0.6:** Updated Content Security Policy to allow OpenLayers map tiles and stylesheet
+  - Added `https://openlayers.org` to `style-src` directive for OpenLayers CSS
+  - Added `https://*.tile.openstreetmap.org` to `img-src` directive for OpenStreetMap tiles
+  - Added `https://*.swisstopo.admin.ch` and `https://*.geo.admin.ch` to `img-src` for Swiss topo maps
+- Root cause: CSP was blocking external resources needed by the OpenLayers map component
+- Resolves map tiles not loading when viewing geographic SPARQL query results on test.lindas.admin.ch
+
+---
+
 ## December 2025
 
 ### 2025-12-18
@@ -185,4 +199,4 @@ All packages rebranded from Zazuko to LINDAS:
 
 ---
 
-*Last updated: 2025-12-15*
+*Last updated: 2026-01-06*

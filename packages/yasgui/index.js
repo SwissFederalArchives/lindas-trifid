@@ -111,7 +111,7 @@ const trifidFactory = async (trifid) => {
         // Set CSP header with actual nonce value
         reply.header(
           'Content-Security-Policy',
-          `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; connect-src 'self' https:; report-uri /api/csp-violations`,
+          `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://openlayers.org; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.swisstopo.admin.ch https://*.geo.admin.ch; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; connect-src 'self' https:; report-uri /api/csp-violations`,
         )
 
         reply.type('text/html').send(content)
