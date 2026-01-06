@@ -1,5 +1,13 @@
 # trifid-plugin-yasgui
 
+## 4.0.11
+
+### Patch Changes
+
+- Fix OpenLayers map attribution positioning (Shadow DOM fix):
+  - Inject styles directly into the shadow root since external CSS cannot affect Shadow DOM elements
+  - Attribution now appears at bottom-right corner without bullet point styling
+
 ## 4.0.10
 
 ### Patch Changes
