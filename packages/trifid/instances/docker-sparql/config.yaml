@@ -26,6 +26,11 @@ plugins:
     module: lindas-trifid-entity-renderer
     config:
       followRedirects: true
+      # Enable named graph enrichment for GraphDB (which doesn't return graph info in DESCRIBE)
+      enrichWithNamedGraph: true
+      # Use CONSTRUCT instead of DESCRIBE for GraphDB to avoid SCBD (Symmetric Concise Bounded Description)
+      # which recursively includes all blank node content making responses huge
+      resourceGraphQuery: "CONSTRUCT { <{{iri}}> ?p ?o } WHERE { <{{iri}}> ?p ?o }"
       labelLoader:
         chunkSize: 30
         concurrency: 2

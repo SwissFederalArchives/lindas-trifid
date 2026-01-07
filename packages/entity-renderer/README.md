@@ -102,6 +102,11 @@ The default redirect query supports `http://www.w3.org/2011/http#` and `http://w
   This will inject a `endpointName` cookie while querying the SPARQL endpoint and is meant to be used with the `sparql-proxy` Trifid plugin.
   The default value is `false`.
   This option is experimental and might change or be removed in the future.
+- `enrichWithNamedGraph`: If set to `true`, the plugin will perform an additional SPARQL query to fetch the named graph(s) containing the resource and enrich the dataset with this information.
+  This is useful when using SPARQL endpoints (like GraphDB) that don't return graph information in DESCRIBE queries.
+  The default value is `false`.
+- `namedGraphQuery`: The SELECT query used to fetch the named graph(s) containing the resource.
+  The default query is `SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }`.
 
 ## Run an example instance
 

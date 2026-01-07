@@ -56,7 +56,7 @@ const isValidRedirectUrl = (url) => {
       'communication.ld.admin.ch',
       'transport.ld.admin.ch',
       'population.ld.admin.ch',
-      'ld.zh.ch'
+      'ld.zh.ch',
     ]
     return allowedHosts.some(host => parsed.hostname === host || parsed.hostname.endsWith('.' + host))
   } catch {
@@ -270,7 +270,41 @@ const factory = async (trifid) => {
             return reply
           }
 
-          const dataset = await rdf.dataset().import(quadStream)
+          let dataset = await rdf.dataset().import(quadStream)
+
+          // Enrich dataset with named graph information if enabled (needed for GraphDB)
+          if (mergedConfig.enrichWithNamedGraph && dataset.size > 0) {
+            // Check if all quads are in the default graph
+            const hasOnlyDefaultGraph = [...dataset].every(quad => quad.graph.termType === 'DefaultGraph')
+            if (hasOnlyDefaultGraph) {
+              try {
+                const graphQuery = replaceIriInQuery(mergedConfig.namedGraphQuery, iri)
+                const graphResult = await query(graphQuery, {
+                  ask: false,
+                  select: true, // Parse the SELECT response directly
+                  rewriteResponse: false,
+                  headers: queryHeaders,
+                })
+
+                // graphResult is an array of bindings when select: true
+                const graphUris = graphResult?.map(b => b.g?.value).filter(Boolean) || []
+
+                if (graphUris.length > 0) {
+                  // Use the first graph found to enrich all quads
+                  const graphTerm = rdf.namedNode(graphUris[0])
+                  const enrichedDataset = rdf.dataset()
+                  for (const quad of dataset) {
+                    enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, graphTerm))
+                  }
+                  dataset = enrichedDataset
+                  logger.debug(`Enriched dataset with named graph: ${graphUris[0]}`)
+                }
+              } catch (err) {
+                logger.warn(`Failed to enrich dataset with named graph: ${err.message}`)
+              }
+            }
+          }
+
           if (mergedConfig.enableSchemaUrlRedirect && acceptHeader === 'text/html') {
             const disabledSchemaUrlRedirect =
               request.headers['x-disable-schema-url-redirect'] === 'true' ||

@@ -2,6 +2,10 @@ export const defaultConfiguration = {
   resourceNoSlash: true,
   resourceExistsQuery: 'ASK { <{{iri}}> ?p ?o }',
   resourceGraphQuery: 'DESCRIBE <{{iri}}>',
+  // Query to fetch the named graph(s) containing the resource (for endpoints that don't return graph info in DESCRIBE)
+  namedGraphQuery: 'SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
+  // Set to true to enrich dataset with graph information from namedGraphQuery (needed for GraphDB)
+  enrichWithNamedGraph: false,
   containerExistsQuery: 'ASK { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
   containerGraphQuery:
     'CONSTRUCT { ?s a ?o. } WHERE { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
