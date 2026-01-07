@@ -282,22 +282,43 @@ const factory = async (trifid) => {
                 const graphResult = await query(graphQuery, {
                   ask: false,
                   select: true, // Parse the SELECT response directly
-                  rewriteResponse: false,
+                  rewriteResponse, // Use same rewrite config as main query so IRIs match
                   headers: queryHeaders,
                 })
 
-                // graphResult is an array of bindings when select: true
-                const graphUris = graphResult?.map(b => b.g?.value).filter(Boolean) || []
+                // graphResult is an array of bindings with ?p ?o ?g
+                // Build a map of (p, o) -> graph for lookup
+                // We use p|o as key since subject is known (the requested IRI) and may be rewritten
+                const tripleToGraph = new Map()
+                for (const binding of (graphResult || [])) {
+                  if (binding.p?.value && binding.o?.value && binding.g?.value) {
+                    // Simple key: p|o value only (type info complicates matching with rewritten URIs)
+                    const key = `${binding.p.value}|${binding.o.value}`
+                    // Store first graph found for this triple (resources may appear in multiple graphs)
+                    if (!tripleToGraph.has(key)) {
+                      tripleToGraph.set(key, binding.g.value)
+                    }
+                  }
+                }
 
-                if (graphUris.length > 0) {
-                  // Use the first graph found to enrich all quads
-                  const graphTerm = rdf.namedNode(graphUris[0])
+                if (tripleToGraph.size > 0) {
                   const enrichedDataset = rdf.dataset()
+                  let enrichedCount = 0
                   for (const quad of dataset) {
-                    enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, graphTerm))
+                    // Simple key: p|o value only
+                    const key = `${quad.predicate.value}|${quad.object.value}`
+
+                    const graphUri = tripleToGraph.get(key)
+                    if (graphUri) {
+                      enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, rdf.namedNode(graphUri)))
+                      enrichedCount++
+                    } else {
+                      // Keep quad in default graph if no mapping found
+                      enrichedDataset.add(quad)
+                    }
                   }
                   dataset = enrichedDataset
-                  logger.debug(`Enriched dataset with named graph: ${graphUris[0]}`)
+                  logger.debug(`Enriched ${enrichedCount}/${dataset.size} quads with named graph info`)
                 }
               } catch (err) {
                 logger.warn(`Failed to enrich dataset with named graph: ${err.message}`)

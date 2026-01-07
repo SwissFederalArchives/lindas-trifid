@@ -28,9 +28,9 @@ plugins:
       followRedirects: true
       # Enable named graph enrichment for GraphDB (which doesn't return graph info in DESCRIBE)
       enrichWithNamedGraph: true
-      # Use CONSTRUCT instead of DESCRIBE for GraphDB to avoid SCBD (Symmetric Concise Bounded Description)
-      # which recursively includes all blank node content making responses huge
-      resourceGraphQuery: "CONSTRUCT { <{{iri}}> ?p ?o } WHERE { <{{iri}}> ?p ?o }"
+      # Use GraphDB's CBD virtual graph to avoid SCBD expanding blank nodes (RDF lists)
+      # See: https://graphdb.ontotext.com/documentation/10.8/virtual-graphs.html#describe-outgoing
+      resourceGraphQuery: "DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>"
       labelLoader:
         chunkSize: 30
         concurrency: 2
