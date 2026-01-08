@@ -290,6 +290,7 @@ const factory = async (trifid) => {
                 // Build a map of (p, o) -> graph for lookup
                 // We use p|o as key since subject is known (the requested IRI) and may be rewritten
                 const tripleToGraph = new Map()
+                let fallbackGraph = null // For blank node triples not in the query result
                 for (const binding of (graphResult || [])) {
                   if (binding.p?.value && binding.o?.value && binding.g?.value) {
                     // Simple key: p|o value only (type info complicates matching with rewritten URIs)
@@ -297,6 +298,10 @@ const factory = async (trifid) => {
                     // Store first graph found for this triple (resources may appear in multiple graphs)
                     if (!tripleToGraph.has(key)) {
                       tripleToGraph.set(key, binding.g.value)
+                      // Use first graph as fallback for blank nodes
+                      if (!fallbackGraph) {
+                        fallbackGraph = binding.g.value
+                      }
                     }
                   }
                 }
@@ -308,7 +313,11 @@ const factory = async (trifid) => {
                     // Simple key: p|o value only
                     const key = `${quad.predicate.value}|${quad.object.value}`
 
-                    const graphUri = tripleToGraph.get(key)
+                    let graphUri = tripleToGraph.get(key)
+                    // For blank node subjects (nested triples from DESCRIBE), use fallback graph
+                    if (!graphUri && quad.subject.termType === 'BlankNode' && fallbackGraph) {
+                      graphUri = fallbackGraph
+                    }
                     if (graphUri) {
                       enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, rdf.namedNode(graphUri)))
                       enrichedCount++
