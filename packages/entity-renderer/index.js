@@ -263,14 +263,34 @@ const factory = async (trifid) => {
           const fixedContentType = fixContentTypeHeader(entityContentType)
           const quadStream = parsers.import(fixedContentType, entityStream)
 
+          // Load into dataset first (needed for filtering and enrichment)
+          let dataset = await rdf.dataset().import(quadStream)
+
+          // Filter out blank node subjects to match Stardog's CBD behavior
+          // GraphDB's CBD follows blank nodes recursively, Stardog doesn't
+          // This ensures consistent output between the two triple stores
+          if (mergedConfig.filterBlankNodeSubjects) {
+            const originalSize = dataset.size
+            const filteredDataset = rdf.dataset()
+            for (const quad of dataset) {
+              if (quad.subject.termType !== 'BlankNode') {
+                filteredDataset.add(quad)
+              }
+            }
+            dataset = filteredDataset
+            const filtered = originalSize - dataset.size
+            if (filtered > 0) {
+              logger.debug(`Filtered ${filtered} blank node subject quads (${originalSize} -> ${dataset.size})`)
+            }
+          }
+
+          // For RDF serialization formats, serialize the (filtered) dataset directly
           if (sparqlSupportedTypes.includes(acceptHeader)) {
             dereferencedCounter.add(1, { format: acceptHeader, endpoint_name: endpointName })
-            const serialized = await sparqlSerializeQuadStream(quadStream, acceptHeader)
+            const serialized = await sparqlSerializeQuadStream(dataset.toStream(), acceptHeader)
             reply.type(acceptHeader).send(serialized)
             return reply
           }
-
-          let dataset = await rdf.dataset().import(quadStream)
 
           // Enrich dataset with named graph information if enabled (needed for GraphDB)
           if (mergedConfig.enrichWithNamedGraph && dataset.size > 0) {

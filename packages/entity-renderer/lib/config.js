@@ -7,6 +7,9 @@ export const defaultConfiguration = {
   namedGraphQuery: 'SELECT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
   // Set to true to enrich dataset with graph information from namedGraphQuery (needed for GraphDB)
   enrichWithNamedGraph: false,
+  // Set to true to filter out triples where subject is a blank node (makes GraphDB CBD match Stardog)
+  // GraphDB follows blank nodes recursively in DESCRIBE, Stardog doesn't
+  filterBlankNodeSubjects: false,
   containerExistsQuery: 'ASK { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
   containerGraphQuery:
     'CONSTRUCT { ?s a ?o. } WHERE { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
