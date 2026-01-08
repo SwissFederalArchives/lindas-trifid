@@ -28,8 +28,9 @@ plugins:
       followRedirects: true
       # Enable named graph enrichment for GraphDB (which doesn't return graph info in DESCRIBE)
       enrichWithNamedGraph: true
-      # Use GraphDB's CBD virtual graph to avoid SCBD expanding blank nodes (RDF lists)
-      # See: https://graphdb.ontotext.com/documentation/10.8/virtual-graphs.html#describe-outgoing
+      # Use GraphDB's CBD (Concise Bounded Description) instead of SCBD (Symmetric CBD)
+      # SCBD includes incoming links which causes huge responses for highly-connected resources
+      # The ontotext.com/describe/outgoing pseudo-graph restricts to outgoing links only (CBD)
       resourceGraphQuery: "DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>"
       labelLoader:
         chunkSize: 30

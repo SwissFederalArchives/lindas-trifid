@@ -290,17 +290,26 @@ const factory = async (trifid) => {
                 // Build a map of (p, o) -> graph for lookup
                 // We use p|o as key since subject is known (the requested IRI) and may be rewritten
                 const tripleToGraph = new Map()
+                // Also track predicate-only keys for blank node objects (IDs differ between queries)
+                const predicateToGraph = new Map()
                 let fallbackGraph = null // For blank node triples not in the query result
                 for (const binding of (graphResult || [])) {
-                  if (binding.p?.value && binding.o?.value && binding.g?.value) {
-                    // Simple key: p|o value only (type info complicates matching with rewritten URIs)
-                    const key = `${binding.p.value}|${binding.o.value}`
-                    // Store first graph found for this triple (resources may appear in multiple graphs)
-                    if (!tripleToGraph.has(key)) {
-                      tripleToGraph.set(key, binding.g.value)
-                      // Use first graph as fallback for blank nodes
-                      if (!fallbackGraph) {
-                        fallbackGraph = binding.g.value
+                  if (binding.p?.value && binding.g?.value) {
+                    const graphValue = binding.g.value
+                    // Use first graph as fallback for nested blank nodes
+                    if (!fallbackGraph) {
+                      fallbackGraph = graphValue
+                    }
+                    if (binding.o?.value) {
+                      // Full key: p|o for exact matching
+                      const key = `${binding.p.value}|${binding.o.value}`
+                      if (!tripleToGraph.has(key)) {
+                        tripleToGraph.set(key, graphValue)
+                      }
+                      // For blank node objects, also store by predicate only
+                      // (blank node IDs differ between DESCRIBE and SELECT results in GraphDB)
+                      if (binding.o.type === 'bnode' && !predicateToGraph.has(binding.p.value)) {
+                        predicateToGraph.set(binding.p.value, graphValue)
                       }
                     }
                   }
@@ -310,10 +319,14 @@ const factory = async (trifid) => {
                   const enrichedDataset = rdf.dataset()
                   let enrichedCount = 0
                   for (const quad of dataset) {
-                    // Simple key: p|o value only
+                    // Try full key first: p|o
                     const key = `${quad.predicate.value}|${quad.object.value}`
-
                     let graphUri = tripleToGraph.get(key)
+
+                    // For blank node objects, try predicate-only key
+                    if (!graphUri && quad.object.termType === 'BlankNode') {
+                      graphUri = predicateToGraph.get(quad.predicate.value)
+                    }
                     // For blank node subjects (nested triples from DESCRIBE), use fallback graph
                     if (!graphUri && quad.subject.termType === 'BlankNode' && fallbackGraph) {
                       graphUri = fallbackGraph
