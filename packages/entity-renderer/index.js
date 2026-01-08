@@ -315,22 +315,28 @@ const factory = async (trifid) => {
                   }
                 }
 
-                if (tripleToGraph.size > 0) {
+                if (tripleToGraph.size > 0 || fallbackGraph) {
                   const enrichedDataset = rdf.dataset()
                   let enrichedCount = 0
                   for (const quad of dataset) {
-                    // Try full key first: p|o
+                    let graphUri = null
+
+                    // Try full key first: p|o (for IRI subjects/objects)
                     const key = `${quad.predicate.value}|${quad.object.value}`
-                    let graphUri = tripleToGraph.get(key)
+                    graphUri = tripleToGraph.get(key)
 
                     // For blank node objects, try predicate-only key
+                    // (blank node IDs differ between DESCRIBE and SELECT in GraphDB)
                     if (!graphUri && quad.object.termType === 'BlankNode') {
                       graphUri = predicateToGraph.get(quad.predicate.value)
                     }
-                    // For blank node subjects (nested triples from DESCRIBE), use fallback graph
-                    if (!graphUri && quad.subject.termType === 'BlankNode' && fallbackGraph) {
+
+                    // For any quad not yet matched (including blank node subjects from CBD),
+                    // use fallback graph - this handles nested blank nodes from DESCRIBE
+                    if (!graphUri && fallbackGraph) {
                       graphUri = fallbackGraph
                     }
+
                     if (graphUri) {
                       enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, rdf.namedNode(graphUri)))
                       enrichedCount++
