@@ -26,6 +26,13 @@ plugins:
     module: lindas-trifid-entity-renderer
     config:
       followRedirects: true
+      # Enable named graph enrichment for GraphDB (which doesn't return graph info in DESCRIBE)
+      enrichWithNamedGraph: true
+      # Filter out triples where subject is blank node to match Stardog's CBD behavior
+      # GraphDB follows blank nodes recursively, Stardog doesn't - this ensures identical output
+      filterBlankNodeSubjects: true
+      # Use CBD (outgoing links only) via GraphDB pseudo-graph
+      resourceGraphQuery: "DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>"
       labelLoader:
         chunkSize: 30
         concurrency: 2
