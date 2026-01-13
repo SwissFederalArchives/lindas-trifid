@@ -31,9 +31,7 @@ plugins:
       # Filter out triples where subject is blank node to match Stardog's CBD behavior
       # GraphDB follows blank nodes recursively, Stardog doesn't - this ensures identical output
       filterBlankNodeSubjects: true
-      # Use GraphDB's CBD (Concise Bounded Description) instead of SCBD (Symmetric CBD)
-      # SCBD includes incoming links which causes huge responses for highly-connected resources
-      # The ontotext.com/describe/outgoing pseudo-graph restricts to outgoing links only (CBD)
+      # Use CBD (outgoing links only) via GraphDB pseudo-graph
       resourceGraphQuery: "DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>"
       labelLoader:
         chunkSize: 30
