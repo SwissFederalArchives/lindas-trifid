@@ -9,8 +9,8 @@
 
 ### 2026-01-15
 
-**Triplestore backend switching and unified package versions (v7.0.0)**
-- **All packages bumped to v7.0.0** for unified versioning
+**Triplestore backend switching and unified package versions (v7.0.2)**
+- **All packages published to npm as v7.0.2** (v7.0.0 and v7.0.1 were already taken)
 - **@lindas/trifid-entity-renderer:** Added triplestore backend presets
   - `triplestoreBackend: stardog` - Uses CBD pragma, standard DESCRIBE behavior
   - `triplestoreBackend: graphdb` - Outgoing-only CBD, enriches named graph info, filters blank node subjects
