@@ -7,6 +7,22 @@
 
 ## January 2026
 
+### 2026-01-15
+
+**Triplestore backend switching and unified package versions (v7.0.0)**
+- **All packages bumped to v7.0.0** for unified versioning
+- **@lindas/trifid-entity-renderer:** Added triplestore backend presets
+  - `triplestoreBackend: stardog` - Uses CBD pragma, standard DESCRIBE behavior
+  - `triplestoreBackend: graphdb` - Outgoing-only CBD, enriches named graph info, filters blank node subjects
+  - Configurable via environment variable: `triplestoreBackend: env:TRIPLESTORE_BACKEND`
+- Enables seamless switching between Stardog and GraphDB backends
+
+**Windows path compatibility fix for ESM module loading**
+- **@lindas/trifid-core:** Fixed `loader.js` to use `pathToFileURL()` for proper file:// URL conversion
+- **@lindas/trifid-plugin-yasgui:** Fixed static file serving to use `fileURLToPath()` instead of string replace
+- On Windows, absolute paths must be valid file:// URLs for ESM imports
+- The previous string replace approach left a leading `/` on Windows paths causing 503 errors
+
 ### 2026-01-06
 
 **Fix OpenLayers map display in YASGUI plugin (CSP update)**
@@ -199,4 +215,4 @@ All packages rebranded from Zazuko to LINDAS:
 
 ---
 
-*Last updated: 2026-01-06*
+*Last updated: 2026-01-15*

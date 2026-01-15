@@ -1,0 +1,30 @@
+server:
+  logLevel: debug
+
+globals:
+  datasetBaseUrl: https://ld.admin.ch/
+  endpoints:
+    default:
+      url: /query
+
+plugins:
+  welcome:
+    module: "@lindas/trifid-core/plugins/view.js"
+    paths: /
+    methods: GET
+    config:
+      path: file:packages/trifid/instances/docker-sparql/welcome.hbs
+
+  yasgui:
+    module: "@lindas/trifid-plugin-yasgui"
+    paths:
+      - /sparql
+      - /sparql/
+
+  sparql-proxy:
+    module: "@lindas/trifid-plugin-sparql-proxy"
+    paths: /query
+    config:
+      endpointUrl: https://test.lindas.admin.ch/query
+      username: public
+      password: public

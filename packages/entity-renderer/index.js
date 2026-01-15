@@ -6,7 +6,7 @@ import { parsers } from '@rdfjs/formats-common'
 import rdf from '@lindas/env'
 import { sparqlSerializeQuadStream, sparqlSupportedTypes, sparqlGetRewriteConfiguration } from '@lindas/trifid-core'
 
-import { defaultConfiguration } from './lib/config.js'
+import { defaultConfiguration, triplestorePresets } from './lib/config.js'
 import { getAcceptHeader } from './lib/headers.js'
 import { checkDatasetBaseUrl } from './lib/base.js'
 
@@ -56,7 +56,7 @@ const isValidRedirectUrl = (url) => {
       'communication.ld.admin.ch',
       'transport.ld.admin.ch',
       'population.ld.admin.ch',
-      'ld.zh.ch'
+      'ld.zh.ch',
     ]
     return allowedHosts.some(host => parsed.hostname === host || parsed.hostname.endsWith('.' + host))
   } catch {
@@ -70,7 +70,19 @@ const fixContentTypeHeader = (contentType) => {
 
 const factory = async (trifid) => {
   const { render, logger, config, query } = trifid
-  const mergedConfig = { ...defaultConfiguration, ...config }
+
+  // Apply triplestore backend preset if specified
+  let presetConfig = {}
+  const backendName = config.triplestoreBackend
+  if (backendName && triplestorePresets[backendName]) {
+    presetConfig = triplestorePresets[backendName]
+    logger.info(`Using triplestore backend preset: ${backendName}`)
+  } else if (backendName) {
+    logger.warn(`Unknown triplestore backend preset: ${backendName}, using defaults`)
+  }
+
+  // Merge: defaults -> preset -> explicit config
+  const mergedConfig = { ...defaultConfiguration, ...presetConfig, ...config }
   const entityRenderer = createEntityRenderer({ options: config, logger, query })
   const metadataProvider = createMetadataProvider({ options: config })
 
@@ -270,7 +282,45 @@ const factory = async (trifid) => {
             return reply
           }
 
-          const dataset = await rdf.dataset().import(quadStream)
+          let dataset = await rdf.dataset().import(quadStream)
+
+          // Filter out blank node subjects if configured (for GraphDB SCBD compatibility)
+          if (mergedConfig.filterBlankNodeSubjects) {
+            const filteredDataset = rdf.dataset()
+            for (const quad of dataset) {
+              if (quad.subject.termType !== 'BlankNode') {
+                filteredDataset.add(quad)
+              }
+            }
+            dataset = filteredDataset
+            logger.debug(`Filtered blank node subjects, dataset size: ${dataset.size}`)
+          }
+
+          // Enrich with named graph information if configured (for GraphDB compatibility)
+          if (mergedConfig.enrichWithNamedGraph && mergedConfig.namedGraphQuery) {
+            try {
+              const namedGraphResult = await query(replaceIriInQuery(mergedConfig.namedGraphQuery, iri), {
+                ask: false,
+                select: true,
+                headers: queryHeaders,
+              })
+              if (namedGraphResult.length > 0) {
+                const graphUri = namedGraphResult[0].g?.value
+                if (graphUri) {
+                  // Re-add all quads with the named graph
+                  const enrichedDataset = rdf.dataset()
+                  for (const quad of dataset) {
+                    enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, rdf.namedNode(graphUri)))
+                  }
+                  dataset = enrichedDataset
+                  logger.debug(`Enriched dataset with named graph: ${graphUri}`)
+                }
+              }
+            } catch (e) {
+              logger.warn(`Failed to enrich with named graph: ${e.message}`)
+            }
+          }
+
           if (mergedConfig.enableSchemaUrlRedirect && acceptHeader === 'text/html') {
             const disabledSchemaUrlRedirect =
               request.headers['x-disable-schema-url-redirect'] === 'true' ||

@@ -5,7 +5,7 @@
 Install this Trifid plugin using:
 
 ```sh
-npm install @zazuko/trifid-entity-renderer
+npm install @lindas/trifid-entity-renderer
 ```
 
 And then add in the `config.yaml` file the following part:
@@ -14,7 +14,7 @@ And then add in the `config.yaml` file the following part:
 plugins:
   # […]
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: "@lindas/trifid-entity-renderer"
     config:
       # ignore some specific paths
       ignorePaths:
@@ -29,7 +29,7 @@ Specify the path where the handlebars template is located:
 plugins:
   # […]
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: "@lindas/trifid-entity-renderer"
     config:
       path: file:./some-path/your-template.hbs
 ```
@@ -44,7 +44,7 @@ Add any of these options under the config section:
 plugins:
   # […]
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: "@lindas/trifid-entity-renderer"
     config:
       compactMode: false
       technicalCues: true
@@ -72,13 +72,55 @@ The default value is `false`.
 plugins:
   # […]
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: "@lindas/trifid-entity-renderer"
     config:
       followRedirects: true
       redirectQuery: "…" # Select query used to get the redirect target ; needs to return a row with `?responseCode` and `?location` bindings.
 ```
 
 The default redirect query supports `http://www.w3.org/2011/http#` and `http://www.w3.org/2006/http#` prefixes.
+
+## Triplestore Backend Switching
+
+This plugin supports switching between different triplestore backends (Stardog and GraphDB) via configuration or environment variable.
+
+### Using Presets
+
+Set the `triplestoreBackend` option to use a preset configuration:
+
+```yaml
+plugins:
+  entity-renderer:
+    module: "@lindas/trifid-entity-renderer"
+    config:
+      triplestoreBackend: env:TRIPLESTORE_BACKEND  # or 'stardog' or 'graphdb'
+```
+
+Available presets:
+
+- **stardog** (default behavior): Uses CBD pragma for DESCRIBE queries, standard Stardog behavior
+- **graphdb**: Uses outgoing-only DESCRIBE, enriches with named graph information, filters blank node subjects
+
+### Individual Options
+
+You can also configure individual options for fine-grained control:
+
+- `enrichWithNamedGraph`: Fetch and enrich named graph information for endpoints that don't return it in DESCRIBE (default: `false`)
+- `filterBlankNodeSubjects`: Filter out blank node subjects from results to match Stardog's CBD behavior (default: `false`)
+- `namedGraphQuery`: Custom query for fetching named graph information (default: `SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }`)
+
+Example for GraphDB compatibility without using the preset:
+
+```yaml
+plugins:
+  entity-renderer:
+    module: "@lindas/trifid-entity-renderer"
+    config:
+      enrichWithNamedGraph: true
+      filterBlankNodeSubjects: true
+      resourceExistsQuery: "ASK { GRAPH ?g { <{{iri}}> ?p ?o } }"
+      resourceGraphQuery: "DESCRIBE <{{iri}}>"
+```
 
 ## Other configuration options
 
