@@ -1,3 +1,26 @@
+// Triplestore backend presets
+export const triplestorePresets = {
+  // Stardog preset - uses CBD pragma, standard DESCRIBE behavior
+  stardog: {
+    resourceExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
+    resourceGraphQuery: '#pragma describe.strategy cbd\nDESCRIBE <{{iri}}>',
+    containerExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
+    containerGraphQuery: '#pragma describe.strategy cbd\nDESCRIBE <{{iri}}>',
+    enrichWithNamedGraph: false,
+    filterBlankNodeSubjects: false,
+  },
+  // GraphDB preset - outgoing-only CBD, enriches named graph info, filters blank node subjects
+  graphdb: {
+    resourceExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
+    resourceGraphQuery: 'DESCRIBE <{{iri}}>',
+    containerExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
+    containerGraphQuery: 'DESCRIBE <{{iri}}>',
+    enrichWithNamedGraph: true,
+    filterBlankNodeSubjects: true,
+    namedGraphQuery: 'SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
+  },
+}
+
 export const defaultConfiguration = {
   resourceNoSlash: true,
   resourceExistsQuery: 'ASK { <{{iri}}> ?p ?o }',
@@ -13,6 +36,8 @@ export const defaultConfiguration = {
   containerExistsQuery: 'ASK { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
   containerGraphQuery:
     'CONSTRUCT { ?s a ?o. } WHERE { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
+  // Triplestore backend switching - set to 'stardog' or 'graphdb' or use env:TRIPLESTORE_BACKEND
+  triplestoreBackend: null,
   redirectQuery: `
     PREFIX http2011: <http://www.w3.org/2011/http#>
     PREFIX http2006: <http://www.w3.org/2006/http#>

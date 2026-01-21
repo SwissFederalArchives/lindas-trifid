@@ -7,6 +7,31 @@
 
 ## January 2026
 
+### 2026-01-19
+
+**DevOps workflow alignment**
+- Established `develop` branch for code review workflow (feature -> develop -> main)
+- Updated `test.yaml` to run CI on PRs to develop and main branches
+- Added concurrency control to prevent duplicate workflow runs
+- Pinned Node.js version to 22 for consistency
+- Branch protection to be configured in GitHub UI
+
+### 2026-01-15
+
+**Triplestore backend switching and unified package versions (v7.0.2)**
+- **All packages published to npm as v7.0.2** (v7.0.0 and v7.0.1 were already taken)
+- **@lindas/trifid-entity-renderer:** Added triplestore backend presets
+  - `triplestoreBackend: stardog` - Uses CBD pragma, standard DESCRIBE behavior
+  - `triplestoreBackend: graphdb` - Outgoing-only CBD, enriches named graph info, filters blank node subjects
+  - Configurable via environment variable: `triplestoreBackend: env:TRIPLESTORE_BACKEND`
+- Enables seamless switching between Stardog and GraphDB backends
+
+**Windows path compatibility fix for ESM module loading**
+- **@lindas/trifid-core:** Fixed `loader.js` to use `pathToFileURL()` for proper file:// URL conversion
+- **@lindas/trifid-plugin-yasgui:** Fixed static file serving to use `fileURLToPath()` instead of string replace
+- On Windows, absolute paths must be valid file:// URLs for ESM imports
+- The previous string replace approach left a leading `/` on Windows paths causing 503 errors
+
 ### 2026-01-06
 
 **Fix OpenLayers map display in YASGUI plugin (CSP update)**
@@ -199,4 +224,4 @@ All packages rebranded from Zazuko to LINDAS:
 
 ---
 
-*Last updated: 2026-01-06*
+*Last updated: 2026-01-15*

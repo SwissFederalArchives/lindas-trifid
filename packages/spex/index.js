@@ -40,9 +40,9 @@ const createPlugin = async (server, config, render) => {
   config = { ...defaults, ...config, spexOptions }
 
   // Serve static files from SPEX dist folder
-  const distPath = dirname(resolve('@lindas/spex', import.meta.url))
+  const distPath = fileURLToPath(resolve('@lindas/spex', import.meta.url))
   server.register(fastifyStatic, {
-    root: distPath.replace(/^file:\/\//, ''),
+    root: dirname(distPath),
     prefix: '/spex/static/',
     decorateReply: false,
   })

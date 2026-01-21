@@ -29,7 +29,7 @@ const trifidFactory = async (trifid) => {
   // Serve static files for YASGUI
   const yasguiPath = resolve('@lindas/yasgui/build/', import.meta.url)
   server.register(fastifyStatic, {
-    root: yasguiPath.replace(/^file:\/\//, ''),
+    root: fileURLToPath(yasguiPath),
     prefix: '/yasgui-dist/',
     decorateReply: false,
   })
@@ -38,7 +38,7 @@ const trifidFactory = async (trifid) => {
   const publicDirectory = new URL('public/', import.meta.url)
   const publicPath = fileURLToPath(publicDirectory)
   server.register(fastifyStatic, {
-    root: publicPath.replace(/^file:\/\//, ''),
+    root: publicPath,
     prefix: '/yasgui-public/',
     decorateReply: false,
   })
@@ -47,7 +47,7 @@ const trifidFactory = async (trifid) => {
   const pluginsUrl = new URL('build/', import.meta.url)
   const pluginsPath = fileURLToPath(pluginsUrl)
   server.register(fastifyStatic, {
-    root: pluginsPath.replace(/^file:\/\//, ''),
+    root: pluginsPath,
     prefix: '/yasgui-plugins/',
     decorateReply: false,
   })

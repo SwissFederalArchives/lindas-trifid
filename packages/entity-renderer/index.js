@@ -6,7 +6,7 @@ import { parsers } from '@rdfjs/formats-common'
 import rdf from '@lindas/env'
 import { sparqlSerializeQuadStream, sparqlSupportedTypes, sparqlGetRewriteConfiguration } from '@lindas/trifid-core'
 
-import { defaultConfiguration } from './lib/config.js'
+import { defaultConfiguration, triplestorePresets } from './lib/config.js'
 import { getAcceptHeader } from './lib/headers.js'
 import { checkDatasetBaseUrl } from './lib/base.js'
 
@@ -70,7 +70,19 @@ const fixContentTypeHeader = (contentType) => {
 
 const factory = async (trifid) => {
   const { render, logger, config, query } = trifid
-  const mergedConfig = { ...defaultConfiguration, ...config }
+
+  // Apply triplestore backend preset if specified
+  let presetConfig = {}
+  const backendName = config.triplestoreBackend
+  if (backendName && triplestorePresets[backendName]) {
+    presetConfig = triplestorePresets[backendName]
+    logger.info(`Using triplestore backend preset: ${backendName}`)
+  } else if (backendName) {
+    logger.warn(`Unknown triplestore backend preset: ${backendName}, using defaults`)
+  }
+
+  // Merge: defaults -> preset -> explicit config
+  const mergedConfig = { ...defaultConfiguration, ...presetConfig, ...config }
   const entityRenderer = createEntityRenderer({ options: config, logger, query })
   const metadataProvider = createMetadataProvider({ options: config })
 
