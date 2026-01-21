@@ -17,7 +17,7 @@ export const triplestorePresets = {
     containerGraphQuery: 'DESCRIBE <{{iri}}>',
     enrichWithNamedGraph: true,
     filterBlankNodeSubjects: true,
-    namedGraphQuery: 'SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
+    namedGraphQuery: 'SELECT DISTINCT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
   },
 }
 
