@@ -1,6 +1,6 @@
 {
   "name": "@lindas/trifid-entity-renderer",
-  "version": "7.0.2",
+  "version": "7.1.0",
   "type": "module",
   "description": "Renders a RDF entity in Trifid",
   "main": "index.js",
