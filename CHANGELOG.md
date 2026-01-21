@@ -7,6 +7,14 @@
 
 ## January 2026
 
+### 2026-01-21
+
+**GraphDB support**
+- Added `filterBlankNodeSubjects` plus fallback graph logic for blank node triples
+- Updated triplestore presets to query `?p ?o ?g` for correct graph mapping
+- Switched to DESCRIBE with CBD virtual graph and clarified comments
+- Disabled URL shortener
+
 ### 2026-01-19
 
 **DevOps workflow alignment**
