@@ -1,6 +1,6 @@
 {
   "name": "@lindas/trifid-plugin-sparql-proxy",
-  "version": "7.0.2",
+  "version": "7.1.0",
   "description": "Trifid plugin for sparql-proxy",
   "type": "module",
   "main": "index.js",

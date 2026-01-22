@@ -12,12 +12,12 @@ export const triplestorePresets = {
   // GraphDB preset - outgoing-only CBD, enriches named graph info, filters blank node subjects
   graphdb: {
     resourceExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
-    resourceGraphQuery: 'DESCRIBE <{{iri}}>',
+    resourceGraphQuery: 'DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>',
     containerExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
-    containerGraphQuery: 'DESCRIBE <{{iri}}>',
+    containerGraphQuery: 'DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>',
     enrichWithNamedGraph: true,
     filterBlankNodeSubjects: true,
-    namedGraphQuery: 'SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
+    namedGraphQuery: 'SELECT DISTINCT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
   },
 }
 
@@ -25,15 +25,19 @@ export const defaultConfiguration = {
   resourceNoSlash: true,
   resourceExistsQuery: 'ASK { <{{iri}}> ?p ?o }',
   resourceGraphQuery: 'DESCRIBE <{{iri}}>',
+  // Query to fetch triples with their named graphs (for endpoints that don't return graph info in DESCRIBE)
+  // Returns ?p ?o ?g so each triple can be mapped to its correct graph (subject is the requested IRI)
+  namedGraphQuery: 'SELECT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
+  // Set to true to enrich dataset with graph information from namedGraphQuery (needed for GraphDB)
+  enrichWithNamedGraph: false,
+  // Set to true to filter out triples where subject is a blank node (makes GraphDB CBD match Stardog)
+  // GraphDB follows blank nodes recursively in DESCRIBE, Stardog doesn't
+  filterBlankNodeSubjects: false,
   containerExistsQuery: 'ASK { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
   containerGraphQuery:
     'CONSTRUCT { ?s a ?o. } WHERE { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
   // Triplestore backend switching - set to 'stardog' or 'graphdb' or use env:TRIPLESTORE_BACKEND
   triplestoreBackend: null,
-  // Individual options (these override preset values if specified)
-  enrichWithNamedGraph: false,
-  filterBlankNodeSubjects: false,
-  namedGraphQuery: 'SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
   redirectQuery: `
     PREFIX http2011: <http://www.w3.org/2011/http#>
     PREFIX http2006: <http://www.w3.org/2006/http#>

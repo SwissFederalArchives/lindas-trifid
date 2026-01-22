@@ -7,6 +7,23 @@
 
 ## January 2026
 
+### 2026-01-21
+
+**GraphDB support**
+- Added `filterBlankNodeSubjects` plus fallback graph logic for blank node triples
+- Updated triplestore presets to query `?p ?o ?g` for correct graph mapping
+- Switched to DESCRIBE with CBD virtual graph and clarified comments
+- Disabled URL shortener
+
+### 2026-01-19
+
+**DevOps workflow alignment**
+- Established `develop` branch for code review workflow (feature -> develop -> main)
+- Updated `test.yaml` to run CI on PRs to develop and main branches
+- Added concurrency control to prevent duplicate workflow runs
+- Pinned Node.js version to 22 for consistency
+- Branch protection to be configured in GitHub UI
+
 ### 2026-01-15
 
 **Triplestore backend switching and unified package versions (v7.0.2)**
