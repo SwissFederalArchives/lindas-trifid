@@ -12,9 +12,9 @@ export const triplestorePresets = {
   // GraphDB preset - outgoing-only CBD, enriches named graph info, filters blank node subjects
   graphdb: {
     resourceExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
-    resourceGraphQuery: 'DESCRIBE <{{iri}}>',
+    resourceGraphQuery: 'DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>',
     containerExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
-    containerGraphQuery: 'DESCRIBE <{{iri}}>',
+    containerGraphQuery: 'DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>',
     enrichWithNamedGraph: true,
     filterBlankNodeSubjects: true,
     namedGraphQuery: 'SELECT DISTINCT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
