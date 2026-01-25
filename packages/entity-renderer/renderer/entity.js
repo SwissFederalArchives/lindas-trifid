@@ -109,6 +109,7 @@ const createEntityRenderer = ({ options = {}, logger, query }) => {
 
     const externalLabels = rdf.clownface({ dataset: rdf.dataset() })
     // If a labelLoader is configured, try to fetch the labels
+    logger?.debug(`labelLoader config: ${options.labelLoader ? 'present' : 'missing'}`)
     if (options.labelLoader) {
       const labelLoader = new LabelLoader({
         ...options.labelLoader,

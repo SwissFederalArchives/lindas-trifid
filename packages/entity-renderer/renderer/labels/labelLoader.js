@@ -81,7 +81,8 @@ class LabelLoader {
   }
 
   async fetchLabels (iris) {
-    const uris = iris.map((x) => `<${this.replaceIri(x.value)}> `).join(' ')
+    // Use original IRIs without rewriting - labels exist at original subdomain IRIs
+    const uris = iris.map((x) => `<${x.value}> `).join(' ')
     this.logger?.debug(`Fetching labels for terms without label: ${uris}`)
     const response = await this.query(`
 PREFIX schema: <http://schema.org/>
@@ -103,14 +104,21 @@ CONSTRUCT {
 
   async tryFetchAll (pointer) {
     const terms = [...this.getTermsWithoutLabel(pointer)]
+    this.logger?.debug(`LabelLoader: found ${terms.length} terms without labels`)
     const tasks = []
     while (terms.length) {
       const chunk = terms.splice(0, this.chunkSize)
       if (chunk.length) {
-        tasks.push(this.queue.add(() => this.fetchLabels(chunk)))
+        tasks.push(this.queue.add(() => this.fetchLabels(chunk).catch(err => {
+          this.logger?.warn(`LabelLoader: failed to fetch labels for chunk: ${err.message}`)
+          return rdf.dataset() // Return empty dataset on error
+        })))
       }
     }
-    return await Promise.all(tasks)
+    const results = await Promise.all(tasks)
+    const totalQuads = results.reduce((sum, ds) => sum + ds.size, 0)
+    this.logger?.debug(`LabelLoader: loaded ${totalQuads} label quads from ${results.length} chunks`)
+    return results
   }
 }
 
