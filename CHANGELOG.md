@@ -7,10 +7,18 @@
 
 ## January 2026
 
+### 2026-01-27
+
+**Simplified GraphDB setup**
+- Removed `filterBlankNodeSubjects` option - `FROM <http://www.ontotext.com/describe/outgoing>` handles CBD correctly
+- Fixed label loader to query labels using original IRIs
+- GraphDB setup options:
+  - Preset: `triplestoreBackend: graphdb`
+  - Manual: `enrichWithNamedGraph: true` + `resourceGraphQuery: "DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>"`
+
 ### 2026-01-21
 
 **GraphDB support**
-- Added `filterBlankNodeSubjects` plus fallback graph logic for blank node triples
 - Updated triplestore presets to query `?p ?o ?g` for correct graph mapping
 - Switched to DESCRIBE with CBD virtual graph and clarified comments
 - Disabled URL shortener

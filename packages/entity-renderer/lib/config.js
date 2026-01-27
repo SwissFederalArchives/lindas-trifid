@@ -7,16 +7,14 @@ export const triplestorePresets = {
     containerExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
     containerGraphQuery: '#pragma describe.strategy cbd\nDESCRIBE <{{iri}}>',
     enrichWithNamedGraph: false,
-    filterBlankNodeSubjects: false,
   },
-  // GraphDB preset - outgoing-only CBD, enriches named graph info, filters blank node subjects
+  // GraphDB preset - outgoing-only CBD via pseudo-graph, enriches named graph info
   graphdb: {
     resourceExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
     resourceGraphQuery: 'DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>',
     containerExistsQuery: 'ASK { GRAPH ?g { <{{iri}}> ?p ?o } }',
     containerGraphQuery: 'DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>',
     enrichWithNamedGraph: true,
-    filterBlankNodeSubjects: true,
     namedGraphQuery: 'SELECT DISTINCT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
   },
 }
@@ -30,9 +28,6 @@ export const defaultConfiguration = {
   namedGraphQuery: 'SELECT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }',
   // Set to true to enrich dataset with graph information from namedGraphQuery (needed for GraphDB)
   enrichWithNamedGraph: false,
-  // Set to true to filter out triples where subject is a blank node (makes GraphDB CBD match Stardog)
-  // GraphDB follows blank nodes recursively in DESCRIBE, Stardog doesn't
-  filterBlankNodeSubjects: false,
   containerExistsQuery: 'ASK { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
   containerGraphQuery:
     'CONSTRUCT { ?s a ?o. } WHERE { ?s a ?o. FILTER STRSTARTS(STR(?s), "{{iri}}") }',
