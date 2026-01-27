@@ -99,15 +99,14 @@ plugins:
 Available presets:
 
 - **stardog** (default behavior): Uses CBD pragma for DESCRIBE queries, standard Stardog behavior
-- **graphdb**: Uses outgoing-only DESCRIBE, enriches with named graph information, filters blank node subjects
+- **graphdb**: Uses outgoing-only DESCRIBE via `FROM <http://www.ontotext.com/describe/outgoing>`, enriches with named graph information
 
 ### Individual Options
 
 You can also configure individual options for fine-grained control:
 
 - `enrichWithNamedGraph`: Fetch and enrich named graph information for endpoints that don't return it in DESCRIBE (default: `false`)
-- `filterBlankNodeSubjects`: Filter out blank node subjects from results to match Stardog's CBD behavior (default: `false`)
-- `namedGraphQuery`: Custom query for fetching named graph information (default: `SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }`)
+- `namedGraphQuery`: Custom query for fetching named graph information (default: `SELECT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }`)
 
 Example for GraphDB compatibility without using the preset:
 
@@ -117,9 +116,8 @@ plugins:
     module: "@lindas/trifid-entity-renderer"
     config:
       enrichWithNamedGraph: true
-      filterBlankNodeSubjects: true
       resourceExistsQuery: "ASK { GRAPH ?g { <{{iri}}> ?p ?o } }"
-      resourceGraphQuery: "DESCRIBE <{{iri}}>"
+      resourceGraphQuery: "DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>"
 ```
 
 ## Other configuration options
