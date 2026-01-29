@@ -39,6 +39,7 @@ const isValidRedirectUrl = (url) => {
     const parsed = new URL(url)
     // Only allow same-origin or whitelisted Swiss government domains
     const allowedHosts = [
+      'admin.ch',
       'lindas.admin.ch',
       'ld.admin.ch',
       'test.lindas.admin.ch',

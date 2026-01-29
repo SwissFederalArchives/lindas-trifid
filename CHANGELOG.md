@@ -7,6 +7,12 @@
 
 ## January 2026
 
+### 2026-01-29
+
+**Fix TERMDAT redirect and Graph Explorer mounting**
+- **@lindas/trifid-entity-renderer:** Add `admin.ch` to the redirect URL allowlist so that all Swiss federal administration subdomains (e.g. `termdat.bk.admin.ch`) are accepted for `schema:URL` and SPARQL-based redirects. Previously only specific `*.ld.admin.ch` and `lindas.admin.ch` hosts were allowed, causing TERMDAT vocabulary entries to be blocked instead of redirected.
+- **@lindas/trifid-plugin-graph-explorer:** Fix DOM element ID mismatch in `app.js`. The React app tried to mount on `lindas-trifid-plugin-graph-explorer` but the Handlebars templates define the container as `trifid-plugin-graph-explorer`. The Graph Explorer workspace now renders correctly.
+
 ### 2026-01-19
 
 **DevOps workflow alignment**
@@ -224,4 +230,4 @@ All packages rebranded from Zazuko to LINDAS:
 
 ---
 
-*Last updated: 2026-01-15*
+*Last updated: 2026-01-29*
