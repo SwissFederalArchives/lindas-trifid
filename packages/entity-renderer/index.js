@@ -276,49 +276,96 @@ const factory = async (trifid) => {
           const fixedContentType = fixContentTypeHeader(entityContentType)
           const quadStream = parsers.import(fixedContentType, entityStream)
 
+          // Load into dataset first (needed for enrichment)
+          let dataset = await rdf.dataset().import(quadStream)
+
+          // For RDF serialization formats, serialize the (filtered) dataset directly
           if (sparqlSupportedTypes.includes(acceptHeader)) {
             dereferencedCounter.add(1, { format: acceptHeader, endpoint_name: endpointName })
-            const serialized = await sparqlSerializeQuadStream(quadStream, acceptHeader)
+            const serialized = await sparqlSerializeQuadStream(dataset.toStream(), acceptHeader)
             reply.type(acceptHeader).send(serialized)
             return reply
           }
 
-          let dataset = await rdf.dataset().import(quadStream)
+          // Enrich dataset with named graph information if enabled (needed for GraphDB)
+          if (mergedConfig.enrichWithNamedGraph && dataset.size > 0) {
+            // Check if all quads are in the default graph
+            const hasOnlyDefaultGraph = [...dataset].every(quad => quad.graph.termType === 'DefaultGraph')
+            if (hasOnlyDefaultGraph) {
+              try {
+                const graphQuery = replaceIriInQuery(mergedConfig.namedGraphQuery, iri)
+                const graphResult = await query(graphQuery, {
+                  ask: false,
+                  select: true, // Parse the SELECT response directly
+                  rewriteResponse, // Use same rewrite config as main query so IRIs match
+                  headers: queryHeaders,
+                })
 
-          // Filter out blank node subjects if configured (for GraphDB SCBD compatibility)
-          if (mergedConfig.filterBlankNodeSubjects) {
-            const filteredDataset = rdf.dataset()
-            for (const quad of dataset) {
-              if (quad.subject.termType !== 'BlankNode') {
-                filteredDataset.add(quad)
-              }
-            }
-            dataset = filteredDataset
-            logger.debug(`Filtered blank node subjects, dataset size: ${dataset.size}`)
-          }
+                // graphResult is an array of bindings with ?p ?o ?g
+                // Build a map of (p, o) -> graph for lookup
+                // We use p|o as key since subject is known (the requested IRI) and may be rewritten
+                const tripleToGraph = new Map()
+                // Also track predicate-only keys for blank node objects (IDs differ between queries)
+                const predicateToGraph = new Map()
+                let fallbackGraph = null // For blank node triples not in the query result
+                for (const binding of (graphResult || [])) {
+                  if (binding.p?.value && binding.g?.value) {
+                    const graphValue = binding.g.value
+                    // Use first graph as fallback for nested blank nodes
+                    if (!fallbackGraph) {
+                      fallbackGraph = graphValue
+                    }
+                    if (binding.o?.value) {
+                      // Full key: p|o for exact matching
+                      const key = `${binding.p.value}|${binding.o.value}`
+                      if (!tripleToGraph.has(key)) {
+                        tripleToGraph.set(key, graphValue)
+                      }
+                      // For blank node objects, also store by predicate only
+                      // (blank node IDs differ between DESCRIBE and SELECT results in GraphDB)
+                      if (binding.o.type === 'bnode' && !predicateToGraph.has(binding.p.value)) {
+                        predicateToGraph.set(binding.p.value, graphValue)
+                      }
+                    }
+                  }
+                }
 
-          // Enrich with named graph information if configured (for GraphDB compatibility)
-          if (mergedConfig.enrichWithNamedGraph && mergedConfig.namedGraphQuery) {
-            try {
-              const namedGraphResult = await query(replaceIriInQuery(mergedConfig.namedGraphQuery, iri), {
-                ask: false,
-                select: true,
-                headers: queryHeaders,
-              })
-              if (namedGraphResult.length > 0) {
-                const graphUri = namedGraphResult[0].g?.value
-                if (graphUri) {
-                  // Re-add all quads with the named graph
+                if (tripleToGraph.size > 0 || fallbackGraph) {
                   const enrichedDataset = rdf.dataset()
+                  let enrichedCount = 0
                   for (const quad of dataset) {
-                    enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, rdf.namedNode(graphUri)))
+                    let graphUri = null
+
+                    // Try full key first: p|o (for IRI subjects/objects)
+                    const key = `${quad.predicate.value}|${quad.object.value}`
+                    graphUri = tripleToGraph.get(key)
+
+                    // For blank node objects, try predicate-only key
+                    // (blank node IDs differ between DESCRIBE and SELECT in GraphDB)
+                    if (!graphUri && quad.object.termType === 'BlankNode') {
+                      graphUri = predicateToGraph.get(quad.predicate.value)
+                    }
+
+                    // For any quad not yet matched (including blank node subjects from CBD),
+                    // use fallback graph - this handles nested blank nodes from DESCRIBE
+                    if (!graphUri && fallbackGraph) {
+                      graphUri = fallbackGraph
+                    }
+
+                    if (graphUri) {
+                      enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, rdf.namedNode(graphUri)))
+                      enrichedCount++
+                    } else {
+                      // Keep quad in default graph if no mapping found
+                      enrichedDataset.add(quad)
+                    }
                   }
                   dataset = enrichedDataset
-                  logger.debug(`Enriched dataset with named graph: ${graphUri}`)
+                  logger.debug(`Enriched ${enrichedCount}/${dataset.size} quads with named graph info`)
                 }
+              } catch (err) {
+                logger.warn(`Failed to enrich dataset with named graph: ${err.message}`)
               }
-            } catch (e) {
-              logger.warn(`Failed to enrich with named graph: ${e.message}`)
             }
           }
 

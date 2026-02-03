@@ -1,6 +1,6 @@
 {
   "name": "@lindas/trifid-plugin-markdown-content",
-  "version": "7.0.2",
+  "version": "7.1.1",
   "description": "Trifid plugin to handle Markdown files",
   "main": "src/index.js",
   "type": "module",

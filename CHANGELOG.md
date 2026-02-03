@@ -13,6 +13,22 @@
 - **@lindas/trifid-entity-renderer:** Add `admin.ch` to the redirect URL allowlist so that all Swiss federal administration subdomains (e.g. `termdat.bk.admin.ch`) are accepted for `schema:URL` and SPARQL-based redirects. Previously only specific `*.ld.admin.ch` and `lindas.admin.ch` hosts were allowed, causing TERMDAT vocabulary entries to be blocked instead of redirected.
 - **@lindas/trifid-plugin-graph-explorer:** Fix DOM element ID mismatch in `app.js`. The React app tried to mount on `lindas-trifid-plugin-graph-explorer` but the Handlebars templates define the container as `trifid-plugin-graph-explorer`. The Graph Explorer workspace now renders correctly.
 
+### 2026-01-27
+
+**Simplified GraphDB setup**
+- Removed `filterBlankNodeSubjects` option - `FROM <http://www.ontotext.com/describe/outgoing>` handles CBD correctly
+- Fixed label loader to query labels using original IRIs
+- GraphDB setup options:
+  - Preset: `triplestoreBackend: graphdb`
+  - Manual: `enrichWithNamedGraph: true` + `resourceGraphQuery: "DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>"`
+
+### 2026-01-21
+
+**GraphDB support**
+- Updated triplestore presets to query `?p ?o ?g` for correct graph mapping
+- Switched to DESCRIBE with CBD virtual graph and clarified comments
+- Disabled URL shortener
+
 ### 2026-01-19
 
 **DevOps workflow alignment**

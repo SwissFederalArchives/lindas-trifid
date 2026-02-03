@@ -1,6 +1,6 @@
 {
   "name": "@lindas/trifid-plugin-iiif",
-  "version": "7.0.2",
+  "version": "7.1.1",
   "type": "module",
   "description": "Trifid plugin to handle IIIF data",
   "license": "Apache-2.0",
