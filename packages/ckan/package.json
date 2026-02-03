@@ -1,6 +1,6 @@
 {
   "name": "@lindas/trifid-plugin-ckan",
-  "version": "7.1.1",
+  "version": "7.1.2",
   "description": "Endpoint for opendata.swiss CKAN harvester",
   "main": "src/index.js",
   "types": "dist/src/index.d.ts",
