@@ -5,6 +5,15 @@
 
 ---
 
+## February 2026
+
+### 2026-02-10
+
+**Graph Explorer state persistence across page reloads**
+- **@lindas/trifid-plugin-graph-explorer:** Added sessionStorage-based state persistence to `app.js`. The graph layout is now saved before page unload and restored on page load, so that changing the page language no longer resets the graph to an empty state. The saved state is scoped to the current SPARQL endpoint to avoid restoring stale data when switching between subdomains.
+
+---
+
 ## January 2026
 
 ### 2026-01-29
