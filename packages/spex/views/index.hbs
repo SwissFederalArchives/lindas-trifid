@@ -52,7 +52,9 @@
     shadowContainer.appendChild(mountPoint);
 
     // render the app with the expected options
-    const options = JSON.parse('{{{ options }}}');
+    const options = {{{ options }}};
+    // Resolve against the page URL, never a hostname supplied in request headers.
+    options.sparqlEndpoint = new URL(options.sparqlEndpoint, window.location.href).href;
     window.spex.render(mountPoint, options);
     const spexApp = shadowContainer.querySelector('div');
 

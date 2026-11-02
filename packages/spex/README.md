@@ -32,9 +32,11 @@ plugins:
 
 The following options are supported (all of them optional):
 
-- `url`: URL to the SPARQL endpoint which will be used in the SPEX interface
+- `url`: URL to the SPARQL endpoint which will be used in the SPEX interface (defaults to `/query`). Relative URLs are resolved against the SPEX page URL in the browser.
 - `user`: User to connect to the SPARQL endpoint
 - `password`: Password to connect to the SPARQL endpoint
 - `graph`: Default graph to display
 - `prefixes`: List of custom prefixes (e.g. `[{ prefix: 'ex', namespace: 'http://example.org' }]`)
 - `forceIntrospection`: force introspection
+
+Custom templates receive `options` as JSON safe to embed directly as a JavaScript object literal, including escaping for HTML script termination. Use `const options = {{{ options }}};`, without an enclosing string or `JSON.parse`, and resolve `options.sparqlEndpoint` against `window.location.href` before passing it to SPEX.

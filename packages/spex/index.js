@@ -11,7 +11,7 @@ const defaults = {
 }
 
 const defaultOptions = {
-  url: null,
+  url: '/query',
   user: null,
   password: null,
   graph: null,
@@ -29,6 +29,7 @@ const defaultOptions = {
  */
 const createPlugin = async (server, config, render) => {
   const options = { ...defaultOptions, ...(config || {}) }
+  options.url ||= defaultOptions.url
   const spexOptions = {
     sparqlEndpoint: options.url,
     username: options.user,
@@ -53,31 +54,20 @@ const createPlugin = async (server, config, render) => {
    * @param {import('fastify').FastifyReply} reply Reply.
    */
   const handler = async (request, reply) => {
-    let requestPort = ''
-    if (request.port) {
-      requestPort = `:${request.port}`
-    }
-    const fullUrl = `${request.protocol}://${request.hostname}${requestPort}${request.url}`
-    const fullUrlObject = new URL(fullUrl)
-    const fullUrlPathname = fullUrlObject.pathname
+    const pathname = request.url.split('?')[0]
 
     // Enforce trailing slash
-    if (fullUrlPathname.slice(-1) !== '/') {
-      reply.redirect(`${fullUrlPathname}/`)
+    if (pathname.slice(-1) !== '/') {
+      reply.redirect(`${pathname}/`)
       return reply
     }
-
-    // Create an absolute URL if a relative URL is provided
-    spexOptions.sparqlEndpoint = new URL(
-      spexOptions.sparqlEndpoint || '/query',
-      fullUrl,
-    ).toString()
 
     const content = await render(
       request,
       config.template,
       {
-        options: JSON.stringify(spexOptions),
+        // Embed JSON as an object literal; escape '<' to prevent </script> breakout.
+        options: JSON.stringify(spexOptions).replace(/</g, '\\u003c'),
       },
       { title: 'SPEX' },
     )
