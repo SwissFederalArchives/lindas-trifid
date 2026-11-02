@@ -35,6 +35,9 @@ jobs:
       - name: Run tests
         run: npm run test
 
+      - name: Check JSON-LD compatibility
+        run: node --test packages/core/test/sparql-jsonld.test.js packages/iiif/test/jsonld-compatibility.test.js
+
       - name: Codecov
         uses: codecov/codecov-action@v5
         with:
