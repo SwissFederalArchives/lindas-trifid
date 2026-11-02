@@ -1,5 +1,11 @@
 # trifid-core
 
+## 7.1.4
+
+### Patch Changes
+
+- a501cef: Update Handlebars to 4.7.10 to include security fixes in template compilation and rendering.
+
 ## 7.1.3
 
 ### Patch Changes

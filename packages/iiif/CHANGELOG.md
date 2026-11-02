@@ -1,5 +1,11 @@
 # @zazuko/trifid-plugin-iiif
 
+## 7.1.3
+
+### Patch Changes
+
+- 5c18413: Upgrade JSON-LD to version 9 to use the updated HTTP client dependency chain with Undici security fixes. Verify compatibility of IIIF framing, RDF serialization, and remote context loading with JSON-LD 8 and 9.
+
 ## 2.0.1
 
 ### Patch Changes
