@@ -1,5 +1,11 @@
 # trifid-core
 
+## 7.1.3
+
+### Patch Changes
+
+- b45976a: Update the OpenTelemetry trace exporter and include the SPEX endpoint configuration fix.
+
 ## 6.1.1
 
 ### Patch Changes
@@ -21,14 +27,15 @@
   when receiving brotli-compressed responses from SPARQL endpoints. Using native fetch resolves this.
 
   Usage:
+
   ```javascript
-  import { nodeCompatibleFetch } from '@lindas/trifid-core'
-  import ParsingClient from 'sparql-http-client/ParsingClient.js'
+  import { nodeCompatibleFetch } from "@lindas/trifid-core";
+  import ParsingClient from "sparql-http-client/ParsingClient.js";
 
   const client = new ParsingClient({
-    endpointUrl: 'https://example.org/sparql',
+    endpointUrl: "https://example.org/sparql",
     fetch: nodeCompatibleFetch,
-  })
+  });
   ```
 
 ## 6.0.1

@@ -1,5 +1,15 @@
 # trifid
 
+## 7.1.3
+
+### Patch Changes
+
+- b45976a: Update the OpenTelemetry trace exporter and include the SPEX endpoint configuration fix.
+- Updated dependencies [1d4b533]
+- Updated dependencies [b45976a]
+  - @lindas/trifid-plugin-spex@7.1.3
+  - @lindas/trifid-core@7.1.3
+
 ## 6.0.3
 
 ### Patch Changes
