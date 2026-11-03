@@ -75,11 +75,19 @@ describe('lindas-trifid-plugin-spex', () => {
     const res = await fetch(`${getListenerURL(trifidListener)}/spex/static/spex.umd.cjs`)
     await res.text() // Just make sure that the stream is consumed
     strictEqual(res.status, 200)
+    strictEqual(res.headers.get('content-type').split(';')[0], 'text/javascript')
+  })
+
+  it('serves the JavaScript MIME type for HEAD requests and cache-busting URLs', async () => {
+    const res = await fetch(`${getListenerURL(trifidListener)}/spex/static/spex.umd.cjs?v=1`, { method: 'HEAD' })
+    strictEqual(res.status, 200)
+    strictEqual(res.headers.get('content-type').split(';')[0], 'text/javascript')
   })
 
   it('should serve the static CSS file', async () => {
     const res = await fetch(`${getListenerURL(trifidListener)}/spex/static/spex.css`)
     await res.text() // Just make sure that the stream is consumed
     strictEqual(res.status, 200)
+    strictEqual(res.headers.get('content-type').split(';')[0], 'text/css')
   })
 })
