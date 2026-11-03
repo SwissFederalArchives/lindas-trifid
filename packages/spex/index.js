@@ -43,17 +43,13 @@ const createPlugin = async (server, config, render) => {
   // Serve static files from SPEX dist folder
   const distPath = fileURLToPath(resolve('@lindas/spex', import.meta.url))
   server.register(async (assets) => {
-    assets.addHook('onSend', async (request, reply, payload) => {
-      // .cjs defaults to application/node, which nosniff blocks in browsers.
-      if (reply.statusCode < 400 && request.url.split('?')[0].endsWith('.cjs')) {
-        reply.type('text/javascript')
-      }
-      return payload
-    })
-    assets.register(fastifyStatic, {
+    await assets.register(fastifyStatic, {
       root: dirname(distPath),
       prefix: '/spex/static/',
-      decorateReply: false,
+    })
+    // SPEX's .cjs bundle is a browser script, not an application/node resource.
+    assets.get('/spex/static/spex.umd.cjs', (request, reply) => {
+      return reply.type('text/javascript').sendFile('spex.umd.cjs', { contentType: false })
     })
   })
 

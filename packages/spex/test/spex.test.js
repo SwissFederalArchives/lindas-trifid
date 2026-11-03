@@ -84,6 +84,24 @@ describe('lindas-trifid-plugin-spex', () => {
     strictEqual(res.headers.get('content-type').split(';')[0], 'text/javascript')
   })
 
+  it('preserves conditional and range requests for the browser bundle', async () => {
+    const url = `${getListenerURL(trifidListener)}/spex/static/spex.umd.cjs`
+    const res = await fetch(url)
+    const body = await res.text()
+    const cached = await trifidListener.inject({
+      url: '/spex/static/spex.umd.cjs',
+      headers: { 'if-none-match': res.headers.get('etag') },
+    })
+    strictEqual(cached.statusCode, 304)
+    const partial = await trifidListener.inject({
+      url: '/spex/static/spex.umd.cjs',
+      headers: { range: 'bytes=0-9' },
+    })
+    strictEqual(partial.statusCode, 206)
+    strictEqual(partial.headers['content-type'].split(';')[0], 'text/javascript')
+    strictEqual(partial.body, body.slice(0, 10))
+  })
+
   it('should serve the static CSS file', async () => {
     const res = await fetch(`${getListenerURL(trifidListener)}/spex/static/spex.css`)
     await res.text() // Just make sure that the stream is consumed
