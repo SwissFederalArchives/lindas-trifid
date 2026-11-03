@@ -1,5 +1,11 @@
 # trifid-plugin-spex
 
+## 7.1.4
+
+### Patch Changes
+
+- 2cc27f8: Serve the SPEX browser bundle with the JavaScript MIME type so it loads when X-Content-Type-Options: nosniff is enabled.
+
 ## 7.1.3
 
 ### Patch Changes
