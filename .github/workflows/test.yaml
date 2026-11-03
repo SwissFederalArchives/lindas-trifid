@@ -38,6 +38,9 @@ jobs:
       - name: Check JSON-LD compatibility
         run: node --test packages/core/test/sparql-jsonld.test.js packages/iiif/test/jsonld-compatibility.test.js
 
+      - name: Check SPEX assets and security
+        run: node --test packages/spex/test/*.test.js
+
       - name: Codecov
         uses: codecov/codecov-action@v5
         with:

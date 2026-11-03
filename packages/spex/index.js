@@ -42,10 +42,15 @@ const createPlugin = async (server, config, render) => {
 
   // Serve static files from SPEX dist folder
   const distPath = fileURLToPath(resolve('@lindas/spex', import.meta.url))
-  server.register(fastifyStatic, {
-    root: dirname(distPath),
-    prefix: '/spex/static/',
-    decorateReply: false,
+  server.register(async (assets) => {
+    await assets.register(fastifyStatic, {
+      root: dirname(distPath),
+      prefix: '/spex/static/',
+    })
+    // SPEX's .cjs bundle is a browser script, not an application/node resource.
+    assets.get('/spex/static/spex.umd.cjs', (request, reply) => {
+      return reply.type('text/javascript').sendFile('spex.umd.cjs', { contentType: false })
+    })
   })
 
   /**
