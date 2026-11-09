@@ -49,12 +49,12 @@
   },
   "devDependencies": {
     "@lindas/trifid-handler-fetch": "^7.0.2",
-    "@types/node": "^24.7.0",
+    "@types/node": "^26.6.6",
     "c8": "^10.1.3",
     "chai": "^6.2.0",
     "chai-subset": "^1.6.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "xml2js": "^0.6.2",
     "xml2js-xpath": "^0.13.0"
   },

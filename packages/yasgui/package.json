@@ -48,12 +48,12 @@
   "devDependencies": {
     "@openlayers-elements/maps": "^0.4.0",
     "@openlayers-elements/swisstopo": "^0.4.0",
-    "@types/node": "^24.7.0",
+    "@types/node": "^26.6.6",
     "c8": "^10.1.3",
     "esbuild": "^0.25.10",
     "rimraf": "^6.0.1",
     "@lindas/trifid-core": "^7.0.2",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "publishConfig": {
     "access": "public"
