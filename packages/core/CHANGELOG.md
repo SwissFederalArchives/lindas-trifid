@@ -1,5 +1,12 @@
 # trifid-core
 
+## 7.1.6
+
+### Patch Changes
+
+- 57ae0a8: Update pino-pretty to 13.1.2 to fix ESM color support and log object colorization.
+- b847746: Update Fastify from 5.6.1 to 5.12.8.
+
 ## 7.1.5
 
 ### Patch Changes
