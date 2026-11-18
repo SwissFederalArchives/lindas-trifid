@@ -89,6 +89,7 @@ const factory = async (trifid) => {
 
   const { path, ignorePaths, rewrite: rewriteConfigValue, datasetBaseUrl: datasetBaseUrlValue, allowEndpointSwitch: allowEndpointSwitchConfigValue } = config
   const allowEndpointSwitch = `${allowEndpointSwitchConfigValue}` === 'true'
+  const rewriteResults = `${config.rewriteResults}` !== 'false'
   const entityTemplatePath = path || `${currentDir}/views/render.hbs`
   const datasetBaseUrls = checkDatasetBaseUrl(logger, datasetBaseUrlValue)
 
@@ -207,7 +208,8 @@ const factory = async (trifid) => {
           }
         }
 
-        const rewriteResponse = rewriteValue
+        const rewriteOutput = rewriteValue && rewriteResults
+        const rewriteResponse = rewriteOutput
           ? [
             ...additionalRewrites.map(({ find, replace }) => {
               if (!replace) {
@@ -376,7 +378,8 @@ const factory = async (trifid) => {
 
             // Get all triples that have a schema:URL property with value of type xsd:anyURI
             const urls = []
-            dataset.match(iriUrlString, rdf.ns.schema.URL)
+            const entityRoot = rewriteOutput ? iriUrlString : iri
+            dataset.match(entityRoot, rdf.ns.schema.URL)
               .filter(({ object }) => ['xsd:anyURI', rdf.ns.xsd.anyURI.value].includes(object?.datatype?.value))
               .map(({ object }) => urls.push(object.value))
             if (!disabledSchemaUrlRedirect && urls.length > 0) {
@@ -399,9 +402,10 @@ const factory = async (trifid) => {
             {
               dataset,
               rewriteResponse,
-              replaceIri,
+              // Canonical result terms must be queried unchanged, including other namespaces.
+              replaceIri: rewriteOutput ? replaceIri : (value) => value,
               headers: queryHeaders,
-              entityRoot: rewriteValue ? iri.replace(datasetBaseUrl, iriOrigin(iriUrlString)) : iri,
+              entityRoot: rewriteOutput ? iri.replace(datasetBaseUrl, iriOrigin(iriUrlString)) : iri,
             },
           )
           const metadata = await metadataProvider(request, { dataset })

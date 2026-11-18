@@ -61,6 +61,24 @@ You can use the following configuration option `rewrite` and set it to one of th
 - `true`: rewrite the result of the SPARQL queries by replacing the `datasetBaseUrl` value with the current domain.
 - `false`: this will disable the rewriting mechanism. This is useful if your triples are already matching the domain name where your Trifid instance is deployed.
 
+`rewriteResults` controls the response side of preview rewriting (#243). Its
+default is `true`, preserving the existing environment-prefixed results. Set it
+to `false` to keep stored canonical RDF identifiers while retaining request
+namespace mapping. This is an optional response policy, not required for #249.
+
+```yaml
+config:
+  rewrite: true
+  rewriteResults: true # existing preview behavior; false preserves canonical results
+  datasetBaseUrl: https://energy.ld.admin.ch/
+```
+
+When disabled, HTML roots, labels, graph metadata and redirect targets follow
+canonical identity too, and `additionalRewrites` are not applied to responses.
+Canonical HTML links may open the canonical public site. The option has no effect
+when `rewrite: false`. Namespace isolation still requires exact canonical lookup
+or one dataset base per explicitly mapped environment host.
+
 ## Follow redirects
 
 Using SPARQL it is possible to define some redirects.
