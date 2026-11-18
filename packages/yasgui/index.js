@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path'
+import crypto from 'node:crypto'
 
 import { resolve } from 'import-meta-resolve'
 import fastifyStatic from '@fastify/static'
@@ -26,9 +27,9 @@ const trifidFactory = async (trifid) => {
   }
 
   // Serve static files for YASGUI
-  const yasguiPath = resolve('@zazuko/yasgui/build/', import.meta.url)
+  const yasguiPath = resolve('@lindas/yasgui/build/', import.meta.url)
   server.register(fastifyStatic, {
-    root: yasguiPath.replace(/^file:\/\//, ''),
+    root: fileURLToPath(yasguiPath),
     prefix: '/yasgui-dist/',
     decorateReply: false,
   })
@@ -37,7 +38,7 @@ const trifidFactory = async (trifid) => {
   const publicDirectory = new URL('public/', import.meta.url)
   const publicPath = fileURLToPath(publicDirectory)
   server.register(fastifyStatic, {
-    root: publicPath.replace(/^file:\/\//, ''),
+    root: publicPath,
     prefix: '/yasgui-public/',
     decorateReply: false,
   })
@@ -46,7 +47,7 @@ const trifidFactory = async (trifid) => {
   const pluginsUrl = new URL('build/', import.meta.url)
   const pluginsPath = fileURLToPath(pluginsUrl)
   server.register(fastifyStatic, {
-    root: pluginsPath.replace(/^file:\/\//, ''),
+    root: pluginsPath,
     prefix: '/yasgui-plugins/',
     decorateReply: false,
   })
@@ -68,6 +69,9 @@ const trifidFactory = async (trifid) => {
        * @param {import('fastify').FastifyReply} reply Reply.
        */
       const handler = async (request, reply) => {
+        // Generate nonce for CSP
+        const nonce = crypto.randomBytes(16).toString('base64')
+
         let requestPort = ''
         if (request.port) {
           requestPort = `:${request.port}`
@@ -99,8 +103,17 @@ const trifidFactory = async (trifid) => {
             urlShortener,
             mapKind: mapKindOption,
             defaultQuery: JSON.stringify(defaultQueryOption),
+            nonce,
           },
           { title: 'YASGUI' },
+        )
+
+        // Set CSP header with actual nonce value
+        // Note: The hash 'sha256-E5MA2ApGY4yQQRADvta32Fe4yZYwPsNSXdRn3n0IGI4=' is for an inline script created by YASGUI
+        // Note: Both bare domains and wildcard subdomains are needed (*.example.com does not match example.com)
+        reply.header(
+          'Content-Security-Policy',
+          `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'sha256-E5MA2ApGY4yQQRADvta32Fe4yZYwPsNSXdRn3n0IGI4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://openlayers.org; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://tile.openstreetmap.org https://*.tile.openstreetmap.org https://swisstopo.admin.ch https://*.swisstopo.admin.ch https://geo.admin.ch https://*.geo.admin.ch; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; connect-src 'self' https: http://prefix.cc; report-uri /api/csp-violations`,
         )
 
         reply.type('text/html').send(content)

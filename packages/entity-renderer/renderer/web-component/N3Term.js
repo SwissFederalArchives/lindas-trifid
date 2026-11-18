@@ -1,6 +1,6 @@
 import toNT from '@rdfjs/to-ntriples'
 import { html } from 'lit'
-import { shrink } from '@zazuko/prefixes'
+import { shrink } from '@lindas/prefixes'
 
 function renderTerm (term) {
   if (term.termType === 'NamedNode') {

@@ -3,7 +3,7 @@
 import { strictEqual } from 'node:assert'
 import { describe, it, beforeEach, afterEach } from 'node:test'
 
-import trifidCore from 'trifid-core'
+import trifidCore from '@lindas/trifid-core'
 
 import trifidPluginFactory from '../index.js'
 
@@ -28,7 +28,7 @@ const getListenerURL = (server) => {
   return addresses[0]
 }
 
-describe('@zazuko/trifid-plugin-iiif', () => {
+describe('lindas-trifid-plugin-iiif', () => {
   describe('Trifid plugin', () => {
     it('should throw an error if no endpoint parameter is provided', async () => {
       try {

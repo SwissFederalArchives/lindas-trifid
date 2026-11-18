@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import rdf from '@zazuko/env-node'
+import rdf from '@lindas/env-node'
 
 import fsd from '../../lib/fetchServiceDescription.js'
 

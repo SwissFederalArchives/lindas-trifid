@@ -1,7 +1,7 @@
-import { ns } from '@zazuko/rdf-entity-webcomponent/src/namespaces.js'
+import { ns } from '@lindas/rdf-entity-webcomponent/src/namespaces.js'
 // eslint-disable-next-line import/no-unresolved
 import PQueue from 'p-queue'
-import rdf from '@zazuko/env'
+import rdf from '@lindas/env'
 import { parsers } from '@rdfjs/formats-common'
 
 /**

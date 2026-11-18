@@ -1,6 +1,6 @@
 // @ts-check
 
-import rdf from '@zazuko/env'
+import rdf from '@lindas/env'
 import { createAPI } from './ckan.js'
 
 /** @type {import('../../core/types/index.js').TrifidPlugin} */

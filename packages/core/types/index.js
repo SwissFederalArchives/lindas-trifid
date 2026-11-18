@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * @module trifid-core/types/index.js
+ * @module lindas-trifid-core/types/index.js
  */
 
 /**

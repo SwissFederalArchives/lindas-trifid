@@ -1,9 +1,12 @@
-import { resolve } from 'node:path'
+import { resolve, isAbsolute } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import cloneDeep from 'lodash/cloneDeep.js'
 
 const resolvePath = (modulePath) => {
-  if (['.', '/'].includes(modulePath.slice(0, 1))) {
-    return resolve(modulePath)
+  // Check for relative paths (starting with . or /) or absolute paths (Windows: C:\, Unix: /)
+  if (['.', '/'].includes(modulePath.slice(0, 1)) || isAbsolute(modulePath)) {
+    // Convert to file:// URL for cross-platform ESM compatibility
+    return pathToFileURL(resolve(modulePath)).href
   } else {
     return modulePath
   }
