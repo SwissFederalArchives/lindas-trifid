@@ -1,5 +1,79 @@
 # trifid-core
 
+## 7.1.5
+
+### Patch Changes
+
+- 546a6b6: Update OpenTelemetry auto-instrumentation and align the SDK and exporters with the 0.222 release line to use the fixed HTTP instrumentation.
+
+## 7.1.4
+
+### Patch Changes
+
+- a501cef: Update Handlebars to 4.7.10 to include security fixes in template compilation and rendering.
+
+## 7.1.3
+
+### Patch Changes
+
+- b45976a: Update the OpenTelemetry trace exporter and include the SPEX endpoint configuration fix.
+
+## 6.1.1
+
+### Patch Changes
+
+- Refactor `nodeCompatibleFetch` to use Proxy-based wrapper for full Response interface compatibility.
+  The previous implementation returned a custom object which caused TypeScript errors.
+  The Proxy approach maintains all Response methods/properties while only overriding the body getter.
+
+## 6.1.0
+
+### Minor Changes
+
+- Add `nodeCompatibleFetch` utility for SPARQL client compatibility with brotli compression.
+
+  This wrapper uses native Node.js fetch (which properly handles brotli/gzip/deflate) and converts
+  Web ReadableStream responses to Node.js Readable streams for compatibility with sparql-http-client.
+
+  node-fetch v3.x has known brotli decompression bugs that cause "Decompression failed" errors
+  when receiving brotli-compressed responses from SPARQL endpoints. Using native fetch resolves this.
+
+  Usage:
+
+  ```javascript
+  import { nodeCompatibleFetch } from "@lindas/trifid-core";
+  import ParsingClient from "sparql-http-client/ParsingClient.js";
+
+  const client = new ParsingClient({
+    endpointUrl: "https://example.org/sparql",
+    fetch: nodeCompatibleFetch,
+  });
+  ```
+
+## 6.0.1
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+
+## 6.0.0
+
+### Major Changes
+
+- 732a9b5: Rename packages to LINDAS namespace and remove Zazuko branding
+
+  Remove all references to Zazuko and rebrand all packages under the LINDAS/Swiss Federal Archives namespace. This allows the fork to be published to npm independently and clearly indicates these are the LINDAS customizations of Trifid, not the original Zazuko packages.
+
+  Package name changes:
+
+  - trifid → lindas-trifid
+  - trifid-core → lindas-trifid-core
+  - trifid-handler-fetch → lindas-trifid-handler-fetch
+  - trifid-plugin-_ → lindas-trifid-plugin-_
+  - @zazuko/trifid-_ → lindas-trifid-_
+
+  Author updated to: Swiss Federal Archives / Lindas
+
 ## 5.3.1
 
 ### Patch Changes

@@ -5,7 +5,7 @@
 Install this Trifid plugin using:
 
 ```sh
-npm install @zazuko/trifid-entity-renderer
+npm install @lindas/trifid-entity-renderer
 ```
 
 And then add in the `config.yaml` file the following part:
@@ -14,7 +14,7 @@ And then add in the `config.yaml` file the following part:
 plugins:
   # […]
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: "@lindas/trifid-entity-renderer"
     config:
       # ignore some specific paths
       ignorePaths:
@@ -29,7 +29,7 @@ Specify the path where the handlebars template is located:
 plugins:
   # […]
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: "@lindas/trifid-entity-renderer"
     config:
       path: file:./some-path/your-template.hbs
 ```
@@ -44,7 +44,7 @@ Add any of these options under the config section:
 plugins:
   # […]
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: "@lindas/trifid-entity-renderer"
     config:
       compactMode: false
       technicalCues: true
@@ -61,6 +61,24 @@ You can use the following configuration option `rewrite` and set it to one of th
 - `true`: rewrite the result of the SPARQL queries by replacing the `datasetBaseUrl` value with the current domain.
 - `false`: this will disable the rewriting mechanism. This is useful if your triples are already matching the domain name where your Trifid instance is deployed.
 
+`rewriteResults` controls the response side of preview rewriting (#243). Its
+default is `true`, preserving the existing environment-prefixed results. Set it
+to `false` to keep stored canonical RDF identifiers while retaining request
+namespace mapping. This is an optional response policy, not required for #249.
+
+```yaml
+config:
+  rewrite: true
+  rewriteResults: true # existing preview behavior; false preserves canonical results
+  datasetBaseUrl: https://energy.ld.admin.ch/
+```
+
+When disabled, HTML roots, labels, graph metadata and redirect targets follow
+canonical identity too, and `additionalRewrites` are not applied to responses.
+Canonical HTML links may open the canonical public site. The option has no effect
+when `rewrite: false`. Namespace isolation still requires exact canonical lookup
+or one dataset base per explicitly mapped environment host.
+
 ## Follow redirects
 
 Using SPARQL it is possible to define some redirects.
@@ -72,13 +90,53 @@ The default value is `false`.
 plugins:
   # […]
   entity-renderer:
-    module: "@zazuko/trifid-entity-renderer"
+    module: "@lindas/trifid-entity-renderer"
     config:
       followRedirects: true
       redirectQuery: "…" # Select query used to get the redirect target ; needs to return a row with `?responseCode` and `?location` bindings.
 ```
 
 The default redirect query supports `http://www.w3.org/2011/http#` and `http://www.w3.org/2006/http#` prefixes.
+
+## Triplestore Backend Switching
+
+This plugin supports switching between different triplestore backends (Stardog and GraphDB) via configuration or environment variable.
+
+### Using Presets
+
+Set the `triplestoreBackend` option to use a preset configuration:
+
+```yaml
+plugins:
+  entity-renderer:
+    module: "@lindas/trifid-entity-renderer"
+    config:
+      triplestoreBackend: env:TRIPLESTORE_BACKEND  # or 'stardog' or 'graphdb'
+```
+
+Available presets:
+
+- **stardog** (default behavior): Uses CBD pragma for DESCRIBE queries, standard Stardog behavior
+- **graphdb**: Uses outgoing-only DESCRIBE via `FROM <http://www.ontotext.com/describe/outgoing>`, enriches with named graph information
+
+### Individual Options
+
+You can also configure individual options for fine-grained control:
+
+- `enrichWithNamedGraph`: Fetch and enrich named graph information for endpoints that don't return it in DESCRIBE (default: `false`)
+- `namedGraphQuery`: Custom query for fetching named graph information (default: `SELECT ?p ?o ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }`)
+
+Example for GraphDB compatibility without using the preset:
+
+```yaml
+plugins:
+  entity-renderer:
+    module: "@lindas/trifid-entity-renderer"
+    config:
+      enrichWithNamedGraph: true
+      resourceExistsQuery: "ASK { GRAPH ?g { <{{iri}}> ?p ?o } }"
+      resourceGraphQuery: "DESCRIBE <{{iri}}> FROM <http://www.ontotext.com/describe/outgoing>"
+```
 
 ## Other configuration options
 
@@ -102,6 +160,11 @@ The default redirect query supports `http://www.w3.org/2011/http#` and `http://w
   This will inject a `endpointName` cookie while querying the SPARQL endpoint and is meant to be used with the `sparql-proxy` Trifid plugin.
   The default value is `false`.
   This option is experimental and might change or be removed in the future.
+- `enrichWithNamedGraph`: If set to `true`, the plugin will perform an additional SPARQL query to fetch the named graph(s) containing the resource and enrich the dataset with this information.
+  This is useful when using SPARQL endpoints (like GraphDB) that don't return graph information in DESCRIBE queries.
+  The default value is `false`.
+- `namedGraphQuery`: The SELECT query used to fetch the named graph(s) containing the resource.
+  The default query is `SELECT DISTINCT ?g WHERE { GRAPH ?g { <{{iri}}> ?p ?o } }`.
 
 ## Run an example instance
 

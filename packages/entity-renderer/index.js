@@ -3,10 +3,10 @@ import { fileURLToPath } from 'node:url'
 
 import { metrics } from '@opentelemetry/api'
 import { parsers } from '@rdfjs/formats-common'
-import rdf from '@zazuko/env'
-import { sparqlSerializeQuadStream, sparqlSupportedTypes, sparqlGetRewriteConfiguration } from 'trifid-core'
+import rdf from '@lindas/env'
+import { sparqlSerializeQuadStream, sparqlSupportedTypes, sparqlGetRewriteConfiguration } from '@lindas/trifid-core'
 
-import { defaultConfiguration } from './lib/config.js'
+import { defaultConfiguration, triplestorePresets } from './lib/config.js'
 import { getAcceptHeader } from './lib/headers.js'
 import { checkDatasetBaseUrl } from './lib/base.js'
 
@@ -29,18 +29,67 @@ const replaceIriInQuery = (query, iri) => {
   return query.split('{{iri}}').join(iri)
 }
 
+/**
+ * Validate redirect URL to prevent open redirect vulnerabilities
+ * @param {string} url - The URL to validate
+ * @returns {boolean} - True if the URL is safe to redirect to
+ */
+const isValidRedirectUrl = (url) => {
+  try {
+    const parsed = new URL(url)
+    // Only allow same-origin or whitelisted Swiss government domains
+    const allowedHosts = [
+      'admin.ch',
+      'lindas.admin.ch',
+      'ld.admin.ch',
+      'test.lindas.admin.ch',
+      'int.lindas.admin.ch',
+      'schema.ld.admin.ch',
+      'culture.ld.admin.ch',
+      'energy.ld.admin.ch',
+      'education.ld.admin.ch',
+      'agriculture.ld.admin.ch',
+      'environment.ld.admin.ch',
+      'finance.ld.admin.ch',
+      'register.ld.admin.ch',
+      'politics.ld.admin.ch',
+      'health.ld.admin.ch',
+      'communication.ld.admin.ch',
+      'transport.ld.admin.ch',
+      'population.ld.admin.ch',
+      'ld.zh.ch',
+    ]
+    return allowedHosts.some(host => parsed.hostname === host || parsed.hostname.endsWith('.' + host))
+  } catch {
+    return false
+  }
+}
+
 const fixContentTypeHeader = (contentType) => {
   return contentType.split(';')[0].trim().toLocaleLowerCase()
 }
 
 const factory = async (trifid) => {
   const { render, logger, config, query } = trifid
-  const mergedConfig = { ...defaultConfiguration, ...config }
+
+  // Apply triplestore backend preset if specified
+  let presetConfig = {}
+  const backendName = config.triplestoreBackend
+  if (backendName && triplestorePresets[backendName]) {
+    presetConfig = triplestorePresets[backendName]
+    logger.info(`Using triplestore backend preset: ${backendName}`)
+  } else if (backendName) {
+    logger.warn(`Unknown triplestore backend preset: ${backendName}, using defaults`)
+  }
+
+  // Merge: defaults -> preset -> explicit config
+  const mergedConfig = { ...defaultConfiguration, ...presetConfig, ...config }
   const entityRenderer = createEntityRenderer({ options: config, logger, query })
   const metadataProvider = createMetadataProvider({ options: config })
 
   const { path, ignorePaths, rewrite: rewriteConfigValue, datasetBaseUrl: datasetBaseUrlValue, allowEndpointSwitch: allowEndpointSwitchConfigValue } = config
   const allowEndpointSwitch = `${allowEndpointSwitchConfigValue}` === 'true'
+  const rewriteResults = `${config.rewriteResults}` !== 'false'
   const entityTemplatePath = path || `${currentDir}/views/render.hbs`
   const datasetBaseUrls = checkDatasetBaseUrl(logger, datasetBaseUrlValue)
 
@@ -159,7 +208,8 @@ const factory = async (trifid) => {
           }
         }
 
-        const rewriteResponse = rewriteValue
+        const rewriteOutput = rewriteValue && rewriteResults
+        const rewriteResponse = rewriteOutput
           ? [
             ...additionalRewrites.map(({ find, replace }) => {
               if (!replace) {
@@ -191,6 +241,12 @@ const factory = async (trifid) => {
               const entityRedirect = redirect[0]
               const { responseCode, location } = entityRedirect
               if (responseCode && location && responseCode.value && location.value) {
+                // Validate redirect URL to prevent open redirect attacks
+                if (!isValidRedirectUrl(location.value)) {
+                  logger.warn(`Blocked unsafe redirect to ${location.value}`)
+                  reply.callNotFound()
+                  return reply
+                }
                 logger.debug(`Redirecting <${iri}> to <${location.value}> (HTTP ${responseCode.value})`)
                 redirectedCounter.add(1, { response_code: responseCode.value, endpoint_name: endpointName, kind: 'sparql' })
                 reply.status(parseInt(responseCode.value, 10)).redirect(location.value)
@@ -222,14 +278,99 @@ const factory = async (trifid) => {
           const fixedContentType = fixContentTypeHeader(entityContentType)
           const quadStream = parsers.import(fixedContentType, entityStream)
 
+          // Load into dataset first (needed for enrichment)
+          let dataset = await rdf.dataset().import(quadStream)
+
+          // For RDF serialization formats, serialize the (filtered) dataset directly
           if (sparqlSupportedTypes.includes(acceptHeader)) {
             dereferencedCounter.add(1, { format: acceptHeader, endpoint_name: endpointName })
-            const serialized = await sparqlSerializeQuadStream(quadStream, acceptHeader)
+            const serialized = await sparqlSerializeQuadStream(dataset.toStream(), acceptHeader)
             reply.type(acceptHeader).send(serialized)
             return reply
           }
 
-          const dataset = await rdf.dataset().import(quadStream)
+          // Enrich dataset with named graph information if enabled (needed for GraphDB)
+          if (mergedConfig.enrichWithNamedGraph && dataset.size > 0) {
+            // Check if all quads are in the default graph
+            const hasOnlyDefaultGraph = [...dataset].every(quad => quad.graph.termType === 'DefaultGraph')
+            if (hasOnlyDefaultGraph) {
+              try {
+                const graphQuery = replaceIriInQuery(mergedConfig.namedGraphQuery, iri)
+                const graphResult = await query(graphQuery, {
+                  ask: false,
+                  select: true, // Parse the SELECT response directly
+                  rewriteResponse, // Use same rewrite config as main query so IRIs match
+                  headers: queryHeaders,
+                })
+
+                // graphResult is an array of bindings with ?p ?o ?g
+                // Build a map of (p, o) -> graph for lookup
+                // We use p|o as key since subject is known (the requested IRI) and may be rewritten
+                const tripleToGraph = new Map()
+                // Also track predicate-only keys for blank node objects (IDs differ between queries)
+                const predicateToGraph = new Map()
+                let fallbackGraph = null // For blank node triples not in the query result
+                for (const binding of (graphResult || [])) {
+                  if (binding.p?.value && binding.g?.value) {
+                    const graphValue = binding.g.value
+                    // Use first graph as fallback for nested blank nodes
+                    if (!fallbackGraph) {
+                      fallbackGraph = graphValue
+                    }
+                    if (binding.o?.value) {
+                      // Full key: p|o for exact matching
+                      const key = `${binding.p.value}|${binding.o.value}`
+                      if (!tripleToGraph.has(key)) {
+                        tripleToGraph.set(key, graphValue)
+                      }
+                      // For blank node objects, also store by predicate only
+                      // (blank node IDs differ between DESCRIBE and SELECT results in GraphDB)
+                      if (binding.o.type === 'bnode' && !predicateToGraph.has(binding.p.value)) {
+                        predicateToGraph.set(binding.p.value, graphValue)
+                      }
+                    }
+                  }
+                }
+
+                if (tripleToGraph.size > 0 || fallbackGraph) {
+                  const enrichedDataset = rdf.dataset()
+                  let enrichedCount = 0
+                  for (const quad of dataset) {
+                    let graphUri = null
+
+                    // Try full key first: p|o (for IRI subjects/objects)
+                    const key = `${quad.predicate.value}|${quad.object.value}`
+                    graphUri = tripleToGraph.get(key)
+
+                    // For blank node objects, try predicate-only key
+                    // (blank node IDs differ between DESCRIBE and SELECT in GraphDB)
+                    if (!graphUri && quad.object.termType === 'BlankNode') {
+                      graphUri = predicateToGraph.get(quad.predicate.value)
+                    }
+
+                    // For any quad not yet matched (including blank node subjects from CBD),
+                    // use fallback graph - this handles nested blank nodes from DESCRIBE
+                    if (!graphUri && fallbackGraph) {
+                      graphUri = fallbackGraph
+                    }
+
+                    if (graphUri) {
+                      enrichedDataset.add(rdf.quad(quad.subject, quad.predicate, quad.object, rdf.namedNode(graphUri)))
+                      enrichedCount++
+                    } else {
+                      // Keep quad in default graph if no mapping found
+                      enrichedDataset.add(quad)
+                    }
+                  }
+                  dataset = enrichedDataset
+                  logger.debug(`Enriched ${enrichedCount}/${dataset.size} quads with named graph info`)
+                }
+              } catch (err) {
+                logger.warn(`Failed to enrich dataset with named graph: ${err.message}`)
+              }
+            }
+          }
+
           if (mergedConfig.enableSchemaUrlRedirect && acceptHeader === 'text/html') {
             const disabledSchemaUrlRedirect =
               request.headers['x-disable-schema-url-redirect'] === 'true' ||
@@ -237,15 +378,22 @@ const factory = async (trifid) => {
 
             // Get all triples that have a schema:URL property with value of type xsd:anyURI
             const urls = []
-            dataset.match(iriUrlString, rdf.ns.schema.URL)
+            const entityRoot = rewriteOutput ? iriUrlString : iri
+            dataset.match(entityRoot, rdf.ns.schema.URL)
               .filter(({ object }) => ['xsd:anyURI', rdf.ns.xsd.anyURI.value].includes(object?.datatype?.value))
               .map(({ object }) => urls.push(object.value))
             if (!disabledSchemaUrlRedirect && urls.length > 0) {
               const redirectUrl = urls[0]
-              logger.debug(`Redirecting to ${redirectUrl}`)
-              redirectedCounter.add(1, { response_code: 302, endpoint_name: endpointName, kind: 'schema_url' })
-              reply.redirect(redirectUrl)
-              return reply
+              // Validate redirect URL to prevent open redirect attacks
+              if (!isValidRedirectUrl(redirectUrl)) {
+                logger.warn(`Blocked unsafe schema:URL redirect to ${redirectUrl}`)
+                // Continue with normal rendering instead of blocking
+              } else {
+                logger.debug(`Redirecting to ${redirectUrl}`)
+                redirectedCounter.add(1, { response_code: 302, endpoint_name: endpointName, kind: 'schema_url' })
+                reply.redirect(redirectUrl)
+                return reply
+              }
             }
           }
 
@@ -254,9 +402,10 @@ const factory = async (trifid) => {
             {
               dataset,
               rewriteResponse,
-              replaceIri,
+              // Canonical result terms must be queried unchanged, including other namespaces.
+              replaceIri: rewriteOutput ? replaceIri : (value) => value,
               headers: queryHeaders,
-              entityRoot: rewriteValue ? iri.replace(datasetBaseUrl, iriOrigin(iriUrlString)) : iri,
+              entityRoot: rewriteOutput ? iri.replace(datasetBaseUrl, iriOrigin(iriUrlString)) : iri,
             },
           )
           const metadata = await metadataProvider(request, { dataset })

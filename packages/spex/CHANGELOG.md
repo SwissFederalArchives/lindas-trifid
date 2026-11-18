@@ -1,5 +1,41 @@
 # trifid-plugin-spex
 
+## 7.1.4
+
+### Patch Changes
+
+- 2cc27f8: Serve the SPEX browser bundle with the JavaScript MIME type so it loads when X-Content-Type-Options: nosniff is enabled.
+
+## 7.1.3
+
+### Patch Changes
+
+- 1d4b533: Prevent forwarded-host JavaScript injection and shared endpoint poisoning in SPEX. Resolve relative endpoints against the browser page URL and safely serialize inline configuration. Custom SPEX templates must embed `options` directly as an object literal and resolve the endpoint in the browser, as shown in the plugin README.
+
+## 4.0.1
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+
+## 4.0.0
+
+### Major Changes
+
+- 732a9b5: Rename packages to LINDAS namespace and remove Zazuko branding
+
+  Remove all references to Zazuko and rebrand all packages under the LINDAS/Swiss Federal Archives namespace. This allows the fork to be published to npm independently and clearly indicates these are the LINDAS customizations of Trifid, not the original Zazuko packages.
+
+  Package name changes:
+
+  - trifid → lindas-trifid
+  - trifid-core → lindas-trifid-core
+  - trifid-handler-fetch → lindas-trifid-handler-fetch
+  - trifid-plugin-_ → lindas-trifid-plugin-_
+  - @zazuko/trifid-_ → lindas-trifid-_
+
+  Author updated to: Swiss Federal Archives / Lindas
+
 ## 3.0.0
 
 ### Major Changes

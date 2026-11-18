@@ -1,5 +1,52 @@
 # @zazuko/trifid-renderer-entity
 
+## 7.1.3
+
+### Patch Changes
+
+- ce4506f: Add optional rewriteResults=false for environment previews while retaining the existing true default. Keep canonical HTML roots, label queries, metadata and redirects consistent when disabled. Refs community/lindas-community#243; no namespace-isolation behavior is changed.
+
+## 2.0.2
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+- Updated dependencies [48d1042]
+  - @lindas/trifid-core@6.0.1
+
+## 2.0.1
+
+### Patch Changes
+
+- d19d268: Apply critical security fixes: SPARQL injection and open redirect vulnerabilities
+
+  - Fix SPARQL injection in container queries by using STRSTARTS instead of REGEX
+  - Add open redirect protection with URL validation whitelist for Swiss government domains
+  - Validate all redirect URLs before redirecting (both SPARQL redirects and schema:URL redirects)
+
+## 2.0.0
+
+### Major Changes
+
+- 732a9b5: Rename packages to LINDAS namespace and remove Zazuko branding
+
+  Remove all references to Zazuko and rebrand all packages under the LINDAS/Swiss Federal Archives namespace. This allows the fork to be published to npm independently and clearly indicates these are the LINDAS customizations of Trifid, not the original Zazuko packages.
+
+  Package name changes:
+
+  - trifid → lindas-trifid
+  - trifid-core → lindas-trifid-core
+  - trifid-handler-fetch → lindas-trifid-handler-fetch
+  - trifid-plugin-_ → lindas-trifid-plugin-_
+  - @zazuko/trifid-_ → lindas-trifid-_
+
+  Author updated to: Swiss Federal Archives / Lindas
+
+### Patch Changes
+
+- Updated dependencies [732a9b5]
+  - lindas-trifid-core@6.0.0
+
 ## 1.6.1
 
 ### Patch Changes

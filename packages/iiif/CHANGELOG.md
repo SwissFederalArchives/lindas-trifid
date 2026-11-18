@@ -1,5 +1,35 @@
 # @zazuko/trifid-plugin-iiif
 
+## 7.1.3
+
+### Patch Changes
+
+- 5c18413: Upgrade JSON-LD to version 9 to use the updated HTTP client dependency chain with Undici security fixes. Verify compatibility of IIIF framing, RDF serialization, and remote context loading with JSON-LD 8 and 9.
+
+## 2.0.1
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+
+## 2.0.0
+
+### Major Changes
+
+- 732a9b5: Rename packages to LINDAS namespace and remove Zazuko branding
+
+  Remove all references to Zazuko and rebrand all packages under the LINDAS/Swiss Federal Archives namespace. This allows the fork to be published to npm independently and clearly indicates these are the LINDAS customizations of Trifid, not the original Zazuko packages.
+
+  Package name changes:
+
+  - trifid → lindas-trifid
+  - trifid-core → lindas-trifid-core
+  - trifid-handler-fetch → lindas-trifid-handler-fetch
+  - trifid-plugin-_ → lindas-trifid-plugin-_
+  - @zazuko/trifid-_ → lindas-trifid-_
+
+  Author updated to: Swiss Federal Archives / Lindas
+
 ## 1.1.1
 
 ### Patch Changes

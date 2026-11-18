@@ -21,7 +21,7 @@ const templateStaticFiles = {
   },
 }
 
-const robotoPath = resolve('@fontsource/roboto', import.meta.url).replace(/^file:\/\//, '')
+const robotoPath = fileURLToPath(resolve('@fontsource/roboto', import.meta.url))
 const robotoFont = {
   module: staticPlugin,
   paths: '/static/core-fonts/roboto',
@@ -30,7 +30,7 @@ const robotoFont = {
   },
 }
 
-const playfairDisplayPath = resolve('@fontsource/playfair-display', import.meta.url).replace(/^file:\/\//, '')
+const playfairDisplayPath = fileURLToPath(resolve('@fontsource/playfair-display', import.meta.url))
 const playfairDisplayFont = {
   module: staticPlugin,
   paths: '/static/core-fonts/playfair-display',

@@ -1,0 +1,1171 @@
+{
+  "https://iiif.io/api/presentation/3/context.json": {
+    "@context": {
+      "@version": 1.1,
+      "iiif_prezi": "http://iiif.io/api/presentation/3#",
+      "iiif_image": "http://iiif.io/api/image/3#",
+      "exif": "http://www.w3.org/2003/12/exif/ns#",
+      "oa": "http://www.w3.org/ns/oa#",
+      "dc": "http://purl.org/dc/elements/1.1/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dctypes": "http://purl.org/dc/dcmitype/",
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "as": "http://www.w3.org/ns/activitystreams#",
+      "ebu": "http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#",
+      "schema": "https://schema.org/",
+      "id": "@id",
+      "type": "@type",
+      "Collection": {
+        "@id": "iiif_prezi:Collection",
+        "@context": {
+          "partOf": {
+            "@id": "dcterms:isPartOf",
+            "@type": "@id",
+            "@container": "@set"
+          }
+        }
+      },
+      "Manifest": {
+        "@id": "iiif_prezi:Manifest",
+        "@context": {
+          "partOf": {
+            "@id": "dcterms:isPartOf",
+            "@type": "@id",
+            "@container": "@set"
+          }
+        }
+      },
+      "Canvas": {
+        "@id": "iiif_prezi:Canvas",
+        "@context": {
+          "partOf": {
+            "@id": "dcterms:isPartOf",
+            "@type": "@id",
+            "@container": "@set"
+          }
+        }
+      },
+      "Range": {
+        "@id": "iiif_prezi:Range",
+        "@context": {
+          "partOf": {
+            "@id": "dcterms:isPartOf",
+            "@type": "@id",
+            "@container": "@set"
+          }
+        }
+      },
+      "AnnotationCollection": {
+        "@id": "as:OrderedCollection",
+        "@context": [
+          "http://www.w3.org/ns/anno.jsonld",
+          {
+            "partOf": {
+              "@id": "dcterms:isPartOf",
+              "@type": "@id",
+              "@container": "@set"
+            },
+            "label": {
+              "@id": "rdfs:label",
+              "@container": [
+                "@language",
+                "@set"
+              ],
+              "@context": {
+                "none": "@none"
+              }
+            }
+          }
+        ]
+      },
+      "AnnotationPage": {
+        "@id": "as:OrderedCollectionPage",
+        "@context": [
+          "http://www.w3.org/ns/anno.jsonld",
+          {
+            "label": {
+              "@id": "rdfs:label",
+              "@container": [
+                "@language",
+                "@set"
+              ],
+              "@context": {
+                "none": "@none"
+              }
+            }
+          }
+        ]
+      },
+      "Annotation": {
+        "@id": "oa:Annotation",
+        "@context": [
+          "http://www.w3.org/ns/anno.jsonld",
+          {
+            "label": {
+              "@id": "rdfs:label",
+              "@container": [
+                "@language",
+                "@set"
+              ],
+              "@context": {
+                "none": "@none"
+              }
+            }
+          }
+        ]
+      },
+      "Dataset": "dctypes:Dataset",
+      "Image": "dctypes:StillImage",
+      "Video": "dctypes:MovingImage",
+      "Audio": "dctypes:Sound",
+      "Text": "dctypes:Text",
+      "Service": "schema:WebAPI",
+      "Agent": "dcterms:Agent",
+      "label": {
+        "@id": "rdfs:label",
+        "@container": [
+          "@language",
+          "@set"
+        ],
+        "@context": {
+          "none": "@none"
+        }
+      },
+      "value": {
+        "@id": "rdf:value",
+        "@container": [
+          "@language",
+          "@set"
+        ],
+        "@context": {
+          "none": "@none"
+        }
+      },
+      "metadata": {
+        "@type": "@id",
+        "@id": "iiif_prezi:metadataEntries",
+        "@container": "@list"
+      },
+      "summary": {
+        "@id": "as:summary",
+        "@container": [
+          "@language",
+          "@set"
+        ],
+        "@context": {
+          "none": "@none"
+        }
+      },
+      "requiredStatement": {
+        "@id": "iiif_prezi:requiredStatement",
+        "@type": "@id"
+      },
+      "rights": {
+        "@type": "@id",
+        "@id": "dcterms:rights"
+      },
+      "provider": {
+        "@type": "@id",
+        "@id": "schema:provider",
+        "@container": "@set"
+      },
+      "logo": {
+        "@type": "@id",
+        "@id": "foaf:logo",
+        "@container": "@set"
+      },
+      "thumbnail": {
+        "@type": "@id",
+        "@id": "iiif_prezi:thumbnail",
+        "@container": "@set"
+      },
+      "navDate": {
+        "@id": "iiif_prezi:navigationDate"
+      },
+      "accompanyingCanvas": {
+        "@type": "@id",
+        "@id": "iiif_prezi:accompanyingCanvas"
+      },
+      "placeholderCanvas": {
+        "@type": "@id",
+        "@id": "iiif_prezi:placeholderCanvas"
+      },
+      "format": {
+        "@id": "dc:format"
+      },
+      "language": {
+        "@id": "dc:language",
+        "@container": "@set"
+      },
+      "profile": {
+        "@type": "@vocab",
+        "@id": "dcterms:conformsTo"
+      },
+      "height": {
+        "@id": "exif:height",
+        "@type": "xsd:integer"
+      },
+      "width": {
+        "@id": "exif:width",
+        "@type": "xsd:integer"
+      },
+      "duration": {
+        "@id": "ebu:duration"
+      },
+      "viewingDirection": {
+        "@id": "iiif_prezi:viewingDirection",
+        "@type": "@vocab",
+        "@context": {
+          "left-to-right": "iiif_prezi:leftToRightDirection",
+          "right-to-left": "iiif_prezi:rightToLeftDirection",
+          "top-to-bottom": "iiif_prezi:topToBottomDirection",
+          "bottom-to-top": "iiif_prezi:bottomToTopDirection"
+        }
+      },
+      "behavior": {
+        "@id": "iiif_prezi:behavior",
+        "@type": "@vocab",
+        "@container": "@set",
+        "@context": {
+          "auto-advance": "iiif_prezi:autoAdvanceHint",
+          "no-auto-advance": "iiif_prezi:noAutoAdvanceHint",
+          "repeat": "iiif_prezi:repeatHint",
+          "no-repeat": "iiif_prezi:noRepeatHint",
+          "unordered": "iiif_prezi:unordered",
+          "individuals": "iiif_prezi:individualsHint",
+          "continuous": "iiif_prezi:continuousHint",
+          "paged": "iiif_prezi:pagedHint",
+          "facing-pages": "iiif_prezi:facingPagesHint",
+          "non-paged": "iiif_prezi:nonPagedHint",
+          "multi-part": "iiif_prezi:multiPartHint",
+          "together": "iiif_prezi:togetherHint",
+          "sequence": "iiif_prezi:sequenceHint",
+          "thumbnail-nav": "iiif_prezi:thumbnailNavHint",
+          "no-nav": "iiif_prezi:noNavHint",
+          "hidden": "iiif_prezi:noneHint"
+        }
+      },
+      "timeMode": {
+        "@id": "iiif_prezi:timeMode",
+        "@type": "@vocab",
+        "@context": {
+          "trim": "iiif_prezi:trimMode",
+          "scale": "iiif_prezi:scaleMode",
+          "loop": "iiif_prezi:loopMode"
+        }
+      },
+      "homepage": {
+        "@type": "@id",
+        "@id": "foaf:homepage",
+        "@container": "@set"
+      },
+      "rendering": {
+        "@id": "dcterms:hasFormat",
+        "@type": "@id",
+        "@container": "@set"
+      },
+      "service": {
+        "@type": "@id",
+        "@id": "schema:potentialAction",
+        "@container": "@set",
+        "@context": {
+          "ImageService1": {
+            "@id": "http://iiif.io/api/image/1#ImageService",
+            "@context": [
+              "http://iiif.io/api/image/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "ImageService2": {
+            "@id": "http://iiif.io/api/image/2#ImageService",
+            "@context": [
+              "http://iiif.io/api/image/2/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "ImageService3": {
+            "@id": "http://iiif.io/api/image/3#ImageService",
+            "@context": "http://iiif.io/api/image/3/context.json"
+          },
+          "SearchService1": {
+            "@id": "http://iiif.io/api/search/1#SearchService",
+            "@context": [
+              "http://iiif.io/api/search/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "AutoCompleteService1": {
+            "@id": "http://iiif.io/api/search/1#AutoCompleteService",
+            "@context": [
+              "http://iiif.io/api/search/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "AuthCookieService1": {
+            "@id": "http://iiif.io/api/auth/1#CookieService",
+            "@context": [
+              "http://iiif.io/api/auth/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "AuthTokenService1": {
+            "@id": "http://iiif.io/api/auth/1#TokenService",
+            "@context": [
+              "http://iiif.io/api/auth/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "AuthLogoutService1": {
+            "@id": "http://iiif.io/api/auth/1#LogoutService",
+            "@context": [
+              "http://iiif.io/api/auth/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          }
+        }
+      },
+      "seeAlso": {
+        "@type": "@id",
+        "@id": "rdfs:seeAlso",
+        "@container": "@set"
+      },
+      "selector": {
+        "@type": "@id",
+        "@id": "oa:selector",
+        "@container": "@set",
+        "@context": [
+          "https://iiif.io/api/registry/selectors/context.json",
+          "http://www.w3.org/ns/anno.jsonld"
+        ]
+      },
+      "start": {
+        "@type": "@id",
+        "@id": "iiif_prezi:start"
+      },
+      "supplementary": {
+        "@type": "@id",
+        "@id": "iiif_prezi:supplementary"
+      },
+      "items": {
+        "@type": "@id",
+        "@id": "as:items",
+        "@container": "@list"
+      },
+      "structures": {
+        "@type": "@id",
+        "@id": "iiif_prezi:structures",
+        "@container": "@list"
+      },
+      "annotations": {
+        "@type": "@id",
+        "@id": "iiif_prezi:annotations",
+        "@container": "@list"
+      },
+      "painting": "iiif_prezi:painting",
+      "supplementing": "iiif_prezi:supplementing",
+      "contentState": "iiif_prezi:contentState",
+      "contextualizing": "iiif_prezi:contextualizing"
+    }
+  },
+  "https://iiif.io/api/auth/1/context.json": {
+    "@context": {
+      "iiif": "http://iiif.io/api/image/2#",
+      "sc": "http://iiif.io/api/presentation/2#",
+      "auth": "http://iiif.io/api/auth/1#",
+      "dcterms": "http://purl.org/dc/terms/",
+      "doap": "http://usefulinc.com/ns/doap#",
+      "svcs": "http://rdfs.org/sioc/services#",
+      "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "profile": {
+        "@id": "doap:implements",
+        "@type": "@id"
+      },
+      "service": {
+        "@type": "@id",
+        "@id": "svcs:has_service"
+      },
+      "label": {
+        "@id": "rdfs:label"
+      },
+      "description": {
+        "@id": "dc:description"
+      },
+      "confirmLabel": {
+        "@id": "auth:confirmLabel"
+      },
+      "header": {
+        "@id": "auth:header"
+      },
+      "failureHeader": {
+        "@id": "auth:failureHeader"
+      },
+      "failureDescription": {
+        "@id": "auth:failureDescription"
+      }
+    }
+  },
+  "https://iiif.io/api/image/1/context.json": {
+    "@context": {
+      "iiif": "http://library.stanford.edu/iiif/image-api/ns/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "exif": "http://www.w3.org/2003/12/exif/ns#",
+      "dcterms": "http://purl.org/dc/terms/",
+      "height": {
+        "@id": "exif:height"
+      },
+      "width": {
+        "@id": "exif:width"
+      },
+      "tile_height": {
+        "@id": "iiif:tileHeight"
+      },
+      "tile_width": {
+        "@id": "iiif:tileWidth"
+      },
+      "scale_factors": {
+        "@id": "iiif:scaleFactor",
+        "@container": "@list"
+      },
+      "formats": {
+        "@id": "iiif:formats",
+        "@container": "@list"
+      },
+      "qualities": {
+        "@id": "iiif:qualities",
+        "@container": "@list"
+      },
+      "profile": {
+        "@type": "@id",
+        "@id": "dcterms:conformsTo"
+      }
+    }
+  },
+  "https://iiif.io/api/image/2/context.json": {
+    "@context": {
+      "iiif": "http://iiif.io/api/image/2#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "exif": "http://www.w3.org/2003/12/exif/ns#",
+      "dc": "http://purl.org/dc/elements/1.1/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "doap": "http://usefulinc.com/ns/doap#",
+      "svcs": "http://rdfs.org/sioc/services#",
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "sc": "http://iiif.io/api/presentation/2#",
+      "baseUriRedirect": {
+        "@id": "iiif:baseUriRedirectFeature"
+      },
+      "cors": {
+        "@id": "iiif:corsFeature"
+      },
+      "regionByPct": {
+        "@id": "iiif:regionByPctFeature"
+      },
+      "regionByPx": {
+        "@id": "iiif:regionByPxFeature"
+      },
+      "regionSquare": {
+        "@id": "iiif:regionSquareFeature"
+      },
+      "rotationArbitrary": {
+        "@id": "iiif:arbitraryRotationFeature"
+      },
+      "rotationBy90s": {
+        "@id": "iiif:rotationBy90sFeature"
+      },
+      "mirroring": {
+        "@id": "iiif:mirroringFeature"
+      },
+      "sizeAboveFull": {
+        "@id": "iiif:sizeAboveFullFeature"
+      },
+      "sizeByForcedWh": {
+        "@id": "iiif:sizeByForcedWHFeature"
+      },
+      "sizeByH": {
+        "@id": "iiif:sizeByHFeature"
+      },
+      "sizeByPct": {
+        "@id": "iiif:sizeByPctFeature"
+      },
+      "sizeByW": {
+        "@id": "iiif:sizeByWFeature"
+      },
+      "sizeByWh": {
+        "@id": "iiif:sizeByWHFeature"
+      },
+      "sizeByWhListed": {
+        "@id": "iiif:sizeByWHListedFeature"
+      },
+      "sizeByConfinedWh": {
+        "@id": "iiif:sizeByConfinedWHFeature"
+      },
+      "sizeByDistortedWh": {
+        "@id": "iiif:sizeByDistortedWHFeature"
+      },
+      "profileLinkHeader": {
+        "@id": "iiif:profileLinkHeaderFeature"
+      },
+      "canonicalLinkHeader": {
+        "@id": "iiif:canonicalLinkHeaderFeature"
+      },
+      "jsonldMediaType": {
+        "@id": "iiif:jsonLdMediaTypeFeature"
+      },
+      "height": {
+        "@id": "exif:height"
+      },
+      "width": {
+        "@id": "exif:width"
+      },
+      "scaleFactors": {
+        "@id": "iiif:scaleFactor",
+        "@container": "@set"
+      },
+      "formats": {
+        "@id": "iiif:format"
+      },
+      "qualities": {
+        "@id": "iiif:quality"
+      },
+      "sizes": {
+        "@id": "iiif:hasSize",
+        "@type": "@id"
+      },
+      "tiles": {
+        "@id": "iiif:hasTile",
+        "@type": "@id"
+      },
+      "maxWidth": {
+        "@id": "iiif:maxWidth"
+      },
+      "maxHeight": {
+        "@id": "iiif:maxHeight"
+      },
+      "maxArea": {
+        "@id": "iiif:maxArea"
+      },
+      "profile": {
+        "@id": "doap:implements",
+        "@type": "@id"
+      },
+      "protocol": {
+        "@id": "dcterms:conformsTo",
+        "@type": "@id"
+      },
+      "supports": {
+        "@id": "iiif:supports",
+        "@type": "@vocab"
+      },
+      "service": {
+        "@type": "@id",
+        "@id": "svcs:has_service"
+      },
+      "license": {
+        "@type": "@id",
+        "@id": "dcterms:rights"
+      },
+      "logo": {
+        "@type": "@id",
+        "@id": "foaf:logo"
+      },
+      "attribution": {
+        "@id": "sc:attributionLabel"
+      }
+    }
+  },
+  "https://iiif.io/api/image/3/context.json": {
+    "@context": {
+      "@version": 1.1,
+      "iiif_image": "http://iiif.io/api/image/3#",
+      "exif": "http://www.w3.org/2003/12/exif/ns#",
+      "dcterms": "http://purl.org/dc/terms/",
+      "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "schema": "https://schema.org/",
+      "dctypes": "http://purl.org/dc/dcmitype/",
+      "iiif_prezi": "http://iiif.io/api/presentation/3#",
+      "Dataset": "dctypes:Dataset",
+      "Image": "dctypes:StillImage",
+      "Video": "dctypes:MovingImage",
+      "Audio": "dctypes:Sound",
+      "Text": "dctypes:Text",
+      "Service": "schema:WebAPI",
+      "ImageService3": "iiif_image:ImageService",
+      "ImageProfile": "iiif_image:ImageProfile",
+      "id": "@id",
+      "type": "@type",
+      "protocol": {
+        "@id": "dcterms:type",
+        "@type": "@id"
+      },
+      "profile": {
+        "@type": "@vocab",
+        "@id": "dcterms:conformsTo",
+        "@context": {
+          "level0": "http://iiif.io/api/image/3/level0.json",
+          "level1": "http://iiif.io/api/image/3/level1.json",
+          "level2": "http://iiif.io/api/image/3/level2.json"
+        }
+      },
+      "height": {
+        "@id": "exif:height",
+        "@type": "xsd:integer"
+      },
+      "width": {
+        "@id": "exif:width",
+        "@type": "xsd:integer"
+      },
+      "maxWidth": {
+        "@id": "iiif_image:maxWidth",
+        "@type": "xsd:integer"
+      },
+      "maxHeight": {
+        "@id": "iiif_image:maxHeight",
+        "@type": "xsd:integer"
+      },
+      "maxArea": {
+        "@id": "iiif_image:maxArea",
+        "@type": "xsd:integer"
+      },
+      "sizes": {
+        "@id": "iiif_image:hasSize",
+        "@type": "@id",
+        "@container": "@set",
+        "@context": {
+          "Size": "iiif_image:Size"
+        }
+      },
+      "tiles": {
+        "@id": "iiif_image:hasTile",
+        "@type": "@id",
+        "@container": "@set",
+        "@context": {
+          "Tile": "iiif_image:Tile"
+        }
+      },
+      "scaleFactors": {
+        "@id": "iiif_image:scaleFactor",
+        "@type": "xsd:integer",
+        "@container": "@set"
+      },
+      "preferredFormats": {
+        "@id": "iiif_image:preferredFormats",
+        "@container": "@list"
+      },
+      "extraQualities": {
+        "@id": "iiif_image:quality",
+        "@container": "@set"
+      },
+      "extraFormats": {
+        "@id": "iiif_image:format",
+        "@container": "@set"
+      },
+      "extraFeatures": {
+        "@id": "iiif_image:feature",
+        "@type": "@vocab",
+        "@container": "@set",
+        "@context": {
+          "baseUriRedirect": "iiif_image:baseUriRedirectFeature",
+          "canonicalLinkHeader": "iiif_image:canonicalLinkHeaderFeature",
+          "cors": "iiif_image:corsFeature",
+          "jsonldMediaType": "iiif_image:jsonLdMediaTypeFeature",
+          "mirroring": "iiif_image:mirroringFeature",
+          "profileLinkHeader": "iiif_image:profileLinkHeaderFeature",
+          "regionByPct": "iiif_image:regionByPctFeature",
+          "regionByPx": "iiif_image:regionByPxFeature",
+          "regionSquare": "iiif_image:regionSquareFeature",
+          "rotationArbitrary": "iiif_image:arbitraryRotationFeature",
+          "rotationBy90s": "iiif_image:rotationBy90sFeature",
+          "sizeByConfinedWh": "iiif_image:sizeByConfinedWHFeature",
+          "sizeByH": "iiif_image:sizeByHFeature",
+          "sizeByPct": "iiif_image:sizeByPctFeature",
+          "sizeByW": "iiif_image:sizeByWFeature",
+          "sizeByWh": "iiif_image:sizeByWHFeature",
+          "sizeUpscaling": "iiif_image:sizeUpscalingFeature"
+        }
+      },
+      "rights": {
+        "@type": "@id",
+        "@id": "dcterms:rights"
+      },
+      "label": {
+        "@id": "rdfs:label",
+        "@container": [
+          "@language",
+          "@set"
+        ],
+        "@context": {
+          "none": "@none"
+        }
+      },
+      "format": {
+        "@id": "dc:format"
+      },
+      "seeAlso": {
+        "@type": "@id",
+        "@id": "rdfs:seeAlso",
+        "@container": "@set"
+      },
+      "partOf": {
+        "@id": "dcterms:partOf",
+        "@type": "@id",
+        "@container": "@set",
+        "@context": {
+          "Collection": {
+            "@id": "iiif_prezi:Collection",
+            "@context": "http://iiif.io/api/presentation/3/context.json"
+          },
+          "Manifest": {
+            "@id": "iiif_prezi:Manifest",
+            "@context": "http://iiif.io/api/presentation/3/context.json"
+          },
+          "Canvas": {
+            "@id": "iiif_prezi:Canvas",
+            "@context": "http://iiif.io/api/presentation/3/context.json"
+          },
+          "Range": {
+            "@id": "iiif_prezi:Range",
+            "@context": "http://iiif.io/api/presentation/3/context.json"
+          }
+        }
+      },
+      "service": {
+        "@type": "@id",
+        "@id": "schema:potentialAction",
+        "@container": "@set",
+        "@context": {
+          "ImageService1": {
+            "@id": "http://iiif.io/api/image/1#ImageService",
+            "@context": [
+              "http://iiif.io/api/image/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "ImageService2": {
+            "@id": "http://iiif.io/api/image/2#ImageService",
+            "@context": [
+              "http://iiif.io/api/image/2/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "SearchService1": {
+            "@id": "http://iiif.io/api/search/1#SearchService",
+            "@context": [
+              "http://iiif.io/api/search/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "AutoCompleteService1": {
+            "@id": "http://iiif.io/api/search/1#AutoCompleteService",
+            "@context": [
+              "http://iiif.io/api/search/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "AuthCookieService1": {
+            "@id": "http://iiif.io/api/auth/1#CookieService",
+            "@context": [
+              "http://iiif.io/api/auth/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "AuthTokenService1": {
+            "@id": "http://iiif.io/api/auth/1#TokenService",
+            "@context": [
+              "http://iiif.io/api/auth/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          },
+          "AuthLogoutService1": {
+            "@id": "http://iiif.io/api/auth/1#LogoutService",
+            "@context": [
+              "http://iiif.io/api/auth/1/context.json",
+              {
+                "id": null,
+                "type": null
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "https://iiif.io/api/search/1/context.json": {
+    "@context": {
+      "search": "http://iiif.io/api/search/1#",
+      "ignored": {
+        "@id": "search:ignored",
+        "@container": "@set"
+      },
+      "match": {
+        "@id": "search:match"
+      },
+      "before": {
+        "@id": "search:before"
+      },
+      "after": {
+        "@id": "search:after"
+      },
+      "count": {
+        "@id": "search:count"
+      },
+      "hits": {
+        "@id": "search:hasHitList",
+        "@container": "@list",
+        "@type": "@id"
+      },
+      "terms": {
+        "@id": "search:hasTermList",
+        "@container": "@list",
+        "@type": "@id"
+      },
+      "annotations": {
+        "@id": "search:refines",
+        "@container": "@set",
+        "@type": "@id"
+      },
+      "selectors": {
+        "@id": "search:hasSelector",
+        "@container": "@set",
+        "@type": "@id"
+      }
+    }
+  },
+  "https://www.w3.org/ns/anno.jsonld": {
+    "@context": {
+      "oa": "http://www.w3.org/ns/oa#",
+      "dc": "http://purl.org/dc/elements/1.1/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dctypes": "http://purl.org/dc/dcmitype/",
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "iana": "http://www.iana.org/assignments/relation/",
+      "owl": "http://www.w3.org/2002/07/owl#",
+      "as": "http://www.w3.org/ns/activitystreams#",
+      "schema": "http://schema.org/",
+      "id": {
+        "@type": "@id",
+        "@id": "@id"
+      },
+      "type": {
+        "@type": "@id",
+        "@id": "@type"
+      },
+      "Annotation": "oa:Annotation",
+      "Dataset": "dctypes:Dataset",
+      "Image": "dctypes:StillImage",
+      "Video": "dctypes:MovingImage",
+      "Audio": "dctypes:Sound",
+      "Text": "dctypes:Text",
+      "TextualBody": "oa:TextualBody",
+      "ResourceSelection": "oa:ResourceSelection",
+      "SpecificResource": "oa:SpecificResource",
+      "FragmentSelector": "oa:FragmentSelector",
+      "CssSelector": "oa:CssSelector",
+      "XPathSelector": "oa:XPathSelector",
+      "TextQuoteSelector": "oa:TextQuoteSelector",
+      "TextPositionSelector": "oa:TextPositionSelector",
+      "DataPositionSelector": "oa:DataPositionSelector",
+      "SvgSelector": "oa:SvgSelector",
+      "RangeSelector": "oa:RangeSelector",
+      "TimeState": "oa:TimeState",
+      "HttpRequestState": "oa:HttpRequestState",
+      "CssStylesheet": "oa:CssStyle",
+      "Choice": "oa:Choice",
+      "Person": "foaf:Person",
+      "Software": "as:Application",
+      "Organization": "foaf:Organization",
+      "AnnotationCollection": "as:OrderedCollection",
+      "AnnotationPage": "as:OrderedCollectionPage",
+      "Audience": "schema:Audience",
+      "Motivation": "oa:Motivation",
+      "bookmarking": "oa:bookmarking",
+      "classifying": "oa:classifying",
+      "commenting": "oa:commenting",
+      "describing": "oa:describing",
+      "editing": "oa:editing",
+      "highlighting": "oa:highlighting",
+      "identifying": "oa:identifying",
+      "linking": "oa:linking",
+      "moderating": "oa:moderating",
+      "questioning": "oa:questioning",
+      "replying": "oa:replying",
+      "reviewing": "oa:reviewing",
+      "assessing": "oa:assessing",
+      "tagging": "oa:tagging",
+      "auto": "oa:autoDirection",
+      "ltr": "oa:ltrDirection",
+      "rtl": "oa:rtlDirection",
+      "body": {
+        "@type": "@id",
+        "@id": "oa:hasBody"
+      },
+      "target": {
+        "@type": "@id",
+        "@id": "oa:hasTarget"
+      },
+      "source": {
+        "@type": "@id",
+        "@id": "oa:hasSource"
+      },
+      "selector": {
+        "@type": "@id",
+        "@id": "oa:hasSelector"
+      },
+      "state": {
+        "@type": "@id",
+        "@id": "oa:hasState"
+      },
+      "scope": {
+        "@type": "@id",
+        "@id": "oa:hasScope"
+      },
+      "refinedBy": {
+        "@type": "@id",
+        "@id": "oa:refinedBy"
+      },
+      "startSelector": {
+        "@type": "@id",
+        "@id": "oa:hasStartSelector"
+      },
+      "endSelector": {
+        "@type": "@id",
+        "@id": "oa:hasEndSelector"
+      },
+      "renderedVia": {
+        "@type": "@id",
+        "@id": "oa:renderedVia"
+      },
+      "creator": {
+        "@type": "@id",
+        "@id": "dcterms:creator"
+      },
+      "generator": {
+        "@type": "@id",
+        "@id": "as:generator"
+      },
+      "rights": {
+        "@type": "@id",
+        "@id": "dcterms:rights"
+      },
+      "homepage": {
+        "@type": "@id",
+        "@id": "foaf:homepage"
+      },
+      "via": {
+        "@type": "@id",
+        "@id": "oa:via"
+      },
+      "canonical": {
+        "@type": "@id",
+        "@id": "oa:canonical"
+      },
+      "stylesheet": {
+        "@type": "@id",
+        "@id": "oa:styledBy"
+      },
+      "cached": {
+        "@type": "@id",
+        "@id": "oa:cachedSource"
+      },
+      "conformsTo": {
+        "@type": "@id",
+        "@id": "dcterms:conformsTo"
+      },
+      "items": {
+        "@type": "@id",
+        "@id": "as:items",
+        "@container": "@list"
+      },
+      "partOf": {
+        "@type": "@id",
+        "@id": "as:partOf"
+      },
+      "first": {
+        "@type": "@id",
+        "@id": "as:first"
+      },
+      "last": {
+        "@type": "@id",
+        "@id": "as:last"
+      },
+      "next": {
+        "@type": "@id",
+        "@id": "as:next"
+      },
+      "prev": {
+        "@type": "@id",
+        "@id": "as:prev"
+      },
+      "audience": {
+        "@type": "@id",
+        "@id": "schema:audience"
+      },
+      "motivation": {
+        "@type": "@vocab",
+        "@id": "oa:motivatedBy"
+      },
+      "purpose": {
+        "@type": "@vocab",
+        "@id": "oa:hasPurpose"
+      },
+      "textDirection": {
+        "@type": "@vocab",
+        "@id": "oa:textDirection"
+      },
+      "accessibility": "schema:accessibilityFeature",
+      "bodyValue": "oa:bodyValue",
+      "format": "dc:format",
+      "language": "dc:language",
+      "processingLanguage": "oa:processingLanguage",
+      "value": "rdf:value",
+      "exact": "oa:exact",
+      "prefix": "oa:prefix",
+      "suffix": "oa:suffix",
+      "styleClass": "oa:styleClass",
+      "name": "foaf:name",
+      "email": "foaf:mbox",
+      "email_sha1": "foaf:mbox_sha1sum",
+      "nickname": "foaf:nick",
+      "label": "rdfs:label",
+      "created": {
+        "@id": "dcterms:created",
+        "@type": "xsd:dateTime"
+      },
+      "modified": {
+        "@id": "dcterms:modified",
+        "@type": "xsd:dateTime"
+      },
+      "generated": {
+        "@id": "dcterms:issued",
+        "@type": "xsd:dateTime"
+      },
+      "sourceDate": {
+        "@id": "oa:sourceDate",
+        "@type": "xsd:dateTime"
+      },
+      "sourceDateStart": {
+        "@id": "oa:sourceDateStart",
+        "@type": "xsd:dateTime"
+      },
+      "sourceDateEnd": {
+        "@id": "oa:sourceDateEnd",
+        "@type": "xsd:dateTime"
+      },
+      "start": {
+        "@id": "oa:start",
+        "@type": "xsd:nonNegativeInteger"
+      },
+      "end": {
+        "@id": "oa:end",
+        "@type": "xsd:nonNegativeInteger"
+      },
+      "total": {
+        "@id": "as:totalItems",
+        "@type": "xsd:nonNegativeInteger"
+      },
+      "startIndex": {
+        "@id": "as:startIndex",
+        "@type": "xsd:nonNegativeInteger"
+      }
+    }
+  },
+  "https://iiif.io/api/registry/selectors/context.json": {
+    "@context": {
+      "@version": 1.1,
+      "iiif_selectors": "http://iiif.io/api/registry/selectors#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "ImageApiSelector": {
+        "@id": "iiif_selectors:ImageApiSelector",
+        "@context": [
+          {
+            "iiif_image": "http://iiif.io/api/image/#",
+            "region": {
+              "@id": "iiif_image:regionValue",
+              "@type": "xsd:string"
+            },
+            "size": {
+              "@id": "iiif_image:sizeValue",
+              "@type": "xsd:string"
+            },
+            "rotation": {
+              "@id": "iiif_image:rotationValue",
+              "@type": "xsd:string"
+            },
+            "format": {
+              "@id": "iiif_image:formatValue",
+              "@type": "xsd:string"
+            },
+            "quality": {
+              "@id": "iiif_image:qualityValue",
+              "@type": "xsd:string"
+            }
+          }
+        ]
+      },
+      "PointSelector": {
+        "@id": "iiif_selectors:PointSelector",
+        "@context": {
+          "x": {
+            "@id": "iiif_selectors:xValue",
+            "@type": "xsd:integer"
+          },
+          "y": {
+            "@id": "iiif_selectors:yValue",
+            "@type": "xsd:integer"
+          },
+          "t": {
+            "@id": "iiif_selectors:tValue",
+            "@type": "xsd:float"
+          }
+        }
+      },
+      "AudioContentSelector": "iiif_selectors:AudioContentSelector",
+      "VisualContentSelector": "iiif_selectors:VisualContentSelector"
+    }
+  }
+}

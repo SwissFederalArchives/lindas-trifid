@@ -1,5 +1,75 @@
 # trifid
 
+## 7.1.3
+
+### Patch Changes
+
+- b45976a: Update the OpenTelemetry trace exporter and include the SPEX endpoint configuration fix.
+- Updated dependencies [1d4b533]
+- Updated dependencies [b45976a]
+  - @lindas/trifid-plugin-spex@7.1.3
+  - @lindas/trifid-core@7.1.3
+
+## 6.0.3
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+- Updated dependencies [48d1042]
+  - @lindas/trifid-core@6.0.1
+  - @lindas/trifid-entity-renderer@2.0.2
+  - @lindas/trifid-plugin-graph-explorer@3.0.1
+  - @lindas/trifid-handler-fetch@4.0.1
+  - @lindas/trifid-plugin-i18n@4.0.1
+  - @lindas/trifid-plugin-sparql-proxy@3.0.6
+  - @lindas/trifid-plugin-spex@4.0.1
+  - @lindas/trifid-plugin-yasgui@4.0.5
+
+## 6.0.1
+
+### Patch Changes
+
+- Add backwards-compatible `trifid` binary alias to prevent breaking changes
+
+  After the package rename from `@zazuko/trifid` to `lindas-trifid` in v6.0.0, the binary was renamed from `trifid` to `lindas-trifid`. This caused deployment failures for systems still referencing the old binary name.
+
+  This patch adds a `trifid` binary alias that points to the same `server.js` entry point, ensuring backwards compatibility with existing deployments and Dockerfiles.
+
+  Both binary names now work:
+
+  - `lindas-trifid` (recommended new name)
+  - `trifid` (backwards-compatible alias)
+
+## 6.0.0
+
+### Major Changes
+
+- 732a9b5: Rename packages to LINDAS namespace and remove Zazuko branding
+
+  Remove all references to Zazuko and rebrand all packages under the LINDAS/Swiss Federal Archives namespace. This allows the fork to be published to npm independently and clearly indicates these are the LINDAS customizations of Trifid, not the original Zazuko packages.
+
+  Package name changes:
+
+  - trifid → lindas-trifid
+  - trifid-core → lindas-trifid-core
+  - trifid-handler-fetch → lindas-trifid-handler-fetch
+  - trifid-plugin-_ → lindas-trifid-plugin-_
+  - @zazuko/trifid-_ → lindas-trifid-_
+
+  Author updated to: Swiss Federal Archives / Lindas
+
+### Patch Changes
+
+- Updated dependencies [732a9b5]
+  - lindas-trifid-core@6.0.0
+  - lindas-trifid-handler-fetch@4.0.0
+  - lindas-trifid-plugin-graph-explorer@3.0.0
+  - lindas-trifid-plugin-i18n@4.0.0
+  - lindas-trifid-plugin-spex@4.0.0
+  - lindas-trifid-plugin-yasgui@4.0.0
+  - lindas-trifid-entity-renderer@2.0.0
+  - lindas-trifid-plugin-sparql-proxy@3.0.0
+
 ## 5.1.4
 
 ### Patch Changes

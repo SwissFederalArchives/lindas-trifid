@@ -1,5 +1,90 @@
 # trifid-plugin-yasgui
 
+## 4.0.11
+
+### Patch Changes
+
+- Fix OpenLayers map attribution positioning (Shadow DOM fix):
+  - Inject styles directly into the shadow root since external CSS cannot affect Shadow DOM elements
+  - Attribution now appears at bottom-right corner without bullet point styling
+
+## 4.0.10
+
+### Patch Changes
+
+- Fix point feature visibility when selected on map:
+  - Added Circle image style for point features so they remain visible when clicked
+  - Previously, clicking on point markers would cause them to disappear because the style only had fill/stroke (for polygons) but no image style (for points)
+
+## 4.0.9
+
+### Patch Changes
+
+- Fix OpenLayers map attribution positioning:
+  - Attribution now appears at bottom-right corner of the map
+  - Removed bullet point styling from attribution list
+  - Added semi-transparent background for better readability
+
+## 4.0.8
+
+### Patch Changes
+
+- Fix CSP `img-src` directive to include bare domains in addition to wildcards:
+  - Added `https://tile.openstreetmap.org` (wildcard `*.tile.openstreetmap.org` does not match bare domain)
+  - Added `https://swisstopo.admin.ch` and `https://geo.admin.ch` for Swiss map tiles
+
+## 4.0.7
+
+### Patch Changes
+
+- Additional CSP fixes for YASGUI functionality:
+  - Added `http://prefix.cc` to `connect-src` to allow YASGUI prefix fetching
+  - Added hash `sha256-E5MA2ApGY4yQQRADvta32Fe4yZYwPsNSXdRn3n0IGI4=` to `script-src` for dynamically created inline scripts
+
+## 4.0.6
+
+### Patch Changes
+
+- Update Content Security Policy (CSP) to allow OpenLayers map to work properly:
+  - Added `https://openlayers.org` to `style-src` directive to allow loading OpenLayers CSS
+  - Added `https://*.tile.openstreetmap.org`, `https://*.swisstopo.admin.ch`, and `https://*.geo.admin.ch` to `img-src` directive to allow loading map tiles
+
+## 4.0.5
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+
+## 4.0.2
+
+### Patch Changes
+
+- 6a5ae64: Retry npm publish after rate limit reset
+
+## 4.0.1
+
+### Patch Changes
+
+- a7a4c67: Republish packages that failed due to npm rate limiting
+
+## 4.0.0
+
+### Major Changes
+
+- 732a9b5: Rename packages to LINDAS namespace and remove Zazuko branding
+
+  Remove all references to Zazuko and rebrand all packages under the LINDAS/Swiss Federal Archives namespace. This allows the fork to be published to npm independently and clearly indicates these are the LINDAS customizations of Trifid, not the original Zazuko packages.
+
+  Package name changes:
+
+  - trifid → lindas-trifid
+  - trifid-core → lindas-trifid-core
+  - trifid-handler-fetch → lindas-trifid-handler-fetch
+  - trifid-plugin-_ → lindas-trifid-plugin-_
+  - @zazuko/trifid-_ → lindas-trifid-_
+
+  Author updated to: Swiss Federal Archives / Lindas
+
 ## 3.4.4
 
 ### Patch Changes

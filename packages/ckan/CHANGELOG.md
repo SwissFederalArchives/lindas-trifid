@@ -1,4 +1,51 @@
-# @zazuko/trifid-plugin-ckan
+# @lindas/trifid-plugin-ckan
+
+## 5.0.3
+
+### Patch Changes
+
+- Fix brotli decompression errors when SPARQL proxy returns compressed responses.
+
+  The sparql-http-client library uses node-fetch which advertises brotli support via
+  Accept-Encoding header but cannot actually decompress brotli responses properly.
+  When sparql-proxy returns brotli-compressed data, the RDF parser receives compressed
+  bytes and crashes with "Decompression failed" error, resulting in 502 Bad Gateway.
+
+  This fix uses the new `nodeCompatibleFetch` utility from @lindas/trifid-core which
+  uses native Node.js fetch (with proper brotli support) while maintaining stream
+  compatibility with sparql-http-client.
+
+- Updated dependency: @lindas/trifid-core ^6.1.0 (moved from devDependencies to dependencies)
+
+## 5.0.2
+
+### Patch Changes
+
+- 48d1042: Republish all lindas-trifid packages to npm with LINDAS namespace
+
+## 5.0.1
+
+### Patch Changes
+
+- c34d5af: Fix js-yaml vulnerability by upgrading xmlbuilder2 to v4
+
+## 5.0.0
+
+### Major Changes
+
+- 732a9b5: Rename packages to LINDAS namespace and remove Zazuko branding
+
+  Remove all references to Zazuko and rebrand all packages under the LINDAS/Swiss Federal Archives namespace. This allows the fork to be published to npm independently and clearly indicates these are the LINDAS customizations of Trifid, not the original Zazuko packages.
+
+  Package name changes:
+
+  - trifid → lindas-trifid
+  - trifid-core → lindas-trifid-core
+  - trifid-handler-fetch → lindas-trifid-handler-fetch
+  - trifid-plugin-_ → lindas-trifid-plugin-_
+  - @zazuko/trifid-_ → lindas-trifid-_
+
+  Author updated to: Swiss Federal Archives / Lindas
 
 ## 4.2.3
 

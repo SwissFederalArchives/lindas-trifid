@@ -34,7 +34,9 @@ class ReplaceStream extends Transform {
 
   _flush (callback) {
     // Push out any remaining data in tailPiece, processing any matches in it
-    this.push(this.tailPiece.replace(new RegExp(this.searchStr, 'g'), this.replaceStr))
+    // Escape regex special characters to prevent ReDoS attacks
+    const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    this.push(this.tailPiece.replace(new RegExp(escapeRegex(this.searchStr), 'g'), this.replaceStr))
     callback()
   }
 }

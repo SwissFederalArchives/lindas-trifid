@@ -97,7 +97,7 @@ class YasguiMap {
 
   async draw () {
     await import('./deps.js')
-    const { Style, Stroke, Fill } = await import('./style.js')
+    const { Style, Stroke, Fill, Circle } = await import('./style.js')
 
     const results = this.getResults()
     const el = document.createElement('ol-map')
@@ -138,6 +138,16 @@ class YasguiMap {
         color: '#ff441c',
         width: 5,
       }),
+      image: new Circle({
+        radius: 10,
+        fill: new Fill({
+          color: 'rgba(255, 68, 28, 0.8)',
+        }),
+        stroke: new Stroke({
+          color: '#ff441c',
+          width: 3,
+        }),
+      }),
     })
     const featureStyle = new Style({
       fill: new Fill({
@@ -146,6 +156,16 @@ class YasguiMap {
       stroke: new Stroke({
         color: '#ff441c',
         width: 5,
+      }),
+      image: new Circle({
+        radius: 8,
+        fill: new Fill({
+          color: 'rgba(255, 68, 28, 0.6)',
+        }),
+        stroke: new Stroke({
+          color: '#ff441c',
+          width: 2,
+        }),
       }),
     })
 
@@ -214,6 +234,31 @@ class YasguiMap {
 
     setTimeout(() => {
       wkt.fit()
+
+      // Inject styles into shadow root to fix attribution positioning
+      if (el.shadowRoot) {
+        const style = document.createElement('style')
+        style.textContent = `
+          .ol-attribution {
+            position: absolute !important;
+            bottom: 5px !important;
+            right: 5px !important;
+            max-width: none !important;
+          }
+          .ol-attribution ul {
+            list-style: none !important;
+            margin: 0 !important;
+            padding: 2px 6px !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            border-radius: 3px !important;
+            font-size: 11px !important;
+          }
+          .ol-attribution li {
+            display: inline !important;
+          }
+        `
+        el.shadowRoot.appendChild(style)
+      }
     }, 200)
   }
 

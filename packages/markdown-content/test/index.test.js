@@ -3,7 +3,7 @@
 import { strictEqual } from 'node:assert'
 import { describe, it } from 'node:test'
 
-import trifidCore, { getListenerURL } from 'trifid-core'
+import trifidCore, { getListenerURL } from '@lindas/trifid-core'
 import markdownContentTrifidPlugin from '../src/index.js'
 
 const createTrifidInstance = async (config) => {
@@ -23,7 +23,7 @@ const createTrifidInstance = async (config) => {
   })
 }
 
-describe('@zazuko/trifid-markdown-content', () => {
+describe('lindas-trifid-markdown-content', () => {
   describe('bad configuration', () => {
     it('should not throw if there is no configuration', async () => {
       const trifidInstance = await createTrifidInstance()

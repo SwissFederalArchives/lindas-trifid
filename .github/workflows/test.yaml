@@ -6,6 +6,12 @@ on:
       - "**"
     tags:
       - "**"
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
@@ -15,12 +21,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set up NodeJS
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
-          node-version: "lts/*"
+          node-version: "22"
           cache: npm
 
       - name: Install dependencies
@@ -28,6 +34,12 @@ jobs:
 
       - name: Run tests
         run: npm run test
+
+      - name: Check JSON-LD compatibility
+        run: node --test packages/core/test/sparql-jsonld.test.js packages/iiif/test/jsonld-compatibility.test.js
+
+      - name: Check SPEX assets and security
+        run: node --test packages/spex/test/*.test.js
 
       - name: Codecov
         uses: codecov/codecov-action@v5
@@ -39,12 +51,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set up NodeJS
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
-          node-version: "lts/*"
+          node-version: "22"
           cache: npm
 
       - name: Install dependencies

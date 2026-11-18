@@ -1,5 +1,5 @@
 import { parentPort } from 'node:worker_threads'
-import rdf from '@zazuko/env-node'
+import rdf from '@lindas/env-node'
 import sd from '@vocabulary/sd'
 import fsd from './fetchServiceDescription.js'
 

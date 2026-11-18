@@ -1,4 +1,4 @@
-import rdf from '@zazuko/env'
+import rdf from '@lindas/env'
 import through2 from 'through2'
 import ns from './ns.js'
 import queries from './queries.js'
