@@ -1,5 +1,11 @@
 # trifid-core
 
+## 7.1.5
+
+### Patch Changes
+
+- 546a6b6: Update OpenTelemetry auto-instrumentation and align the SDK and exporters with the 0.222 release line to use the fixed HTTP instrumentation.
+
 ## 7.1.4
 
 ### Patch Changes
