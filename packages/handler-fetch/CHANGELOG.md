@@ -1,5 +1,11 @@
 # trifid-handler-fetch
 
+## 7.1.3
+
+### Patch Changes
+
+- c83e25d: Update Oxigraph from 0.4.11 to 0.5.2 for the in-memory RDF store used by the fetch handler.
+
 ## 4.0.1
 
 ### Patch Changes
